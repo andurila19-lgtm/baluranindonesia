@@ -1,0 +1,596 @@
+---
+import { siteConfig } from '../data/baluranData';
+---
+
+<footer class="site-footer" id="kontak">
+  <div class="container footer-container">
+    <div class="footer-grid">
+      <!-- Bento Tile 1: Brand Info & Primary CTA -->
+      <div class="bento-tile bento-brand">
+        <div class="bento-brand-inner">
+          <a href="/" class="footer-logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="mountain-svg">
+                <path d="M12 28L2 28L13 10L19 19L23 13L33 28H23" stroke="#1b3d2f" stroke-width="2.5" stroke-linejoin="round" class="svg-stroke-main" />
+                <path d="M18 28L25 18L38 28H18Z" fill="#15803d" fill-opacity="0.25" stroke="#15803d" stroke-width="2" stroke-linejoin="round" />
+                <path d="M7 28L15 15L21 24" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-title">BALURAN</span>
+              <span class="logo-subtitle">INDONESIA</span>
+            </div>
+          </a>
+
+          <p class="brand-desc">
+            Operator Jeep Safari Baluran terpercaya untuk petualangan savana Afrika van Java yang aman, nyaman, dan berkesan.
+          </p>
+
+          <div class="brand-cta-wrap">
+            <a 
+              href={siteConfig.whatsappUrl('Halo Baluran Indonesia, saya ingin reservasi Jeep Safari.')} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="bento-wa-btn"
+              aria-label="WhatsApp Reservasi"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.63C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16ZM16.56 14.39C16.31 14.27 15.09 13.67 14.86 13.59C14.64 13.5 14.47 13.46 14.31 13.71C14.14 13.96 13.66 14.52 13.51 14.69C13.37 14.85 13.22 14.87 12.97 14.75C12.72 14.63 11.92 14.36 10.97 13.52C10.23 12.86 9.73 12.05 9.58 11.8C9.44 11.55 9.56 11.42 9.69 11.29C9.8 11.18 9.94 11 10.06 10.86C10.19 10.72 10.23 10.62 10.31 10.45C10.39 10.28 10.35 10.14 10.29 10.02C10.23 9.9 9.73 8.68 9.53 8.17C9.33 7.68 9.12 7.74 8.97 7.74H8.49C8.32 7.74 8.05 7.8 7.82 8.05C7.59 8.3 6.94 8.91 6.94 10.16C6.94 11.41 7.85 12.61 7.98 12.78C8.11 12.95 9.77 15.51 12.3 16.6C12.91 16.86 13.37 17.02 13.75 17.14C14.36 17.33 14.92 17.3 15.36 17.24C15.86 17.16 16.88 16.61 17.09 16.03C17.3 15.44 17.3 14.94 17.24 14.84C17.18 14.73 17.01 14.67 16.76 14.54L16.56 14.39Z"/>
+              </svg>
+              <span>Chat WA</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bento Tile 2: Menu Navigasi -->
+      <div class="bento-tile bento-nav">
+        <h4 class="bento-heading">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+          Navigasi
+        </h4>
+        <ul class="footer-links">
+          <li><a href="/">Beranda</a></li>
+          <li><a href="/paket">Paket Jeep</a></li>
+          <li><a href="/destinasi">Destinasi</a></li>
+          <li><a href="/harga">Harga</a></li>
+          <li class="desktop-link"><a href="/tentang-kami">Tentang Kami</a></li>
+          <li class="desktop-link"><a href="/panduan">Panduan</a></li>
+          <li><a href="/kontak">Kontak</a></li>
+        </ul>
+      </div>
+
+      <!-- Bento Tile 3: Destinasi Populer -->
+      <div class="bento-tile bento-routes">
+        <h4 class="bento-heading">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+            <line x1="8" y1="2" x2="8" y2="18"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
+          </svg>
+          Rute Populer
+        </h4>
+        <ul class="footer-links">
+          <li><a href="/paket/rute-banyuwangi">Start Banyuwangi</a></li>
+          <li><a href="/paket/rute-pintu-masuk">Start Gate</a></li>
+          <li><a href="/destinasi/kawah-wurung">Kawah Wurung</a></li>
+          <li><a href="/destinasi/hutan-de-djawatan">De Djawatan</a></li>
+        </ul>
+      </div>
+
+      <!-- Bento Tile 4: Meeting Point & Sosmed (Unified Bento Card) -->
+      <div class="bento-tile bento-location-social">
+        <div class="bento-loc-row">
+          <div class="location-badge-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#15803d" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div class="location-bento-info">
+            <strong class="loc-bento-title">Meeting Point Banyuwangi</strong>
+            <p class="loc-bento-desc">Antar-jemput Hotel, Stasiun KA, Bandara, Pelabuhan</p>
+          </div>
+        </div>
+
+        <div class="bento-social-row">
+          <div class="social-links">
+            <a href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </a>
+            <a href={siteConfig.socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href={siteConfig.socials.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor"></polygon>
+              </svg>
+            </a>
+          </div>
+          <span class="gate-time-tag">Buka 07:30–16:00 WIB</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright & Legal -->
+    <div class="footer-bottom">
+      <p class="copyright-text">
+        &copy; 2024–{new Date().getFullYear()} Baluran Indonesia. All rights reserved.
+      </p>
+      <div class="legal-links">
+        <a href="#privacy">Kebijakan Privasi</a>
+        <span class="legal-divider">|</span>
+        <a href="#terms-photo">Ketentuan Penggunaan Foto</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: #ffffff;
+    border-top: 1px solid #eef2f0;
+    padding-top: 3.5rem;
+    padding-bottom: 2rem;
+  }
+
+  /* Desktop Grid */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr 1.25fr;
+    gap: 2.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.85rem;
+    text-decoration: none;
+  }
+
+  .mountain-svg {
+    width: 34px;
+    height: 28px;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+
+  .logo-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #1a3323;
+  }
+
+  .logo-subtitle {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: #15803d;
+  }
+
+  .brand-desc {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #64748b;
+    max-width: 290px;
+    margin-bottom: 1.15rem;
+  }
+
+  .brand-cta-wrap {
+    display: flex;
+  }
+
+  .bento-wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background-color: #16a34a;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 9999px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .bento-wa-btn:hover {
+    background-color: #15803d;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+  }
+
+  .bento-heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .bento-heading svg {
+    color: #15803d;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .footer-links a {
+    font-size: 0.82rem;
+    color: #4b5563;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .footer-links a:hover {
+    color: #15803d;
+    transform: translateX(2px);
+  }
+
+  /* Location & Social Box (Desktop) */
+  .bento-location-social {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .bento-loc-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .location-badge-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .location-bento-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .loc-bento-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.15rem;
+  }
+
+  .loc-bento-desc {
+    font-size: 0.76rem;
+    color: #64748b;
+    line-height: 1.4;
+  }
+
+  .bento-social-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.25rem;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .social-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f1f5f9;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .social-icon:hover {
+    background-color: #15803d;
+    color: #ffffff;
+  }
+
+  .gate-time-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #15803d;
+    background: #f0fdf4;
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+    border: 1px solid #dcfce7;
+  }
+
+  /* Bottom Copyright */
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.76rem;
+    color: #94a3b8;
+  }
+
+  .legal-links {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .legal-links a {
+    color: #64748b;
+    transition: color 0.2s ease;
+  }
+
+  .legal-links a:hover {
+    color: #111827;
+  }
+
+  .legal-divider {
+    color: #cbd5e1;
+  }
+
+  /* Medium screens */
+  @media (max-width: 960px) and (min-width: 769px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem;
+    }
+  }
+
+  /* ====================================================
+     COMPACT MOBILE BENTO GRID (<= 768px)
+     Dioptimalkan super ringkas & hemat ruang (TIDAK KEBESARAN)
+     ==================================================== */
+  @media (max-width: 768px) {
+    .site-footer {
+      background-color: #f8fafc;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Base Bento Card: Sleek, compact & low profile */
+    .bento-tile {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 0.75rem 0.8rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Tile 1: Brand & WA (Span 2) - Compact Horizontal Strip */
+    .bento-brand {
+      grid-column: span 2;
+      background: linear-gradient(145deg, #10291e 0%, #184230 100%);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      color: #ffffff;
+      padding: 0.75rem 0.9rem;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px -2px rgba(16, 41, 30, 0.15);
+    }
+
+    .bento-brand-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 0.5rem;
+    }
+
+    .bento-brand .footer-logo {
+      margin-bottom: 0;
+      gap: 0.45rem;
+    }
+
+    .bento-brand .mountain-svg {
+      width: 26px;
+      height: 22px;
+    }
+
+    .bento-brand .logo-title {
+      font-size: 0.92rem;
+      color: #ffffff;
+    }
+
+    .bento-brand .logo-subtitle {
+      font-size: 0.52rem;
+      color: #86efac;
+    }
+
+    .bento-brand .svg-stroke-main {
+      stroke: #ffffff;
+    }
+
+    /* Hide long description on mobile to prevent vertical bloat */
+    .bento-brand .brand-desc {
+      display: none;
+    }
+
+    .bento-brand .brand-cta-wrap {
+      margin-left: auto;
+    }
+
+    .bento-brand .bento-wa-btn {
+      padding: 0.42rem 0.85rem;
+      font-size: 0.75rem;
+      background-color: #22c55e;
+      color: #ffffff;
+      gap: 0.35rem;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+    }
+
+    .bento-brand .bento-wa-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Tile 2: Navigasi (Span 1) */
+    .bento-nav {
+      grid-column: span 1;
+      padding: 0.75rem 0.75rem;
+    }
+
+    /* Tile 3: Rute Populer (Span 1) */
+    .bento-routes {
+      grid-column: span 1;
+      padding: 0.75rem 0.75rem;
+    }
+
+    .bento-heading {
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+      gap: 0.25rem;
+    }
+
+    .bento-heading svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .footer-links {
+      gap: 0.32rem;
+    }
+
+    .footer-links a {
+      font-size: 0.73rem;
+      color: #475569;
+      line-height: 1.25;
+    }
+
+    /* Hide less critical links on mobile to keep card height matched */
+    .desktop-link {
+      display: none;
+    }
+
+    /* Tile 4: Meeting Point & Sosmed (Unified Span 2) */
+    .bento-location-social {
+      grid-column: span 2;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 0.65rem 0.85rem;
+      gap: 0.5rem;
+    }
+
+    .bento-loc-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .location-badge-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+    }
+
+    .location-badge-icon svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .loc-bento-title {
+      font-size: 0.76rem;
+      color: #14532d;
+      line-height: 1.2;
+    }
+
+    .loc-bento-desc {
+      font-size: 0.68rem;
+      color: #64748b;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    .bento-social-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.35rem;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .social-links {
+      gap: 0.4rem;
+    }
+
+    .social-icon {
+      width: 26px;
+      height: 26px;
+    }
+
+    .social-icon svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .gate-time-tag {
+      font-size: 0.68rem;
+      padding: 0.15rem 0.45rem;
+    }
+
+    /* Bottom Copyright on Mobile - Super Slim */
+    .footer-bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+      padding-top: 0.75rem;
+      font-size: 0.68rem;
+    }
+
+    .copyright-text {
+      font-size: 0.68rem;
+    }
+
+    .legal-links {
+      font-size: 0.68rem;
+      gap: 0.4rem;
+    }
+  }
+</style>

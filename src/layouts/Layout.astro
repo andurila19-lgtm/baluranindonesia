@@ -1,0 +1,180 @@
+---
+import '../styles/global.css';
+import { siteConfig, faqData, packagesData } from '../data/baluranData';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = `${siteConfig.fullName} - Sewa Jeep Safari Baluran & Banyuwangi`,
+  description = siteConfig.description,
+  image = '/images/hero-baluran.jpg'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.url);
+const ogImageURL = new URL(image, siteConfig.url).href;
+
+// Structured data for SEO / AEO / GEO
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['LocalBusiness', 'TravelAgency'],
+      '@id': `${siteConfig.url}/#organization`,
+      name: siteConfig.name,
+      legalName: siteConfig.fullName,
+      url: siteConfig.url,
+      logo: `${siteConfig.url}/favicon.svg`,
+      image: ogImageURL,
+      description: siteConfig.description,
+      telephone: '+6285333050863',
+      priceRange: 'Rp650.000 - Rp900.000',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Jl. Raya Banyuwangi - Situbondo km 35, Batangan',
+        addressLocality: 'Banyuwangi & Situbondo',
+        addressRegion: 'Jawa Timur',
+        postalCode: '68374',
+        addressCountry: 'ID'
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: -7.8385,
+        longitude: 114.3917
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '06:00',
+          closes: '18:00'
+        }
+      ],
+      areaServed: [
+        { '@type': 'AdministrativeArea', name: 'Taman Nasional Baluran' },
+        { '@type': 'AdministrativeArea', name: 'Kabupaten Banyuwangi' },
+        { '@type': 'AdministrativeArea', name: 'Kabupaten Situbondo' }
+      ]
+    },
+    {
+      '@type': 'TouristAttraction',
+      '@id': `${siteConfig.url}/#attraction`,
+      name: 'Taman Nasional Baluran (Africa van Java)',
+      description: 'Cagar alam savana luas dengan satwa liar banteng jawa, rusa, burung merak, dan Gunung Baluran di Jawa Timur.',
+      touristType: ['Eco-tourism', 'Safari', 'Photography', 'Adventure'],
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: -7.8385,
+        longitude: 114.3917
+      }
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqData.map(item => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer
+        }
+      }))
+    },
+    {
+      '@type': 'ItemList',
+      itemListElement: packagesData.map((pkg, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        item: {
+          '@type': 'Product',
+          name: pkg.title,
+          description: pkg.description,
+          image: new URL(pkg.image, siteConfig.url).href,
+          offers: {
+            '@type': 'Offer',
+            price: pkg.price,
+            priceCurrency: 'IDR',
+            availability: 'https://schema.org/InStock',
+            validFrom: '2025-01-01',
+            priceValidUntil: '2027-12-31'
+          }
+        }
+      }))
+    }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Geo Meta Tags for local SEO / GEO ranking -->
+    <meta name="geo.region" content="ID-JI" />
+    <meta name="geo.placename" content="Taman Nasional Baluran, Banyuwangi, Jawa Timur, Indonesia" />
+    <meta name="geo.position" content="-7.8385;114.3917" />
+    <meta name="ICBM" content="-7.8385, 114.3917" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content={siteConfig.name} />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <!-- Google Fonts Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  </head>
+  <body>
+    <slot />
+
+    <!-- Smooth Reveal on Scroll (No scale, pure opacity & translateY) -->
+    <script>
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: '0px 0px -40px 0px', threshold: 0.08 }
+      );
+
+      document.querySelectorAll(
+        '.package-card, .why-visual-card, .feature-box, .dest-card, .facility-card, .fleet-card, .testi-card, .pkg-detail-card, .dest-feature-card, .guide-card'
+      ).forEach(el => {
+        el.classList.add('reveal-item');
+        observer.observe(el);
+      });
+    </script>
+
+    <!-- Global i18n state sync -->
+    <script>
+      import { initI18n } from '../scripts/i18n';
+      initI18n();
+    </script>
+  </body>
+</html>

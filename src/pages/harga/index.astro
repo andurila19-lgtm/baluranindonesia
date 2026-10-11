@@ -1,0 +1,559 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloating from '../../components/WhatsAppFloating.astro';
+import { packagesData, otherDestinationsData, facilitiesData, siteConfig } from '../../data/baluranData';
+---
+
+<Layout 
+  title="Daftar Harga Sewa Jeep Baluran & Banyuwangi Transparan - Baluran Indonesia"
+  description="Daftar harga sewa Jeep Safari Baluran & Banyuwangi resmi dan transparan. Start Banyuwangi Rp750rb, Start Pintu Masuk Rp650rb. Tanpa biaya tersembunyi."
+>
+  <Navbar />
+
+  <PageHeader 
+    title="Daftar Harga & Ketentuan Sewa Jeep"
+    subtitle="Semua tarif ditampilkan secara jujur dan transparan tanpa ada biaya tersembunyi di akhir perjalanan."
+    badge="TARIF RESMI & TRANSPARAN"
+    breadcrumbs={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Harga' }
+    ]}
+  />
+
+  <main class="section price-page-main">
+    <div class="container">
+      <!-- Master Price Cards Grid -->
+      <div class="price-cards-grid">
+        {packagesData.map((pkg) => (
+          <div class="price-tier-card featured-tier">
+            <div class="tier-popular-tag">{pkg.badge}</div>
+            <div class="tier-head">
+              <h2 class="tier-name">{pkg.title}</h2>
+              <div class="tier-price-box">
+                <span class="t-price">{pkg.priceFormatted}</span>
+                <span class="t-unit">{pkg.unit}</span>
+              </div>
+              <p class="tier-summary">{pkg.description}</p>
+            </div>
+
+            <div class="tier-specs">
+              <div class="t-spec">⏱️ Durasi: <strong>{pkg.duration}</strong></div>
+              <div class="t-spec">👥 Kapasitas: <strong>{pkg.capacity}</strong></div>
+              <div class="t-spec">📍 Penjemputan: <strong>{pkg.pickup}</strong></div>
+            </div>
+
+            <div class="tier-action">
+              <a 
+                href={siteConfig.whatsappUrl(`Halo Baluran Indonesia, saya ingin memesan ${pkg.title} seharga ${pkg.priceFormatted}.`)} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="btn-wa full-width"
+              >
+                Pesan via WhatsApp
+              </a>
+            </div>
+          </div>
+        ))}
+
+        {otherDestinationsData.map((dest) => (
+          <div class="price-tier-card">
+            <div class="tier-popular-tag bg-neutral">Destinasi Populer</div>
+            <div class="tier-head">
+              <h2 class="tier-name">{dest.title}</h2>
+              <div class="tier-price-box">
+                <span class="t-price">{dest.priceFormatted}</span>
+                <span class="t-unit">{dest.unit}</span>
+              </div>
+              <p class="tier-summary">{dest.description}</p>
+            </div>
+
+            <div class="tier-specs">
+              <div class="t-spec">⏱️ Durasi: <strong>{dest.duration}</strong></div>
+              <div class="t-spec">👥 Kapasitas: <strong>{dest.capacity}</strong></div>
+              <div class="t-spec">📍 Penjemputan: <strong>Banyuwangi Kota</strong></div>
+            </div>
+
+            <div class="tier-action">
+              <a 
+                href={siteConfig.whatsappUrl(`Halo Baluran Indonesia, saya ingin memesan ${dest.title} seharga ${dest.priceFormatted}.`)} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="btn-outline full-width text-center"
+              >
+                Pesan via WhatsApp
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Interactive Price Estimator / Calculator -->
+      <div class="calc-section">
+        <div class="calc-header">
+          <h3 class="calc-title">Kalkulator Estimasi Biaya Sewa Jeep</h3>
+          <p class="calc-sub">Hitung total perkiraan biaya berdasarkan pilihan rute dan jumlah armada yang Anda perlukan.</p>
+        </div>
+
+        <div class="calc-box">
+          <div class="calc-fields">
+            <div class="field-item">
+              <label for="calcPkg">Pilih Rute Perjalanan:</label>
+              <select id="calcPkg" class="calc-select">
+                <option value="750000" selected>Rute Baluran (Start Banyuwangi Kota) - Rp750.000</option>
+                <option value="650000">Rute Baluran (Start Pintu Masuk Baluran) - Rp650.000</option>
+                <option value="900000">Rute Kawah Wurung - Rp900.000</option>
+                <option value="700000">Rute Hutan De Djawatan - Rp700.000</option>
+              </select>
+            </div>
+
+            <div class="field-item">
+              <label for="calcJeeps">Jumlah Armada Jeep:</label>
+              <select id="calcJeeps" class="calc-select">
+                <option value="1" selected>1 Unit Jeep (1 - 6 Orang)</option>
+                <option value="2">2 Unit Jeep (7 - 12 Orang)</option>
+                <option value="3">3 Unit Jeep (13 - 18 Orang)</option>
+                <option value="4">4 Unit Jeep (19 - 24 Orang)</option>
+              </select>
+            </div>
+
+            <div class="field-item">
+              <label for="calcOvertime">Tambahan Overtime (Opsional):</label>
+              <select id="calcOvertime" class="calc-select">
+                <option value="0" selected>Tidak Ada Overtime</option>
+                <option value="1">1 Jam (+Rp80.000 / Jeep)</option>
+                <option value="2">2 Jam (+Rp160.000 / Jeep)</option>
+                <option value="3">3 Jam (+Rp240.000 / Jeep)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="calc-result">
+            <div class="calc-res-label">Total Estimasi Sewa:</div>
+            <div class="calc-res-val" id="calcTotalDisplay">Rp750.000</div>
+            <div class="calc-res-sub" id="calcBreakdown">1 Jeep x Rp750.000</div>
+            
+            <a 
+              href="#" 
+              id="calcWaBtn" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="btn-wa full-width calc-btn"
+            >
+              Booking Estimasi Ini ke WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Facilities & Terms Detail -->
+      <div class="terms-grid">
+        <div class="terms-col terms-inc">
+          <h3 class="terms-title text-green">✓ Sudah Termasuk (All-in Rental)</h3>
+          <ul class="terms-list">
+            {facilitiesData.included.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="terms-col terms-exc">
+          <h3 class="terms-title text-orange">✕ Tidak Termasuk</h3>
+          <ul class="terms-list">
+            {facilitiesData.notIncluded.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Important Notes Table -->
+      <div class="policy-card">
+        <h3 class="policy-title">Ketentuan Penting & Surcharge</h3>
+        <ul class="policy-list">
+          {facilitiesData.terms.map((term) => (
+            <li><strong>Ketentuan:</strong> {term}</li>
+          ))}
+          <li><strong>Informasi Tiket Masuk Resmi TN Baluran:</strong> WNI Rp16.000 (weekday) / Rp18.500 (weekend); WNA Rp165.000 dibayarkan langsung di gerbang pos Batangan TN Baluran.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  <WhatsAppFloating />
+</Layout>
+
+<script>
+  const pkgSelect = document.getElementById('calcPkg') as HTMLSelectElement;
+  const jeepsSelect = document.getElementById('calcJeeps') as HTMLSelectElement;
+  const overtimeSelect = document.getElementById('calcOvertime') as HTMLSelectElement;
+  const totalDisplay = document.getElementById('calcTotalDisplay');
+  const breakdownDisplay = document.getElementById('calcBreakdown');
+  const waBtn = document.getElementById('calcWaBtn') as HTMLAnchorElement;
+
+  function calculate() {
+    if (!pkgSelect || !jeepsSelect || !overtimeSelect || !totalDisplay || !breakdownDisplay || !waBtn) return;
+    const basePrice = parseInt(pkgSelect.value, 10);
+    const numJeeps = parseInt(jeepsSelect.value, 10);
+    const overtimeHours = parseInt(overtimeSelect.value, 10);
+    const overtimeRate = 80000;
+
+    const totalPerJeep = basePrice + (overtimeHours * overtimeRate);
+    const grandTotal = totalPerJeep * numJeeps;
+
+    const formattedTotal = 'Rp' + grandTotal.toLocaleString('id-ID');
+    totalDisplay.textContent = formattedTotal;
+
+    const pkgName = pkgSelect.options[pkgSelect.selectedIndex].text.split(' - ')[0];
+    breakdownDisplay.textContent = `${numJeeps} Jeep x (${basePrice.toLocaleString('id-ID')} + ${overtimeHours} jam overtime)`;
+
+    const msg = `Halo Baluran Indonesia, saya cek kalkulator estimasi untuk:\n- Paket: ${pkgName}\n- Jumlah: ${numJeeps} Jeep\n- Overtime: ${overtimeHours} jam\n- Total Estimasi: ${formattedTotal}\nMohon info ketersediaan armada.`;
+    waBtn.href = `https://wa.me/6285333050863?text=${encodeURIComponent(msg)}`;
+  }
+
+  if (pkgSelect && jeepsSelect && overtimeSelect) {
+    pkgSelect.addEventListener('change', calculate);
+    jeepsSelect.addEventListener('change', calculate);
+    overtimeSelect.addEventListener('change', calculate);
+    calculate();
+  }
+</script>
+
+<style>
+  .price-page-main {
+    background-color: #fafbfc;
+  }
+
+  .price-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .price-tier-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #eef2f0;
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .price-tier-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+  }
+
+  .featured-tier {
+    border-color: #86efac;
+    box-shadow: 0 8px 25px rgba(22, 101, 52, 0.08);
+  }
+
+  .tier-popular-tag {
+    position: absolute;
+    top: -12px;
+    left: 1.25rem;
+    background: #15803d;
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+  }
+
+  .bg-neutral {
+    background: #475569;
+  }
+
+  .tier-head {
+    margin-top: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tier-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .tier-price-box {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .t-price {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #15803d;
+  }
+
+  .t-unit {
+    font-size: 0.82rem;
+    color: #6b7280;
+  }
+
+  .tier-summary {
+    font-size: 0.8rem;
+    color: #4b5563;
+    line-height: 1.5;
+  }
+
+  .tier-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0.85rem 0;
+    border-top: 1px dashed #e5e7eb;
+    border-bottom: 1px dashed #e5e7eb;
+    margin-bottom: 1.25rem;
+  }
+
+  .t-spec {
+    font-size: 0.78rem;
+    color: #374151;
+  }
+
+  .t-spec strong {
+    color: #111827;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  /* Calculator */
+  .calc-section {
+    background: #ffffff;
+    border: 1px solid #eef2f0;
+    border-radius: 20px;
+    padding: 2.25rem;
+    margin-bottom: 3.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  }
+
+  .calc-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .calc-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.35rem;
+  }
+
+  .calc-sub {
+    font-size: 0.9rem;
+    color: #6b7280;
+  }
+
+  .calc-box {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    background: #fafbfc;
+    border: 1px solid #f0f3f2;
+    border-radius: 16px;
+    padding: 1.75rem;
+  }
+
+  .calc-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .field-item label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.35rem;
+  }
+
+  .calc-select {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    font-size: 0.88rem;
+    color: #111827;
+    font-family: inherit;
+  }
+
+  .calc-result {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 1.75rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  .calc-res-label {
+    font-size: 0.82rem;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  .calc-res-val {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #15803d;
+    margin: 0.25rem 0;
+  }
+
+  .calc-res-sub {
+    font-size: 0.78rem;
+    color: #6b7280;
+    margin-bottom: 1.25rem;
+  }
+
+  .calc-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Terms */
+  .terms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .terms-col {
+    border-radius: 20px;
+    padding: 2rem;
+  }
+
+  .terms-inc {
+    background: #f0fdf4;
+    border: 1px solid #dcfce7;
+  }
+
+  .terms-exc {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+  }
+
+  .terms-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+  }
+
+  .text-green { color: #166534; }
+  .text-orange { color: #9a3412; }
+
+  .terms-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .terms-list li {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #374151;
+    position: relative;
+    padding-left: 1.25rem;
+  }
+
+  .terms-inc .terms-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #16a34a;
+    font-weight: bold;
+  }
+
+  .terms-exc .terms-list li::before {
+    content: '✕';
+    position: absolute;
+    left: 0;
+    color: #ea580c;
+    font-weight: bold;
+  }
+
+  /* Policy Card */
+  .policy-card {
+    background: #ffffff;
+    border: 1px solid #eef2f0;
+    border-radius: 20px;
+    padding: 2rem 2.25rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  }
+
+  .policy-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 1rem;
+  }
+
+  .policy-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .policy-list li {
+    font-size: 0.88rem;
+    color: #4b5563;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 1.25rem;
+  }
+
+  .policy-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #15803d;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .policy-list strong {
+    color: #111827;
+  }
+
+  @media (max-width: 1024px) {
+    .price-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 800px) {
+    .calc-box, .terms-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .price-cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .calc-section {
+      padding: 1.5rem;
+    }
+  }
+</style>

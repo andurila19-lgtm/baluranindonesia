@@ -1,0 +1,253 @@
+---
+import { fleetGalleryData, siteConfig } from '../data/baluranData';
+---
+
+<section class="section fleet-section" id="galeri-armada">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Galeri Armada</h2>
+        <p class="section-subtitle">Armada Jeep kami siap mengantar Anda menjelajahi keindahan Baluran.</p>
+      </div>
+      <a 
+        href={siteConfig.whatsappUrl('Halo Baluran Indonesia, saya ingin melihat pilihan foto armada Jeep yang tersedia.')} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="section-link"
+      >
+        Lihat Semua Foto
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Carousel Row with arrow button -->
+    <div class="fleet-carousel-wrapper">
+      <div class="fleet-track" id="fleetTrack">
+        {fleetGalleryData.map((car) => (
+          <div class="fleet-card" data-car-name={car.name}>
+            <div class="fleet-img-wrap">
+              <img 
+                src={car.image} 
+                alt={`${car.name} (${car.colorName}) - Armada Jeep Safari Baluran`} 
+                class="fleet-img" 
+                loading="lazy"
+              />
+              <div class="fleet-tag-pill">{car.colorName}</div>
+            </div>
+            <div class="fleet-caption">
+              <div class="fleet-name">{car.name}</div>
+              <a 
+                href={siteConfig.whatsappUrl(`Halo Baluran Indonesia, saya ingin request Jeep warna ${car.colorName} (${car.name}) untuk trip Baluran.`)} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="fleet-req-btn"
+                title={`Request Jeep warna ${car.colorName}`}
+              >
+                Request Warna Ini
+                <svg viewBox="0 0 20 20" width="13" height="13" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Carousel Navigation Buttons -->
+      <button type="button" class="carousel-nav-btn prev-btn" id="fleetPrevBtn" aria-label="Armada Sebelumnya">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button type="button" class="carousel-nav-btn next-btn" id="fleetNextBtn" aria-label="Armada Selanjutnya">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fleet-section {
+    background-color: #ffffff;
+  }
+
+  .fleet-carousel-wrapper {
+    position: relative;
+    padding: 0.5rem 0;
+  }
+
+  .fleet-track {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-bottom: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+  }
+
+  .fleet-track::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .fleet-track::-webkit-scrollbar-thumb {
+    background-color: #e5e7eb;
+    border-radius: 9999px;
+  }
+
+  .fleet-card {
+    flex: 0 0 calc(20% - 1rem);
+    min-width: 210px;
+    scroll-snap-align: start;
+    background: #ffffff;
+    border: 1px solid #eef2f0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fleet-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .fleet-img-wrap {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+    background-color: #f3f4f6;
+  }
+
+  .fleet-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+
+  .fleet-card:hover .fleet-img {
+    filter: brightness(1.04);
+  }
+
+  .fleet-tag-pill {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 9999px;
+  }
+
+  .fleet-caption {
+    padding: 0.85rem 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+
+  .fleet-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .fleet-req-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #15803d;
+    transition: color 0.2s ease;
+    margin-top: 0.2rem;
+  }
+
+  .fleet-req-btn:hover {
+    color: #16a34a;
+    text-decoration: underline;
+  }
+
+  /* Carousel Navigation Buttons */
+  .carousel-nav-btn {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #374151;
+    z-index: 5;
+    transition: all 0.2s ease;
+  }
+
+  .carousel-nav-btn:hover {
+    background: #15803d;
+    color: #ffffff;
+    border-color: #15803d;
+  }
+
+  .prev-btn {
+    left: -16px;
+  }
+
+  .next-btn {
+    right: -16px;
+  }
+
+  @media (max-width: 1024px) {
+    .fleet-card {
+      flex: 0 0 calc(33.333% - 1rem);
+    }
+  }
+
+  @media (max-width: 680px) {
+    .fleet-card {
+      flex: 0 0 calc(50% - 0.75rem);
+    }
+    .carousel-nav-btn {
+      display: none;
+    }
+  }
+
+  @media (max-width: 440px) {
+    .fleet-card {
+      flex: 0 0 78%;
+    }
+  }
+</style>
+
+<script>
+  const track = document.getElementById('fleetTrack');
+  const prevBtn = document.getElementById('fleetPrevBtn');
+  const nextBtn = document.getElementById('fleetNextBtn');
+
+  if (track && prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -260, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: 260, behavior: 'smooth' });
+    });
+  }
+</script>

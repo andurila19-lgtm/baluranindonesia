@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Packages from '../components/Packages.astro';
+import WhyUs from '../components/WhyUs.astro';
+import Destinations from '../components/Destinations.astro';
+import Facilities from '../components/Facilities.astro';
+import FleetGallery from '../components/FleetGallery.astro';
+import Testimonials from '../components/Testimonials.astro';
+import GuideFaq from '../components/GuideFaq.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Footer from '../components/Footer.astro';
+import PackageModal from '../components/PackageModal.astro';
+import WhatsAppFloating from '../components/WhatsAppFloating.astro';
+---
+
+<Layout>
+  <!-- Sticky Header / Navbar -->
+  <Navbar />
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <Hero />
+
+    <!-- Paket Jeep Safari Baluran -->
+    <Packages />
+
+    <!-- Mengapa Memilih Baluran Indonesia -->
+    <WhyUs />
+
+    <!-- Destinasi Lainnya (Kawah Wurung & De Djawatan) -->
+    <Destinations />
+
+    <!-- Fasilitas dan Ketentuan -->
+    <Facilities />
+
+    <!-- Galeri Armada -->
+    <FleetGallery />
+
+    <!-- Testimonials: Apa Kata Mereka -->
+    <Testimonials />
+
+    <!-- Panduan Wisata & FAQ -->
+    <GuideFaq />
+
+    <!-- Call to Action Banner -->
+    <CtaBanner />
+  </main>
+
+  <!-- Footer -->
+  <Footer />
+
+  <!-- Interactive Package Details Modal -->
+  <PackageModal />
+
+  <!-- Floating WhatsApp CTA -->
+  <WhatsAppFloating />
+</Layout>

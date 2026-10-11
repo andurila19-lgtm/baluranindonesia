@@ -1,0 +1,512 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloating from '../../components/WhatsAppFloating.astro';
+import { packagesData, siteConfig, type TourPackage } from '../../data/baluranData';
+
+export function getStaticPaths() {
+  return packagesData.map((pkg) => ({
+    params: { id: pkg.id },
+    props: { pkg }
+  }));
+}
+
+interface Props {
+  pkg: TourPackage;
+}
+
+const { pkg } = Astro.props;
+---
+
+<Layout 
+  title={`${pkg.title} - ${pkg.priceFormatted} | Baluran Indonesia`}
+  description={`${pkg.description} Durasi ${pkg.duration}, kapasitas ${pkg.capacity}, harga ${pkg.priceFormatted}/Jeep.`}
+  image={pkg.image}
+>
+  <Navbar />
+
+  <PageHeader 
+    title={pkg.title}
+    subtitle={pkg.description}
+    badge={pkg.badge}
+    breadcrumbs={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Paket Jeep Baluran', href: '/paket' },
+      { label: pkg.title }
+    ]}
+  />
+
+  <main class="section pkg-single-page">
+    <div class="container">
+      <div class="single-layout">
+        <!-- Left Main Content -->
+        <div class="single-main-col">
+          <!-- Featured Image -->
+          <div class="single-hero-img-box">
+            <img src={pkg.image} alt={pkg.title} class="single-img" />
+            <div class="single-badge-tag">{pkg.badge}</div>
+          </div>
+
+          <!-- Highlights -->
+          <div class="single-block">
+            <h2 class="block-title">Highlight Destinasi & Pengalaman</h2>
+            <div class="highlight-cards-grid">
+              {pkg.highlights.map((hl) => (
+                <div class="hl-card">
+                  <div class="hl-card-icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                  <span class="hl-card-text">{hl}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Hour-by-hour Itinerary -->
+          <div class="single-block">
+            <h2 class="block-title">Rundown Jadwal Perjalanan (Itinerary)</h2>
+            <div class="itinerary-timeline">
+              {pkg.scheduleSample.map((step) => {
+                const [time, ...rest] = step.split(' - ');
+                return (
+                  <div class="timeline-row">
+                    <div class="timeline-time">{time}</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-desc">{rest.join(' - ')}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <p class="timeline-note">* Waktu bersifat fleksibel dan dapat disesuaikan dengan kedatangan tiket kereta/pesawat Anda.</p>
+          </div>
+
+          <!-- Inclusions & Exclusions -->
+          <div class="single-block">
+            <h2 class="block-title">Rincian Fasilitas</h2>
+            <div class="inc-exc-grid">
+              <div class="inc-box">
+                <h3 class="inc-title text-green">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  Sudah Termasuk
+                </h3>
+                <ul class="inc-list">
+                  {pkg.included.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="inc-box exc-theme">
+                <h3 class="inc-title text-orange">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                  Tidak Termasuk
+                </h3>
+                <ul class="inc-list">
+                  {pkg.notIncluded.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Sticky Booking Card -->
+        <aside class="single-sidebar">
+          <div class="booking-sticky-card">
+            <div class="booking-head">
+              <span class="booking-label">Harga Sewa Paket</span>
+              <div class="booking-price-line">
+                <span class="booking-price">{pkg.priceFormatted}</span>
+                <span class="booking-unit">{pkg.unit}</span>
+              </div>
+              <div class="booking-badge">1 Jeep = Max. 5–6 Orang</div>
+            </div>
+
+            <div class="booking-specs-list">
+              <div class="b-spec-row">
+                <span class="b-spec-label">Durasi Trip:</span>
+                <span class="b-spec-val">{pkg.duration}</span>
+              </div>
+              <div class="b-spec-row">
+                <span class="b-spec-label">Titik Jemput:</span>
+                <span class="b-spec-val">{pkg.pickup}</span>
+              </div>
+              <div class="b-spec-row">
+                <span class="b-spec-label">Tipe Armada:</span>
+                <span class="b-spec-val">Jeep 4x4 Offroad Terawat</span>
+              </div>
+              <div class="b-spec-row">
+                <span class="b-spec-label">Ketersediaan:</span>
+                <span class="b-spec-val text-green font-bold">Tersedia Setiap Hari</span>
+              </div>
+            </div>
+
+            <div class="booking-cta-block">
+              <a 
+                href={siteConfig.whatsappUrl(`Halo Baluran Indonesia, saya ingin memesan ${pkg.title} seharga ${pkg.priceFormatted}. Mohon info jadwal yang tersedia.`)}
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="btn-wa full-width b-cta-btn"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.63C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16ZM16.56 14.39C16.31 14.27 15.09 13.67 14.86 13.59C14.64 13.5 14.47 13.46 14.31 13.71C14.14 13.96 13.66 14.52 13.51 14.69C13.37 14.85 13.22 14.87 12.97 14.75C12.72 14.63 11.92 14.36 10.97 13.52C10.23 12.86 9.73 12.05 9.58 11.8C9.44 11.55 9.56 11.42 9.69 11.29C9.8 11.18 9.94 11 10.06 10.86C10.19 10.72 10.23 10.62 10.31 10.45C10.39 10.28 10.35 10.14 10.29 10.02C10.23 9.9 9.73 8.68 9.53 8.17C9.33 7.68 9.12 7.74 8.97 7.74H8.49C8.32 7.74 8.05 7.8 7.82 8.05C7.59 8.3 6.94 8.91 6.94 10.16C6.94 11.41 7.85 12.61 7.98 12.78C8.11 12.95 9.77 15.51 12.3 16.6C12.91 16.86 13.37 17.02 13.75 17.14C14.36 17.33 14.92 17.3 15.36 17.24C15.86 17.16 16.88 16.61 17.09 16.03C17.3 15.44 17.3 14.94 17.24 14.84C17.18 14.73 17.01 14.67 16.76 14.54L16.56 14.39Z"/>
+                </svg>
+                Booking via WhatsApp
+              </a>
+
+              <div class="guarantee-points">
+                <div class="g-item">✓ Tanpa biaya tersembunyi</div>
+                <div class="g-item">✓ Pembayaran mudah & aman</div>
+                <div class="g-item">✓ Driver ramah & tahu spot terbaik</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  <WhatsAppFloating />
+</Layout>
+
+<style>
+  .pkg-single-page {
+    background-color: #fafbfc;
+  }
+
+  .single-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2.5rem;
+    align-items: flex-start;
+  }
+
+  .single-hero-img-box {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 380px;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .single-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .single-badge-tag {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    background: #ffffff;
+    color: #15803d;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .single-block {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #eef2f0;
+    padding: 2rem 2.25rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  }
+
+  .block-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  /* Highlights */
+  .highlight-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .hl-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f8faf9;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #eef2f0;
+  }
+
+  .hl-card-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ecfdf5;
+    color: #16a34a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .hl-card-text {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  /* Timeline */
+  .itinerary-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: relative;
+    padding-left: 0.5rem;
+  }
+
+  .itinerary-timeline::before {
+    content: '';
+    position: absolute;
+    left: 85px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: #e5e7eb;
+  }
+
+  .timeline-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    position: relative;
+  }
+
+  .timeline-time {
+    width: 70px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #15803d;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #16a34a;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 2px #86efac;
+    flex-shrink: 0;
+    margin-top: 5px;
+    z-index: 2;
+  }
+
+  .timeline-desc {
+    font-size: 0.88rem;
+    color: #374151;
+    line-height: 1.5;
+  }
+
+  .timeline-note {
+    font-size: 0.78rem;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 1.5rem;
+  }
+
+  /* Inclusions / Exclusions */
+  .inc-exc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .inc-box {
+    background: #f0fdf4;
+    border: 1px solid #dcfce7;
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  .exc-theme {
+    background: #fff7ed;
+    border-color: #fed7aa;
+  }
+
+  .inc-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .text-green { color: #166534; }
+  .text-orange { color: #9a3412; }
+
+  .inc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .inc-list li {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #374151;
+    position: relative;
+    padding-left: 1.25rem;
+  }
+
+  .inc-box .inc-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #16a34a;
+    font-weight: bold;
+  }
+
+  .exc-theme .inc-list li::before {
+    content: '✕';
+    position: absolute;
+    left: 0;
+    color: #ea580c;
+    font-weight: bold;
+  }
+
+  /* Sidebar Sticky Card */
+  .single-sidebar {
+    position: sticky;
+    top: 96px;
+  }
+
+  .booking-sticky-card {
+    background: #ffffff;
+    border: 1px solid #eef2f0;
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  }
+
+  .booking-head {
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .booking-label {
+    font-size: 0.78rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .booking-price-line {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+  }
+
+  .booking-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #15803d;
+  }
+
+  .booking-unit {
+    font-size: 0.95rem;
+    color: #6b7280;
+  }
+
+  .booking-badge {
+    display: inline-block;
+    background: #ecfdf5;
+    color: #166534;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    margin-top: 0.5rem;
+  }
+
+  .booking-specs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .b-spec-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+  }
+
+  .b-spec-label {
+    color: #6b7280;
+  }
+
+  .b-spec-val {
+    font-weight: 600;
+    color: #1f2937;
+    text-align: right;
+  }
+
+  .b-cta-btn {
+    padding: 0.85rem 1rem;
+    font-size: 0.92rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .guarantee-points {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+    color: #6b7280;
+  }
+
+  @media (max-width: 960px) {
+    .single-layout {
+      grid-template-columns: 1fr;
+    }
+    .single-sidebar {
+      position: static;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .highlight-cards-grid, .inc-exc-grid {
+      grid-template-columns: 1fr;
+    }
+    .single-hero-img-box {
+      height: 240px;
+    }
+    .single-block {
+      padding: 1.5rem;
+    }
+  }
+</style>

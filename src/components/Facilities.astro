@@ -1,0 +1,249 @@
+---
+import { facilitiesData, siteConfig } from '../data/baluranData';
+---
+
+<section class="section facilities-section" id="harga">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Fasilitas dan Ketentuan</h2>
+        <p class="section-subtitle">Informasi penting sebelum Anda melakukan pemesanan.</p>
+      </div>
+      <a 
+        href={siteConfig.whatsappUrl('Halo Baluran Indonesia, saya ingin menanyakan rincian fasilitas dan ketentuan paket Jeep.')} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="section-link"
+      >
+        Lihat Detail Harga
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="facilities-grid">
+      <!-- Card 1: Sudah Termasuk -->
+      <div class="facility-card card-included">
+        <div class="card-head">
+          <div class="icon-circle icon-green">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="card-headline">Sudah Termasuk</h3>
+        </div>
+        <ul class="facility-list">
+          <li>Mobil Jeep + Driver + BBM</li>
+          <li>Penjemputan area Banyuwangi Kota (Bandara, Stasiun, Terminal, Pelabuhan)</li>
+          <li>Sesuai rute yang dipilih</li>
+        </ul>
+      </div>
+
+      <!-- Card 2: Tidak Termasuk -->
+      <div class="facility-card card-excluded">
+        <div class="card-head">
+          <div class="icon-circle icon-brown">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </div>
+          <h3 class="card-headline">Tidak Termasuk</h3>
+        </div>
+        <ul class="facility-list">
+          <li>Parkir</li>
+          <li>Tiket masuk wisata</li>
+          <li>Uang makan driver</li>
+          <li>Tips (se-ikhlasnya)</li>
+          <li>Pemakaian di luar rute yang dipilih ada biaya tambahan</li>
+        </ul>
+      </div>
+
+      <!-- Card 3: Ketentuan Penting -->
+      <div class="facility-card card-terms">
+        <div class="card-head">
+          <div class="icon-circle icon-blue">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <h3 class="card-headline">Ketentuan Penting</h3>
+        </div>
+        <ul class="facility-list">
+          <li>Peak season surcharge 15–20% (Lebaran, Natal, Tahun Baru)</li>
+          <li>Request warna Jeep maksimal H-3</li>
+          <li>Durasi dapat berubah mengikuti jadwal</li>
+          <li>Overtime Rp80.000/jam</li>
+          <li>Jumlah peserta sesuai kapasitas</li>
+        </ul>
+      </div>
+
+      <!-- Card 4: Kapasitas -->
+      <div class="facility-card card-capacity">
+        <div class="card-head">
+          <div class="icon-circle icon-purple">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3 class="card-headline">Kapasitas</h3>
+        </div>
+        <ul class="facility-list">
+          <li>Maksimal 5–6 orang per Jeep</li>
+        </ul>
+        <div class="capacity-graphic" aria-hidden="true">
+          <svg viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg" class="people-group-svg">
+            <circle cx="30" cy="18" r="7" fill="#8b5cf6" fill-opacity="0.35"/>
+            <path d="M22 42C22 34 26 31 30 31C34 31 38 34 38 42" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="55" cy="14" r="8" fill="#7c3aed" fill-opacity="0.5"/>
+            <path d="M45 42C45 32 50 28 55 28C60 28 65 32 65 42" stroke="#7c3aed" stroke-width="3.2" stroke-linecap="round"/>
+            <circle cx="80" cy="12" r="9" fill="#6d28d9"/>
+            <path d="M68 42C68 30 73 26 80 26C87 26 92 30 92 42" stroke="#6d28d9" stroke-width="3.5" stroke-linecap="round"/>
+            <circle cx="105" cy="14" r="8" fill="#7c3aed" fill-opacity="0.5"/>
+            <path d="M95 42C95 32 100 28 105 28C110 28 115 32 115 42" stroke="#7c3aed" stroke-width="3.2" stroke-linecap="round"/>
+            <circle cx="130" cy="18" r="7" fill="#8b5cf6" fill-opacity="0.35"/>
+            <path d="M122 42C122 34 126 31 130 31C134 31 138 34 138 42" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .facilities-section {
+    background-color: #fafbfc;
+    border-top: 1px solid #f0f3f2;
+    border-bottom: 1px solid #f0f3f2;
+  }
+
+  .facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .facility-card {
+    border-radius: 18px;
+    padding: 1.6rem 1.35rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid transparent;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .facility-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Specific color themes matching design */
+  .card-included {
+    background-color: #f0fdf4;
+    border-color: #dcfce7;
+  }
+  .card-excluded {
+    background-color: #fff7ed;
+    border-color: #ffedd5;
+  }
+  .card-terms {
+    background-color: #eff6ff;
+    border-color: #dbeafe;
+  }
+  .card-capacity {
+    background-color: #faf5ff;
+    border-color: #f3e8ff;
+    justify-content: space-between;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .icon-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+  }
+
+  .icon-green {
+    background-color: #16a34a;
+  }
+  .icon-brown {
+    background-color: #c2410c;
+  }
+  .icon-blue {
+    background-color: #2563eb;
+  }
+  .icon-purple {
+    background-color: #7c3aed;
+  }
+
+  .card-headline {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+  }
+
+  .facility-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .facility-list li {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #374151;
+    position: relative;
+    padding-left: 1rem;
+  }
+
+  .facility-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: #6b7280;
+  }
+
+  .capacity-graphic {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .people-group-svg {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+  }
+
+  @media (max-width: 1024px) {
+    .facilities-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .facilities-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

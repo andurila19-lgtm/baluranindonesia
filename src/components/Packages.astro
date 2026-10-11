@@ -1,0 +1,283 @@
+---
+import { packagesData, siteConfig } from '../data/baluranData';
+---
+
+<section class="section packages-section" id="paket-jeep">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title" data-i18n="section.packages_title">Paket Jeep Safari <span class="highlight">Baluran</span></h2>
+        <p class="section-subtitle" data-i18n="section.packages_sub">Pilih paket Jeep Baluran sesuai kebutuhan perjalanan Anda.</p>
+      </div>
+      <a href="/paket" class="section-link">
+        <span data-i18n="section.see_all_pkg">Lihat Semua Paket</span>
+        <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="packages-grid">
+      {packagesData.map((pkg) => (
+        <article class="package-card" data-package-id={pkg.id}>
+          <div class="card-image-wrap">
+            <img 
+              src={pkg.image} 
+              alt={pkg.title} 
+              class="card-img" 
+              loading="lazy"
+            />
+            <div class="badge-overlay">
+              <span class="badge-pill origin-badge">
+                <span class="origin-dot"></span>
+                {pkg.badge}
+              </span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h3 class="card-title">{pkg.title}</h3>
+
+            <div class="card-price-wrap">
+              <span class="price-val">{pkg.priceFormatted}</span>
+              <span class="price-unit">{pkg.unit}</span>
+            </div>
+
+            <!-- Specs Grid -->
+            <div class="specs-grid">
+              <div class="spec-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>{pkg.duration}</span>
+              </div>
+
+              <div class="spec-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>{pkg.capacity}</span>
+              </div>
+
+              <div class="spec-item full-width-spec">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>{pkg.pickup}</span>
+              </div>
+            </div>
+
+            <p class="card-desc">{pkg.description}</p>
+
+            <div class="card-actions">
+              <a 
+                href={siteConfig.whatsappUrl(`Halo Baluran Indonesia, saya ingin pesan ${pkg.title} seharga ${pkg.priceFormatted}. Mohon info ketersediaan jadwal.`)}
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="btn-wa card-wa-btn"
+              >
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.63C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16Z"/>
+                </svg>
+                Booking via WhatsApp
+              </a>
+
+              <button 
+                type="button" 
+                class="btn-outline open-modal-btn" 
+                data-detail-id={pkg.id}
+              >
+                Lihat Detail
+                <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 10H16M11 5L16 10L11 15" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .packages-section {
+    background-color: #ffffff;
+  }
+
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+
+  .package-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #eef2f0;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .package-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-image-wrap {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .package-card:hover .card-img {
+    filter: brightness(1.03);
+  }
+
+  .badge-overlay {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 2;
+  }
+
+  .origin-badge {
+    background: #ffffff;
+    color: #1e3a29;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    font-size: 0.76rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .origin-dot {
+    width: 7px;
+    height: 7px;
+    background-color: #16a34a;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .card-body {
+    padding: 1.5rem 1.6rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-price-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .price-val {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #15803d;
+    letter-spacing: -0.02em;
+  }
+
+  .price-unit {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6b7280;
+  }
+
+  .specs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1.25rem;
+    padding: 0.85rem 0;
+    margin-bottom: 0.85rem;
+    border-top: 1px dashed #e5e7eb;
+    border-bottom: 1px dashed #e5e7eb;
+  }
+
+  .spec-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #4b5563;
+  }
+
+  .spec-item svg {
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+
+  .full-width-spec {
+    width: 100%;
+    color: #374151;
+  }
+
+  .card-desc {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+
+  .card-wa-btn {
+    flex: 1.4;
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .open-modal-btn {
+    flex: 1;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 860px) {
+    .packages-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card-actions {
+      flex-direction: column;
+    }
+    .card-wa-btn, .open-modal-btn {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,423 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloating from '../../components/WhatsAppFloating.astro';
+import { siteConfig } from '../../data/baluranData';
+---
+
+<Layout 
+  title="Kontak & Reservasi Jeep Baluran - Baluran Indonesia"
+  description="Hubungi Baluran Indonesia untuk reservasi Jeep Safari Baluran & Banyuwangi. Chat langsung via WhatsApp 085333050863, respon cepat dan ramah."
+>
+  <Navbar />
+
+  <PageHeader 
+    title="Hubungi & Reservasi Jeep"
+    subtitle="Silakan isi form reservasi cepat atau hubungi kontak kami untuk konfirmasi ketersediaan armada Jeep dan jadwal keberangkatan."
+    badge="FAST RESPONSE 24/7"
+    breadcrumbs={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Kontak' }
+    ]}
+  />
+
+  <main class="section contact-page-main">
+    <div class="container">
+      <div class="contact-layout-grid">
+        <!-- Left: Interactive Reservation Form -->
+        <div class="contact-form-card">
+          <div class="form-header">
+            <h2 class="form-title">Formulir Reservasi Cepat</h2>
+            <p class="form-subtitle">Pesan langsung ke WhatsApp kami tanpa ribet. Data akan diformat otomatis.</p>
+          </div>
+
+          <form id="bookingForm" class="booking-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="guestName">Nama Lengkap / Pemesan *</label>
+                <input type="text" id="guestName" required placeholder="Contoh: Budi Santoso" class="form-input" />
+              </div>
+              <div class="form-group">
+                <label for="guestPhone">Nomor WhatsApp *</label>
+                <input type="tel" id="guestPhone" required placeholder="Contoh: 08123456789" class="form-input" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="tourDate">Tanggal Keberangkatan *</label>
+                <input type="date" id="tourDate" required class="form-input" />
+              </div>
+              <div class="form-group">
+                <label for="guestCount">Jumlah Peserta *</label>
+                <select id="guestCount" class="form-select">
+                  <option value="1-2 Orang">1–2 Orang (1 Jeep)</option>
+                  <option value="3-4 Orang">3–4 Orang (1 Jeep)</option>
+                  <option value="5-6 Orang" selected>5–6 Orang (1 Jeep)</option>
+                  <option value="7-12 Orang">7–12 Orang (2 Jeep)</option>
+                  <option value="13+ Orang">Rombongan / Lebih dari 2 Jeep</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="tourPackage">Pilih Paket Wisata *</label>
+              <select id="tourPackage" class="form-select">
+                <option value="Rute Baluran (Start Banyuwangi Kota) - Rp750.000" selected>Rute Baluran (Start Banyuwangi Kota) - Rp750.000 / Jeep</option>
+                <option value="Rute Baluran (Start Pintu Masuk Baluran) - Rp650.000">Rute Baluran (Start Pintu Masuk Baluran) - Rp650.000 / Jeep</option>
+                <option value="Rute Kawah Wurung - Rp900.000">Rute Kawah Wurung - Rp900.000 / Jeep</option>
+                <option value="Rute Hutan De Djawatan - Rp700.000">Rute Hutan De Djawatan - Rp700.000 / Jeep</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pickupLocation">Lokasi Penjemputan</label>
+                <input type="text" id="pickupLocation" placeholder="Contoh: Hotel Santika Banyuwangi / Stasiun Ketapang" class="form-input" />
+              </div>
+              <div class="form-group">
+                <label for="jeepColor">Request Warna Jeep (Opsional)</label>
+                <select id="jeepColor" class="form-select">
+                  <option value="Bebas / Warna Apa Saja" selected>Bebas / Warna Apa Saja</option>
+                  <option value="Putih Classic">Putih Classic</option>
+                  <option value="Merah Crimson">Merah Crimson</option>
+                  <option value="Hijau Army Safari">Hijau Army Safari</option>
+                  <option value="Kuning Bumblebee">Kuning Bumblebee</option>
+                  <option value="Biru Cerah">Biru Cerah</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="tourNotes">Catatan Tambahan (Opsional)</label>
+              <textarea id="tourNotes" rows="3" placeholder="Contoh: Butuh rekomendasi jam keberangkatan sunrise / bawa anak kecil..." class="form-textarea"></textarea>
+            </div>
+
+            <button type="submit" class="btn-wa full-width form-submit-btn">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.63C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16ZM16.56 14.39C16.31 14.27 15.09 13.67 14.86 13.59C14.64 13.5 14.47 13.46 14.31 13.71C14.14 13.96 13.66 14.52 13.51 14.69C13.37 14.85 13.22 14.87 12.97 14.75C12.72 14.63 11.92 14.36 10.97 13.52C10.23 12.86 9.73 12.05 9.58 11.8C9.44 11.55 9.56 11.42 9.69 11.29C9.8 11.18 9.94 11 10.06 10.86C10.19 10.72 10.23 10.62 10.31 10.45C10.39 10.28 10.35 10.14 10.29 10.02C10.23 9.9 9.73 8.68 9.53 8.17C9.33 7.68 9.12 7.74 8.97 7.74H8.49C8.32 7.74 8.05 7.8 7.82 8.05C7.59 8.3 6.94 8.91 6.94 10.16C6.94 11.41 7.85 12.61 7.98 12.78C8.11 12.95 9.77 15.51 12.3 16.6C12.91 16.86 13.37 17.02 13.75 17.14C14.36 17.33 14.92 17.3 15.36 17.24C15.86 17.16 16.88 16.61 17.09 16.03C17.3 15.44 17.3 14.94 17.24 14.84C17.18 14.73 17.01 14.67 16.76 14.54L16.56 14.39Z"/>
+              </svg>
+              Kirim Reservasi via WhatsApp
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Contact Direct Info & Meeting Points -->
+        <div class="contact-info-col">
+          <!-- Direct Box -->
+          <div class="direct-contact-card">
+            <h3 class="direct-title">Kontak Langsung</h3>
+            <p class="direct-desc">Butuh jawaban kilat? Anda dapat menghubungi nomor hotline operator kami kapan saja:</p>
+
+            <a 
+              href={siteConfig.whatsappUrl()} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="direct-wa-link"
+            >
+              <div class="d-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#15803d">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.63C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.05 20.16ZM16.56 14.39C16.31 14.27 15.09 13.67 14.86 13.59C14.64 13.5 14.47 13.46 14.31 13.71C14.14 13.96 13.66 14.52 13.51 14.69C13.37 14.85 13.22 14.87 12.97 14.75C12.72 14.63 11.92 14.36 10.97 13.52C10.23 12.86 9.73 12.05 9.58 11.8C9.44 11.55 9.56 11.42 9.69 11.29C9.8 11.18 9.94 11 10.06 10.86C10.19 10.72 10.23 10.62 10.31 10.45C10.39 10.28 10.35 10.14 10.29 10.02C10.23 9.9 9.73 8.68 9.53 8.17C9.33 7.68 9.12 7.74 8.97 7.74H8.49C8.32 7.74 8.05 7.8 7.82 8.05C7.59 8.3 6.94 8.91 6.94 10.16C6.94 11.41 7.85 12.61 7.98 12.78C8.11 12.95 9.77 15.51 12.3 16.6C12.91 16.86 13.37 17.02 13.75 17.14C14.36 17.33 14.92 17.3 15.36 17.24C15.86 17.16 16.88 16.61 17.09 16.03C17.3 15.44 17.3 14.94 17.24 14.84C17.18 14.73 17.01 14.67 16.76 14.54L16.56 14.39Z"/>
+                </svg>
+              </div>
+              <div class="d-text">
+                <span class="d-label">WhatsApp Hotline</span>
+                <span class="d-val">{siteConfig.whatsappFormatted}</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Meeting Points List -->
+          <div class="meeting-points-card">
+            <h3 class="mp-title">Titik Jemput & Meeting Point</h3>
+            <p class="mp-sub">Area penjemputan gratis untuk paket Start Banyuwangi Kota:</p>
+
+            <ul class="mp-list">
+              {siteConfig.meetingPoints.map(point => (
+                <li>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#15803d" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Socials -->
+          <div class="socials-card">
+            <h4 class="soc-title">Ikuti Galeri Dokumentasi Kami</h4>
+            <div class="soc-links-flex">
+              <a href={siteConfig.socials.instagram} target="_blank" rel="noopener noreferrer" class="soc-btn">
+                Instagram @baluranindonesia
+              </a>
+              <a href={siteConfig.socials.youtube} target="_blank" rel="noopener noreferrer" class="soc-btn">
+                YouTube Channel
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  <WhatsAppFloating />
+</Layout>
+
+<script>
+  const form = document.getElementById('bookingForm') as HTMLFormElement;
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('guestName') as HTMLInputElement).value;
+      const phone = (document.getElementById('guestPhone') as HTMLInputElement).value;
+      const date = (document.getElementById('tourDate') as HTMLInputElement).value;
+      const guests = (document.getElementById('guestCount') as HTMLSelectElement).value;
+      const pkg = (document.getElementById('tourPackage') as HTMLSelectElement).value;
+      const pickup = (document.getElementById('pickupLocation') as HTMLInputElement).value || 'Belum ditentukan';
+      const color = (document.getElementById('jeepColor') as HTMLSelectElement).value;
+      const notes = (document.getElementById('tourNotes') as HTMLTextAreaElement).value || '-';
+
+      const message = `*RESERVASI JEEP BALURAN INDONESIA*\n` +
+        `----------------------------------------\n` +
+        `*Nama Pemesan:* ${name}\n` +
+        `*No. WhatsApp:* ${phone}\n` +
+        `*Tanggal Trip:* ${date}\n` +
+        `*Jumlah Peserta:* ${guests}\n` +
+        `*Paket Dipilih:* ${pkg}\n` +
+        `*Titik Jemput:* ${pickup}\n` +
+        `*Request Warna Jeep:* ${color}\n` +
+        `*Catatan:* ${notes}\n` +
+        `----------------------------------------\n` +
+        `Mohon konfirmasi ketersediaan armada dan jadwal. Terima kasih!`;
+
+      const targetUrl = `https://wa.me/6285333050863?text=${encodeURIComponent(message)}`;
+      window.open(targetUrl, '_blank');
+    });
+  }
+</script>
+
+<style>
+  .contact-page-main {
+    background-color: #fafbfc;
+  }
+
+  .contact-layout-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 2.5rem;
+  }
+
+  /* Form Card */
+  .contact-form-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #eef2f0;
+    padding: 2.25rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  }
+
+  .form-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.35rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.88rem;
+    color: #6b7280;
+  }
+
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-group label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #374151;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 0.75rem 0.95rem;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    background: #fafbfc;
+    font-family: inherit;
+    font-size: 0.88rem;
+    color: #111827;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+    background: #ffffff;
+  }
+
+  .form-submit-btn {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Right column */
+  .contact-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .direct-contact-card, .meeting-points-card, .socials-card {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #eef2f0;
+    padding: 1.75rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  }
+
+  .direct-title, .mp-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.35rem;
+  }
+
+  .direct-desc, .mp-sub {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-bottom: 1.25rem;
+  }
+
+  .direct-wa-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .direct-wa-link:hover {
+    background: #dcfce7;
+    transform: translateY(-2px);
+  }
+
+  .d-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .d-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .d-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #15803d;
+    text-transform: uppercase;
+  }
+
+  .d-val {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #111827;
+  }
+
+  /* Meeting points */
+  .mp-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .mp-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: #374151;
+  }
+
+  .soc-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.85rem;
+  }
+
+  .soc-links-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .soc-btn {
+    display: block;
+    background: #f8faf9;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #374151;
+    transition: all 0.2s ease;
+  }
+
+  .soc-btn:hover {
+    border-color: #15803d;
+    color: #15803d;
+    background: #ffffff;
+  }
+
+  @media (max-width: 900px) {
+    .contact-layout-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+    .contact-form-card {
+      padding: 1.5rem;
+    }
+  }
+</style>

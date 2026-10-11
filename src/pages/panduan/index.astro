@@ -1,0 +1,439 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloating from '../../components/WhatsAppFloating.astro';
+import { faqData, siteConfig } from '../../data/baluranData';
+---
+
+<Layout 
+  title="Panduan Wisata Taman Nasional Baluran (Africa van Java) - Baluran Indonesia"
+  description="Panduan lengkap wisata ke Taman Nasional Baluran: waktu terbaik melihat satwa, tiket masuk resmi, spot foto terbaik, dan tips sewa Jeep Safari."
+>
+  <Navbar />
+
+  <PageHeader 
+    title="Panduan Wisata Taman Nasional Baluran"
+    subtitle="Semua informasi penting agar liburan petualangan Anda di Savana Bekol dan Pantai Bama berjalan lancar dan berkesan."
+    badge="PANDUAN LENGKAP PENGUNJUNG"
+    breadcrumbs={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Panduan' }
+    ]}
+  />
+
+  <main class="section guide-page-main">
+    <div class="container">
+      <!-- Quick Info Strip -->
+      <div class="guide-quick-facts">
+        <div class="fact-card">
+          <div class="fact-icon">🕒</div>
+          <div class="fact-content">
+            <span class="fact-title">Jam Buka Gerbang</span>
+            <span class="fact-desc">Setiap hari: 07.30 – 16.00 WIB</span>
+          </div>
+        </div>
+
+        <div class="fact-card">
+          <div class="fact-icon">🎟️</div>
+          <div class="fact-content">
+            <span class="fact-title">Tiket Masuk Resmi</span>
+            <span class="fact-desc">WNI: Rp16.000 (weekday) / Rp18.500 (weekend)<br/>WNA: Rp165.000 / orang</span>
+          </div>
+        </div>
+
+        <div class="fact-card">
+          <div class="fact-icon">☀️</div>
+          <div class="fact-content">
+            <span class="fact-title">Waktu Terbaik</span>
+            <span class="fact-desc">Mei – Oktober (Savana kuning eksotis)</span>
+          </div>
+        </div>
+
+        <div class="fact-card">
+          <div class="fact-icon">📍</div>
+          <div class="fact-content">
+            <span class="fact-title">Lokasi</span>
+            <span class="fact-desc">Batangan, Situbondo - Banyuwangi</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Zona Utama Baluran -->
+      <div class="guide-block">
+        <h2 class="g-block-title">Zona Destinasi Populer di Dalam Baluran</h2>
+        <div class="zones-grid">
+          <div class="zone-box">
+            <div class="zone-badge">Zona 1</div>
+            <h3 class="zone-title">Hutan Evergreen</h3>
+            <p class="zone-desc">Jalur hutan tropis yang rindang sepanjang 3–4 km setelah pintu masuk Batangan. Terasa sejuk dan kontras dengan kondisi savana yang kering di ujung rute.</p>
+          </div>
+
+          <div class="zone-box">
+            <div class="zone-badge">Zona 2</div>
+            <h3 class="zone-title">Savana Bekol (Africa van Java)</h3>
+            <p class="zone-desc">Padang rumput terluas di Jawa (sekitar 300 hektar) dengan latar belakang megah Gunung Baluran. Tempat berkumpulnya banteng, rusa timor, dan merak hijau.</p>
+          </div>
+
+          <div class="zone-box">
+            <div class="zone-badge">Zona 3</div>
+            <h3 class="zone-title">Menara Pandang Bekol</h3>
+            <p class="zone-desc">Menara pengawas setinggi belasan meter. Dari puncak menara, Anda dapat melihat pemandangan panorama 360 derajat Savana Bekol dan pergerakan satwa liar.</p>
+          </div>
+
+          <div class="zone-box">
+            <div class="zone-badge">Zona 4</div>
+            <h3 class="zone-title">Pantai Bama & Hutan Mangrove</h3>
+            <p class="zone-desc">Pantai berpasir putih bersih dengan air laut tenang dan dermaga kayu menembus hutan mangrove rimbun. Terdapat monyet ekor panjang yang kerap menyapa pengunjung.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Checklist Bawaan & Tips -->
+      <div class="guide-block">
+        <h2 class="g-block-title">Tips Pakaian & Perlengkapan Bawaan</h2>
+        <div class="tips-checklist-grid">
+          <div class="checklist-card">
+            <h3 class="cl-title">Pakaian yang Disarankan</h3>
+            <ul class="cl-list">
+              <li>Pakaian berbahan katun ringan yang menyerap keringat.</li>
+              <li>Warna pakaian netral bernuansa safari: khaki, abu-abu, sage green, atau cokelat muda.</li>
+              <li>Jaket tipis atau kemeja luar jika berangkat pagi buta (sunrise).</li>
+              <li>Sepatu kets atau sandal gunung yang nyaman untuk berjalan di tanah savana.</li>
+            </ul>
+          </div>
+
+          <div class="checklist-card">
+            <h3 class="cl-title">Barang Wajib Bawa</h3>
+            <ul class="cl-list">
+              <li>Kacamata hitam (sunglasses) & topi lebar untuk menghalau terik matahari.</li>
+              <li>Sunscreen (tabir surya) SPF 50+ & lip balm.</li>
+              <li>Kamera / Smartphone dengan baterai penuh & powerbank.</li>
+              <li>Lensa telephoto (jika membawa DSLR/Mirrorless) untuk memotret satwa dari kejauhan.</li>
+              <li>Tumbler air minum pribadi untuk mengurangi sampah plastik.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conservation Rules -->
+      <div class="guide-block alert-rules-block">
+        <h2 class="g-block-title text-forest">Etika & Aturan Konservasi di Baluran</h2>
+        <div class="rules-flex">
+          <div class="rule-item">
+            <span class="r-icon">🚫</span>
+            <div>
+              <strong>Dilarang Memberi Makan Satwa (Khususnya Kera Bama)</strong>
+              <p>Memberi makan mengubah perilaku liar satwa dan dapat membuat kera menjadi agresif terhadap makanan.</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <span class="r-icon">🤫</span>
+            <div>
+              <strong>Jaga Ketenangan & Jarak Aman</strong>
+              <p>Jangan membunyikan klakson, berteriak, atau mendekati banteng liar secara tiba-tiba demi keselamatan Anda.</p>
+            </div>
+          </div>
+
+          <div class="rule-item">
+            <span class="r-icon">♻️</span>
+            <div>
+              <strong>Bawa Kembali Sampah Anda</strong>
+              <p>Simpan sampah kemasan di dalam kantong sampah Jeep sampai keluar dari gerbang taman nasional.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Accordion -->
+      <div class="guide-block">
+        <h2 class="g-block-title text-center">Frequently Asked Questions (FAQ)</h2>
+        <div class="faq-accordion-container">
+          {faqData.map((faq, idx) => (
+            <details class="guide-details" open={idx === 0}>
+              <summary class="guide-summary">
+                <span>{faq.question}</span>
+                <span class="summary-arrow">▼</span>
+              </summary>
+              <div class="guide-answer">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  <WhatsAppFloating />
+</Layout>
+
+<style>
+  .guide-page-main {
+    background-color: #fafbfc;
+  }
+
+  /* Quick Facts */
+  .guide-quick-facts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .fact-card {
+    background: #ffffff;
+    border: 1px solid #eef2f0;
+    border-radius: 18px;
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  }
+
+  .fact-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .fact-title {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.2rem;
+  }
+
+  .fact-desc {
+    font-size: 0.8rem;
+    color: #4b5563;
+    line-height: 1.4;
+  }
+
+  /* Guide Block */
+  .guide-block {
+    background: #ffffff;
+    border: 1px solid #eef2f0;
+    border-radius: 20px;
+    padding: 2.25rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  }
+
+  .g-block-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 1.5rem;
+  }
+
+  .text-center { text-align: center; }
+  .text-forest { color: #166534; }
+
+  /* Zones */
+  .zones-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .zone-box {
+    background: #f8faf9;
+    border: 1px solid #eef2f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  .zone-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #15803d;
+    background: #ecfdf5;
+    padding: 0.2rem 0.55rem;
+    border-radius: 9999px;
+    margin-bottom: 0.5rem;
+  }
+
+  .zone-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.4rem;
+  }
+
+  .zone-desc {
+    font-size: 0.85rem;
+    color: #4b5563;
+    line-height: 1.6;
+  }
+
+  /* Checklist */
+  .tips-checklist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .checklist-card {
+    background: #fafbfc;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 1.75rem;
+  }
+
+  .cl-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1rem;
+  }
+
+  .cl-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .cl-list li {
+    font-size: 0.85rem;
+    color: #374151;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 1.25rem;
+  }
+
+  .cl-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #15803d;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  /* Alert rules */
+  .alert-rules-block {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+  }
+
+  .rules-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .r-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .rule-item strong {
+    font-size: 0.95rem;
+    color: #166534;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .rule-item p {
+    font-size: 0.85rem;
+    color: #374151;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* Details FAQ */
+  .faq-accordion-container {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .guide-details {
+    background: #f8faf9;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .guide-details[open] {
+    border-color: #86efac;
+    background: #ffffff;
+  }
+
+  .guide-summary {
+    padding: 1.1rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111827;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .guide-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .summary-arrow {
+    font-size: 0.75rem;
+    color: #6b7280;
+    transition: transform 0.2s ease;
+  }
+
+  .guide-details[open] .summary-arrow {
+    transform: rotate(180deg);
+    color: #15803d;
+  }
+
+  .guide-answer {
+    padding: 0 1.25rem 1.25rem;
+  }
+
+  .guide-answer p {
+    font-size: 0.88rem;
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .guide-quick-facts {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .zones-grid, .tips-checklist-grid {
+      grid-template-columns: 1fr;
+    }
+    .guide-block {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .guide-quick-facts {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,201 @@
+---
+import { faqData, siteConfig } from '../data/baluranData';
+---
+
+<section class="section guide-faq-section" id="panduan">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">Panduan Wisata & <span class="highlight">FAQ</span></h2>
+        <p class="section-subtitle">Semua yang perlu Anda ketahui sebelum berpetualang ke Taman Nasional Baluran.</p>
+      </div>
+    </div>
+
+    <!-- 3 Quick Guide Cards -->
+    <div class="guide-cards-grid">
+      <div class="guide-card">
+        <div class="guide-num">01</div>
+        <h3 class="guide-card-title">Waktu Terbaik Berkunjung</h3>
+        <p class="guide-card-desc">
+          Bulan <strong>Mei hingga Oktober</strong> (musim kemarau) adalah waktu terfavorit. Savana menguning eksotis seperti Afrika dan satwa liar sering berkumpul di kubangan air Bekol.
+        </p>
+      </div>
+
+      <div class="guide-card">
+        <div class="guide-num">02</div>
+        <h3 class="guide-card-title">Outfit & Persiapan</h3>
+        <p class="guide-card-desc">
+          Gunakan pakaian katun nyaman berwarna earthy/safari (khaki, cokelat, olive), kacamata hitam, topi, sunscreen, dan kamera telephoto untuk menangkap satwa dari kejauhan.
+        </p>
+      </div>
+
+      <div class="guide-card">
+        <div class="guide-num">03</div>
+        <h3 class="guide-card-title">Etika Konservasi Satwa</h3>
+        <p class="guide-card-desc">
+          Dilarang keras memberi makan satwa liar (terutama monyet ekor panjang), menjaga jarak aman dengan banteng & rusa, serta tidak membuang sampah sembarangan di area taman nasional.
+        </p>
+      </div>
+    </div>
+
+    <!-- Accordion FAQ -->
+    <div class="faq-accordion-wrap">
+      <h3 class="faq-block-title">Pertanyaan yang Sering Diajukan</h3>
+
+      <div class="accordion-list">
+        {faqData.map((faq, index) => (
+          <details class="accordion-item" open={index === 0}>
+            <summary class="accordion-summary">
+              <span class="faq-question-text">{faq.question}</span>
+              <span class="accordion-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </span>
+            </summary>
+            <div class="accordion-body">
+              <p>{faq.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .guide-faq-section {
+    background-color: #ffffff;
+  }
+
+  .guide-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .guide-card {
+    background: #f8faf9;
+    border: 1px solid #eef2f0;
+    border-radius: 18px;
+    padding: 1.75rem 1.5rem;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .guide-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+  }
+
+  .guide-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #86efac;
+    opacity: 0.8;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.04em;
+  }
+
+  .guide-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+
+  .guide-card-desc {
+    font-size: 0.86rem;
+    line-height: 1.6;
+    color: #4b5563;
+  }
+
+  .guide-card-desc strong {
+    color: #15803d;
+  }
+
+  /* FAQ Accordion */
+  .faq-accordion-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .faq-block-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .accordion-item {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .accordion-item[open] {
+    border-color: #86efac;
+    box-shadow: 0 4px 16px rgba(22, 101, 52, 0.05);
+  }
+
+  .accordion-summary {
+    padding: 1.15rem 1.35rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    user-select: none;
+  }
+
+  .accordion-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.35;
+  }
+
+  .accordion-icon {
+    color: #6b7280;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .accordion-item[open] .accordion-icon {
+    transform: rotate(180deg);
+    color: #15803d;
+  }
+
+  .accordion-body {
+    padding: 0 1.35rem 1.25rem;
+    border-top: 1px solid transparent;
+  }
+
+  .accordion-body p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #4b5563;
+  }
+
+  @media (max-width: 860px) {
+    .guide-cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

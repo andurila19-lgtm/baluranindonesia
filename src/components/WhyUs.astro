@@ -1,0 +1,208 @@
+---
+import { whyChooseUsData } from '../data/baluranData';
+---
+
+<section class="section why-us-section" id="tentang-kami">
+  <div class="container">
+    <div class="why-us-grid">
+      <!-- Left Featured Visual Card -->
+      <div class="why-visual-card">
+        <img 
+          src="/images/why-us-jeep.jpg" 
+          alt="Operator Jeep Safari Baluran Indonesia di Savana Bekol" 
+          class="visual-img" 
+          loading="lazy"
+        />
+        <div class="visual-overlay"></div>
+        <div class="visual-content">
+          <h2 class="visual-title">Mengapa Memilih<br />Baluran Indonesia?</h2>
+          <p class="visual-desc">
+            Kami adalah operator Jeep Baluran yang fokus pada layanan perjalanan aman, nyaman, dan berkesan dengan harga jelas dan pelayanan profesional.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right 2x2 Features Grid -->
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <line x1="6" y1="8" x2="10" y2="8"></line>
+              <line x1="6" y1="12" x2="18" y2="12"></line>
+              <line x1="6" y1="16" x2="14" y2="16"></line>
+            </svg>
+          </div>
+          <h3 class="feature-title">Harga Transparan</h3>
+          <p class="feature-desc">Semua harga paket ditampilkan terbuka tanpa biaya tersembunyi.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="11" rx="2"></rect>
+              <circle cx="7" cy="18" r="2"></circle>
+              <circle cx="17" cy="18" r="2"></circle>
+              <path d="M2 12H22M6 7L8 3H16L18 7"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Armada Milik Operator</h3>
+          <p class="feature-desc">Jeep terawat dan siap untuk perjalanan savana setiap hari.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <h3 class="feature-title">Penjemputan Banyuwangi</h3>
+          <p class="feature-desc">Layanan penjemputan di area Banyuwangi Kota (Hotel/Stasiun/Bandara/Pelabuhan).</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M22 11l-3 3-2-2"></path>
+            </svg>
+          </div>
+          <h3 class="feature-title">Operator Berpengalaman</h3>
+          <p class="feature-desc">Fokus pada wisata Jeep Baluran dan sekitarnya dengan layanan terpercaya.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-us-section {
+    background-color: #fafbfc;
+    border-top: 1px solid #f0f3f2;
+    border-bottom: 1px solid #f0f3f2;
+  }
+
+  .why-us-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  /* Left Visual */
+  .why-visual-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    min-height: 380px;
+    display: flex;
+    align-items: flex-end;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .visual-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .visual-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.25) 0%,
+      rgba(15, 23, 42, 0.65) 50%,
+      rgba(15, 23, 42, 0.9) 100%
+    );
+  }
+
+  .visual-content {
+    position: relative;
+    z-index: 2;
+    padding: 2.25rem 2rem;
+    color: #ffffff;
+  }
+
+  .visual-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.85rem;
+  }
+
+  .visual-desc {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+  }
+
+  /* Right 2x2 */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .feature-box {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 1.6rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .feature-box:hover {
+    transform: translateY(-3px);
+    border-color: #86efac;
+    box-shadow: 0 8px 20px rgba(22, 101, 52, 0.06);
+  }
+
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background-color: #ecfdf5;
+    color: #15803d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.15rem;
+  }
+
+  .feature-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.45rem;
+    line-height: 1.3;
+  }
+
+  .feature-desc {
+    font-size: 0.85rem;
+    color: #6b7280;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .why-us-grid {
+      grid-template-columns: 1fr;
+    }
+    .why-visual-card {
+      min-height: 300px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

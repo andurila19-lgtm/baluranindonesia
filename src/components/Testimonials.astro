@@ -1,0 +1,197 @@
+---
+import { testimonialsData } from '../data/baluranData';
+---
+
+<section class="testimonials-section">
+  <div class="testi-bg-wrap">
+    <img 
+      src="/images/cta-bg.jpg" 
+      alt="Latar Belakang Wisatawan Menikmati Sunset Savana Baluran" 
+      class="testi-bg-img" 
+      loading="lazy"
+    />
+    <div class="testi-overlay"></div>
+  </div>
+
+  <div class="container testi-container">
+    <div class="testi-header">
+      <h2 class="testi-title">Apa Kata Mereka?</h2>
+      <p class="testi-subtitle">Pengalaman seru bersama Baluran Indonesia.</p>
+    </div>
+
+    <div class="testi-grid">
+      {testimonialsData.map((testi) => (
+        <div class="testi-card">
+          <p class="testi-quote">"{testi.quote}"</p>
+          
+          <div class="testi-footer">
+            <div class="testi-author">
+              <img 
+                src={testi.avatar} 
+                alt={testi.name} 
+                class="testi-avatar" 
+                loading="lazy"
+              />
+              <div class="testi-meta">
+                <div class="testi-name">{testi.name}</div>
+                <div class="testi-city">{testi.city}</div>
+              </div>
+            </div>
+
+            <div class="testi-stars" aria-label={`Rating ${testi.rating} dari 5 bintang`}>
+              {Array.from({ length: testi.rating }).map(() => (
+                <svg viewBox="0 0 20 20" width="15" height="15" fill="#f59e0b">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-section {
+    position: relative;
+    padding: 5rem 0;
+    overflow: hidden;
+    color: #ffffff;
+  }
+
+  .testi-bg-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .testi-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+  }
+
+  .testi-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.78) 0%,
+      rgba(15, 23, 42, 0.7) 50%,
+      rgba(15, 23, 42, 0.88) 100%
+    );
+  }
+
+  .testi-container {
+    position: relative;
+    z-index: 2;
+  }
+
+  .testi-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .testi-title {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .testi-subtitle {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    margin-top: 0.35rem;
+  }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .testi-card {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 18px;
+    padding: 1.6rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    color: #1f2937;
+    transition: transform 0.2s ease;
+  }
+
+  .testi-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .testi-quote {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #374151;
+    margin-bottom: 1.5rem;
+    font-style: normal;
+  }
+
+  .testi-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #f3f4f6;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .testi-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #86efac;
+  }
+
+  .testi-meta {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .testi-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .testi-city {
+    font-size: 0.72rem;
+    color: #6b7280;
+  }
+
+  .testi-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .testi-grid {
+      grid-template-columns: 1fr;
+    }
+    .testi-card {
+      max-width: 520px;
+      margin: 0 auto;
+      width: 100%;
+    }
+  }
+</style>

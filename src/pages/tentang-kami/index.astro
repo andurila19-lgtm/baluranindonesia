@@ -1,0 +1,347 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloating from '../../components/WhatsAppFloating.astro';
+import { siteConfig } from '../../data/baluranData';
+---
+
+<Layout 
+  title="Tentang Kami - Operator Jeep Safari Baluran Indonesia"
+  description="Mengenal Baluran Indonesia, operator Jeep Safari lokal terpercaya di Taman Nasional Baluran & Banyuwangi. Armada milik sendiri, driver profesional."
+>
+  <Navbar />
+
+  <PageHeader 
+    title="Tentang Baluran Indonesia"
+    subtitle="Operator spesialis Jeep Safari lokal yang berkomitmen menghadirkan pengalaman petualangan savana terindah, aman, dan tak terlupakan."
+    badge="PROFIL OPERATOR RESMI"
+    breadcrumbs={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Tentang Kami' }
+    ]}
+  />
+
+  <main class="section about-page-section">
+    <div class="container">
+      <!-- Story Block with split image -->
+      <div class="about-story-grid">
+        <div class="story-content">
+          <span class="sub-badge">Kisah & Dedikasi Kami</span>
+          <h2 class="story-title">Mengenal Lebih Dekat Baluran Indonesia</h2>
+          <p class="story-p">
+            Berawal dari kecintaan kami terhadap pesona magis <strong>Taman Nasional Baluran</strong>—yang kerap dijuluki sebagai <em>"Africa van Java"</em> karena hamparan Savana Bekol dan latar belakang Gunung Baluran yang dramatis—kami mendirikan <strong>Baluran Indonesia</strong> untuk memberikan layanan transportasi Jeep Safari kelas satu.
+          </p>
+          <p class="story-p">
+            Tidak seperti agen perantara biasa, <strong>armada Jeep kami adalah milik operator sendiri</strong>. Hal ini menjamin kondisi mobil senantiasa terawat, bersih, mesin prima untuk medan offroad savana, dan didampingi driver lokal yang beretika tinggi serta paham betul waktu terbaik mengamati kawanan satwa liar.
+          </p>
+
+          <div class="stats-row">
+            <div class="stat-item">
+              <div class="stat-number">5+</div>
+              <div class="stat-label">Tahun Pengalaman</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">1.500+</div>
+              <div class="stat-label">Wisatawan Puas</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">5</div>
+              <div class="stat-label">Varian Warna Jeep</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Harga Transparan</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-visual">
+          <img src="/images/hero-baluran.jpg" alt="Armada Jeep Baluran Indonesia di Savana Bekol" class="story-img" />
+          <div class="story-caption-box">
+            <div class="cap-title">Armada Milik Operator Sendiri</div>
+            <div class="cap-desc">Perawatan rutin, siap menerjang medan savana & bebatuan dengan aman.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Pillars of Excellence -->
+      <div class="pillars-section">
+        <div class="pillars-header">
+          <h3 class="pillars-title">4 Pilar Keunggulan Layanan Kami</h3>
+          <p class="pillars-subtitle">Standar tinggi yang selalu kami jaga untuk setiap tamu kami.</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon">🛡️</div>
+            <h4 class="pillar-heading">Keamanan & Kelaikan Kendaraan</h4>
+            <p class="pillar-desc">Semua Jeep 4x4 dicek berkala sebelum keberangkatan—mulai dari sistem pengereman, ban all-terrain, hingga suspensi offroad.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon">🧭</div>
+            <h4 class="pillar-heading">Driver Lokal Berpengalaman</h4>
+            <p class="pillar-desc">Driver kami bukan sekadar pengemudi, melainkan pemandu ramah yang tahu sudut foto terestetik dan spot satwa liar berkumpul.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon">🌿</div>
+            <h4 class="pillar-heading">Ekowisata & Peduli Konservasi</h4>
+            <p class="pillar-desc">Kami mematuhi aturan ketat konservasi satwa: menjaga batas kecepatan di dalam taman nasional dan tidak mengganggu habitat alami.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon">🤝</div>
+            <h4 class="pillar-heading">Pelayanan Jujur & Transparan</h4>
+            <p class="pillar-desc">Semua komponen biaya diuraikan sejak awal. Anda tidak akan menemukan biaya tambahan yang membingungkan saat selesai perjalanan.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="about-cta-card">
+        <div class="cta-inner">
+          <h3 class="cta-inner-title">Ingin Konsultasi Jadwal atau Custom Rute?</h3>
+          <p class="cta-inner-desc">Diskusikan kebutuhan perjalanan Anda, mulai dari penjemputan stasiun/bandara hingga request warna Jeep impian Anda.</p>
+          <a 
+            href={siteConfig.whatsappUrl('Halo Baluran Indonesia, saya ingin konsultasi rencana trip ke Baluran.')} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="btn-wa about-btn"
+          >
+            Hubungi Kami via WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  <WhatsAppFloating />
+</Layout>
+
+<style>
+  .about-page-section {
+    background-color: #fafbfc;
+  }
+
+  .about-story-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+    margin-bottom: 5rem;
+  }
+
+  .sub-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #15803d;
+    background: #ecfdf5;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    margin-bottom: 0.85rem;
+    border: 1px solid #a7f3d0;
+  }
+
+  .story-title {
+    font-size: 2.15rem;
+    font-weight: 800;
+    color: #111827;
+    line-height: 1.25;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .story-p {
+    font-size: 0.95rem;
+    color: #4b5563;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .story-p strong {
+    color: #111827;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-number {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #15803d;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+    font-weight: 600;
+  }
+
+  .story-visual {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  }
+
+  .story-img {
+    width: 100%;
+    height: 440px;
+    object-fit: cover;
+  }
+
+  .story-caption-box {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    color: #ffffff;
+  }
+
+  .cap-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+
+  .cap-desc {
+    font-size: 0.78rem;
+    color: #cbd5e1;
+    line-height: 1.4;
+  }
+
+  /* Pillars */
+  .pillars-section {
+    margin-bottom: 5rem;
+  }
+
+  .pillars-header {
+    text-align: center;
+    margin-bottom: 2.75rem;
+  }
+
+  .pillars-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.5rem;
+  }
+
+  .pillars-subtitle {
+    font-size: 0.95rem;
+    color: #6b7280;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .pillar-card {
+    background: #ffffff;
+    border: 1px solid #eef2f0;
+    border-radius: 18px;
+    padding: 1.85rem 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .pillar-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  }
+
+  .pillar-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .pillar-heading {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .pillar-desc {
+    font-size: 0.85rem;
+    color: #4b5563;
+    line-height: 1.6;
+  }
+
+  /* About CTA */
+  .about-cta-card {
+    background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .cta-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cta-inner-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-inner-desc {
+    font-size: 0.95rem;
+    color: #dcfce7;
+    margin-bottom: 1.75rem;
+    line-height: 1.6;
+  }
+
+  .about-btn {
+    padding: 0.85rem 1.75rem;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 960px) {
+    .about-story-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .pillars-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+    .stats-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+  }
+</style>
