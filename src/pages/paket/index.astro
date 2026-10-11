@@ -18,9 +18,12 @@ import { packagesData, siteConfig } from '../../data/baluranData';
     title="Paket Jeep Safari Baluran"
     subtitle="Pilih titik keberangkatan yang paling sesuai dengan rencana liburan Anda di Banyuwangi & Situbondo."
     badge="PILIHAN LENGKAP JEEP SAFARI"
+    titleI18nKey="page.packages.title"
+    subtitleI18nKey="page.packages.subtitle"
+    badgeI18nKey="page.packages.badge"
     breadcrumbs={[
-      { label: 'Beranda', href: '/' },
-      { label: 'Paket Jeep Baluran' }
+      { label: 'Beranda', href: '/', i18nKey: 'nav.home' },
+      { label: 'Paket Jeep Baluran', i18nKey: 'nav.packages' }
     ]}
   />
 
@@ -36,8 +39,8 @@ import { packagesData, siteConfig } from '../../data/baluranData';
           </svg>
         </div>
         <div class="intro-text">
-          <strong>Semua Harga per Unit Jeep (Bukan per Orang)</strong>
-          <p>Kapasitas 1 mobil Jeep dapat diisi hingga 5–6 orang penumpang. Biaya sudah termasuk bahan bakar dan driver lokal berpengalaman.</p>
+          <strong data-i18n="page.packages.intro_title">Semua Harga per Unit Jeep (Bukan per Orang)</strong>
+          <p data-i18n="page.packages.intro_desc">Kapasitas 1 mobil Jeep dapat diisi hingga 5–6 orang penumpang. Biaya sudah termasuk bahan bakar dan driver lokal berpengalaman.</p>
         </div>
       </div>
 

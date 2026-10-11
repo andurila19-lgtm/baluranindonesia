@@ -456,17 +456,21 @@ function isActive(href: string) {
 </style>
 
 <script>
-  import { initI18n, setLanguage } from '../scripts/i18n';
+  import { initI18n, setLanguage, toggleLanguage } from '../scripts/i18n';
 
   // Initialize Language Switcher
   initI18n();
 
-  // Attach language button listeners across desktop and mobile
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const lang = (btn.getAttribute('data-lang') as 'id' | 'en') || 'id';
-      setLanguage(lang);
+  // Attach language button and container listeners across desktop and mobile
+  document.querySelectorAll('.lang-switch, .mobile-lang-wrap').forEach(container => {
+    container.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement).closest('.lang-btn');
+      if (target) {
+        const lang = (target.getAttribute('data-lang') as 'id' | 'en') || 'id';
+        setLanguage(lang);
+      } else {
+        toggleLanguage();
+      }
     });
   });
 

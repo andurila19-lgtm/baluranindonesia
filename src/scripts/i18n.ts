@@ -4,17 +4,25 @@ export type Language = 'id' | 'en';
 
 export function getCurrentLang(): Language {
   if (typeof window === 'undefined') return 'id';
-  const saved = localStorage.getItem('baluran_lang') as Language;
-  if (saved === 'id' || saved === 'en') return saved;
+  try {
+    const saved = localStorage.getItem('baluran_lang') as Language;
+    if (saved === 'id' || saved === 'en') return saved;
+  } catch (e) {
+    // ignore
+  }
   return 'id';
 }
 
 export function setLanguage(lang: Language) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem('baluran_lang', lang);
+  try {
+    localStorage.setItem('baluran_lang', lang);
+  } catch (e) {
+    // ignore
+  }
   document.documentElement.lang = lang;
 
-  // Update buttons state
+  // Update button active states across desktop & mobile
   document.querySelectorAll('.lang-btn').forEach(btn => {
     const btnLang = btn.getAttribute('data-lang');
     if (btnLang === lang) {
@@ -30,8 +38,7 @@ export function setLanguage(lang: Language) {
     if (key && translations[key]) {
       const text = translations[key][lang];
       if (text) {
-        // If it contains newlines, replace with <br/> or textContent
-        if (text.includes('\n')) {
+        if (text.includes('<') || text.includes('\n')) {
           el.innerHTML = text.replace(/\n/g, '<br/>');
         } else {
           el.textContent = text;
@@ -40,13 +47,27 @@ export function setLanguage(lang: Language) {
     }
   });
 
-  // Dispatch global event for other components if needed
+  // Broadcast event
   window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
 }
 
-// Auto initialize on DOMContentLoaded or immediate execution
+export function toggleLanguage() {
+  const current = getCurrentLang();
+  const next: Language = current === 'id' ? 'en' : 'id';
+  setLanguage(next);
+}
+
 export function initI18n() {
   if (typeof window === 'undefined') return;
   const initial = getCurrentLang();
   setLanguage(initial);
+}
+
+// Auto-run when script loads or DOM is ready
+if (typeof window !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initI18n());
+  } else {
+    initI18n();
+  }
 }

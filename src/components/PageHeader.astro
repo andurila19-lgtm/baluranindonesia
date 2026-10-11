@@ -3,10 +3,13 @@ interface Props {
   title: string;
   subtitle?: string;
   badge?: string;
-  breadcrumbs: { label: string; href?: string }[];
+  breadcrumbs: { label: string; href?: string; i18nKey?: string }[];
+  titleI18nKey?: string;
+  subtitleI18nKey?: string;
+  badgeI18nKey?: string;
 }
 
-const { title, subtitle, badge, breadcrumbs } = Astro.props;
+const { title, subtitle, badge, breadcrumbs, titleI18nKey, subtitleI18nKey, badgeI18nKey } = Astro.props;
 ---
 
 <section class="page-header-section">
@@ -18,9 +21,9 @@ const { title, subtitle, badge, breadcrumbs } = Astro.props;
         {breadcrumbs.map((crumb, idx) => (
           <li class="breadcrumb-item">
             {crumb.href ? (
-              <a href={crumb.href} class="breadcrumb-link">{crumb.label}</a>
+              <a href={crumb.href} class="breadcrumb-link" data-i18n={crumb.i18nKey}>{crumb.label}</a>
             ) : (
-              <span class="breadcrumb-current" aria-current="page">{crumb.label}</span>
+              <span class="breadcrumb-current" aria-current="page" data-i18n={crumb.i18nKey}>{crumb.label}</span>
             )}
             {idx < breadcrumbs.length - 1 && (
               <span class="breadcrumb-sep">/</span>
@@ -31,12 +34,12 @@ const { title, subtitle, badge, breadcrumbs } = Astro.props;
     </nav>
 
     {badge && (
-      <div class="page-badge">{badge}</div>
+      <div class="page-badge" data-i18n={badgeI18nKey}>{badge}</div>
     )}
 
-    <h1 class="page-header-title">{title}</h1>
+    <h1 class="page-header-title" data-i18n={titleI18nKey}>{title}</h1>
     {subtitle && (
-      <p class="page-header-subtitle">{subtitle}</p>
+      <p class="page-header-subtitle" data-i18n={subtitleI18nKey}>{subtitle}</p>
     )}
   </div>
 </section>

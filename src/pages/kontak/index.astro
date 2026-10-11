@@ -17,9 +17,12 @@ import { siteConfig } from '../../data/baluranData';
     title="Hubungi & Reservasi Jeep"
     subtitle="Silakan isi form reservasi cepat atau hubungi kontak kami untuk konfirmasi ketersediaan armada Jeep dan jadwal keberangkatan."
     badge="FAST RESPONSE 24/7"
+    titleI18nKey="page.contact.title"
+    subtitleI18nKey="page.contact.subtitle"
+    badgeI18nKey="page.contact.badge"
     breadcrumbs={[
-      { label: 'Beranda', href: '/' },
-      { label: 'Kontak' }
+      { label: 'Beranda', href: '/', i18nKey: 'nav.home' },
+      { label: 'Kontak', i18nKey: 'nav.contact' }
     ]}
   />
 
@@ -29,8 +32,8 @@ import { siteConfig } from '../../data/baluranData';
         <!-- Left: Interactive Reservation Form -->
         <div class="contact-form-card">
           <div class="form-header">
-            <h2 class="form-title">Formulir Reservasi Cepat</h2>
-            <p class="form-subtitle">Pesan langsung ke WhatsApp kami tanpa ribet. Data akan diformat otomatis.</p>
+            <h2 class="form-title" data-i18n="page.contact.form_title">Formulir Reservasi Cepat</h2>
+            <p class="form-subtitle" data-i18n="page.contact.form_subtitle">Pesan langsung ke WhatsApp kami tanpa ribet. Data akan diformat otomatis.</p>
           </div>
 
           <form id="bookingForm" class="booking-form">
