@@ -1,0 +1,157 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloating from '../components/WhatsAppFloating.astro';
+import { siteConfig } from '../data/baluranData';
+---
+
+<Layout 
+  title="404: Halaman Tidak Ditemukan - Baluran Indonesia"
+  description="Halaman yang Anda cari tidak ditemukan. Kembali ke beranda Baluran Indonesia untuk melihat paket Jeep Safari dan panduan wisata."
+>
+  <Navbar />
+
+  <main class="error-page-wrapper">
+    <div class="error-bg-overlay"></div>
+    <div class="container error-container">
+      <div class="error-badge">ERROR 404</div>
+      <h1 class="error-code">404</h1>
+      <h2 class="error-title" data-i18n="page.404.title">Tersesat di Savana Baluran</h2>
+      <p class="error-desc" data-i18n="page.404.desc">
+        Jalur yang Anda tuju sepertinya tidak ada atau sudah berpindah. Tenang, driver Jeep kami siap mengantar Anda kembali ke rute yang benar!
+      </p>
+
+      <div class="error-actions">
+        <a href="/" class="btn-primary" data-i18n="page.404.back_home">
+          Kembali ke Beranda
+        </a>
+        <a 
+          href={siteConfig.whatsappUrl('Halo Baluran Indonesia, saya menemukan link error di website Anda.')} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="btn-wa"
+          data-i18n="page.404.contact_wa"
+        >
+          Tanya Admin via WhatsApp
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  <WhatsAppFloating />
+</Layout>
+
+<style>
+  .error-page-wrapper {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0a1f16 0%, #133827 50%, #0d261b 100%);
+    padding: 5rem 1.5rem;
+    color: #ffffff;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .error-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(34, 197, 94, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .error-container {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .error-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: #4ade80;
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    padding: 0.35rem 1rem;
+    border-radius: 9999px;
+    margin-bottom: 1rem;
+  }
+
+  .error-code {
+    font-size: clamp(5rem, 15vw, 8rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: #86efac;
+    text-shadow: 0 8px 30px rgba(34, 197, 94, 0.3);
+    margin-bottom: 0.5rem;
+  }
+
+  .error-title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 1rem;
+  }
+
+  .error-desc {
+    font-size: 1rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 2.25rem;
+  }
+
+  .error-actions {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #15803d;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(21, 128, 61, 0.4);
+  }
+
+  .btn-primary:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+  }
+
+  .btn-wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #25d366;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.75rem;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+  }
+
+  .btn-wa:hover {
+    background: #22c55e;
+    transform: translateY(-2px);
+  }
+</style>

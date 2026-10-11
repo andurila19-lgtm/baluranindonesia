@@ -234,6 +234,12 @@ export const translations: TranslationSet = {
   'page.dest.subtitle': { id: 'Eksplorasi keindahan alam Banyuwangi dan Bondowoso selain Taman Nasional Baluran.', en: 'Explore stunning landscapes around Banyuwangi & Bondowoso beyond Baluran National Park.' },
   'page.dest.badge': { id: 'DESTINASI POPULER', en: 'POPULAR DESTINATIONS' },
 
+  // 404 Page
+  'page.404.title': { id: 'Tersesat di Savana Baluran', en: 'Lost in the Savanna' },
+  'page.404.desc': { id: 'Jalur yang Anda tuju sepertinya tidak ada atau sudah berpindah. Tenang, driver Jeep kami siap mengantar Anda kembali ke rute yang benar!', en: 'The trail you are looking for seems to have moved. Rest assured, our Jeep driver guide is ready to get you back on track!' },
+  'page.404.back_home': { id: 'Kembali ke Beranda', en: 'Back to Home' },
+  'page.404.contact_wa': { id: 'Tanya Admin via WhatsApp', en: 'Ask Admin via WhatsApp' },
+
   // Footer
   'footer.desc': { id: 'Operator Jeep Safari Baluran terpercaya untuk petualangan savana Afrika van Java yang aman, nyaman, dan berkesan.', en: 'Trusted Baluran Jeep Safari operator for safe, comfortable, and memorable African savanna adventures in East Java.' },
   'footer.quick_links': { id: 'Menu Cepat', en: 'Quick Links' },
