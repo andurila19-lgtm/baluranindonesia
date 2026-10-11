@@ -87,7 +87,7 @@ export const packagesData: TourPackage[] = [
     capacity: 'Maks. 5–6 orang',
     pickup: 'Penjemputan area Banyuwangi Kota',
     description: 'Cocok untuk Anda yang ingin perjalanan lebih praktis dengan layanan penjemputan di Bandara, Stasiun, Terminal, atau Pelabuhan.',
-    image: '/images/paket-banyuwangi.jpg',
+    image: '/images/paket-banyuwangi.webp',
     highlights: [
       'Savana Bekol (Africa van Java view)',
       'Spot satwa liar banteng jawa, rusa, & merak',
@@ -126,7 +126,7 @@ export const packagesData: TourPackage[] = [
     capacity: 'Maks. 5–6 orang',
     pickup: 'Meeting point Pintu Masuk Baluran',
     description: 'Pilihan paket dengan durasi lebih singkat bagi Anda yang menuju titik keberangkatan secara mandiri.',
-    image: '/images/paket-pintu-masuk.jpg',
+    image: '/images/paket-pintu-masuk.webp',
     highlights: [
       'Hutan Musim Evergreen Baluran',
       'Savana Bekol & Pohon Raisa ikonik',
@@ -162,7 +162,7 @@ export const otherDestinationsData: DestinationItem[] = [
     unit: '/ Jeep',
     duration: '6–7 Jam',
     capacity: 'Maks. 5–6 orang',
-    image: '/images/kawah-wurung.jpg',
+    image: '/images/kawah-wurung.webp',
     description: 'Hamparan savana berbukit hijau bak permadani Selandia Baru di kaki Ijen Bondowoso-Banyuwangi.',
     highlights: ['Bukit Cincin', 'Kawah Melingkar Hijau', 'Spot Foto Tanjakan Cinta', 'Udara Pegunungan Sejuk']
   },
@@ -173,7 +173,7 @@ export const otherDestinationsData: DestinationItem[] = [
     unit: '/ Jeep',
     duration: '5 Jam',
     capacity: 'Maks. 5–6 orang',
-    image: '/images/de-djawatan.jpg',
+    image: '/images/de-djawatan.webp',
     description: 'Kawasan pohon trembesi raksasa berlumut yang menyerupai suasana magis hutan Fangorn Lord of the Rings.',
     highlights: ['Pohon Trembesi Raksasa Ratusan Tahun', 'Spot Foto Estetik Vintage', 'Rumah Pohon & Lorong Hijau']
   }
@@ -237,35 +237,35 @@ export const fleetGalleryData: FleetItem[] = [
     name: 'Jeep Safari Putih',
     colorName: 'Pure White',
     tag: 'Classic Explorer',
-    image: '/images/jeep-white.jpg'
+    image: '/images/jeep-white.webp'
   },
   {
     id: 'fleet-red',
     name: 'Jeep Safari Merah',
     colorName: 'Crimson Red',
     tag: 'Bold Adventure',
-    image: '/images/jeep-red.jpg'
+    image: '/images/jeep-red.webp'
   },
   {
     id: 'fleet-army',
     name: 'Jeep Safari Army',
     colorName: 'Military Olive',
     tag: 'Authentic 4x4',
-    image: '/images/jeep-army.jpg'
+    image: '/images/jeep-army.webp'
   },
   {
     id: 'fleet-yellow',
     name: 'Jeep Safari Kuning',
     colorName: 'Bumblebee Yellow',
     tag: 'Vibrant Vibe',
-    image: '/images/jeep-yellow.jpg'
+    image: '/images/jeep-yellow.webp'
   },
   {
     id: 'fleet-blue',
     name: 'Jeep Safari Biru',
     colorName: 'Sky Blue',
     tag: 'Ocean Breeze',
-    image: '/images/jeep-blue.jpg'
+    image: '/images/jeep-blue.webp'
   }
 ];
 
@@ -275,21 +275,21 @@ export const testimonialsData: TestimonialItem[] = [
     city: 'Jakarta',
     quote: 'Perjalanan ke Baluran sangat seru! Jeep nyaman, driver ramah, dan pemandangannya luar biasa.',
     rating: 5,
-    avatar: '/images/avatar-rina.jpg'
+    avatar: '/images/avatar-rina.webp'
   },
   {
     name: 'Dimas',
     city: 'Surabaya',
     quote: 'Harga jelas, layanan profesional, rekomended banget untuk explore Baluran.',
     rating: 5,
-    avatar: '/images/avatar-dimas.jpg'
+    avatar: '/images/avatar-dimas.webp'
   },
   {
     name: 'Siti',
     city: 'Bali',
     quote: 'Penjemputan di bandara sangat membantu, perjalanan lancar dan menyenangkan.',
     rating: 5,
-    avatar: '/images/avatar-siti.jpg'
+    avatar: '/images/avatar-siti.webp'
   }
 ];
 
