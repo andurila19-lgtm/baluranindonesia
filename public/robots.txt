@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://baluranindonesia.com/sitemap-index.xml
+Sitemap: https://baluranindonesia.reaksy.com/sitemap-index.xml

@@ -53,7 +53,7 @@ export const siteConfig = {
   name: 'Baluran Indonesia',
   fullName: 'BALURAN INDONESIA - Jeep Safari Baluran',
   description: 'Operator Jeep Baluran terpercaya untuk pengalaman wisata aman, nyaman, dan berkesan di Taman Nasional Baluran & Banyuwangi.',
-  url: 'https://baluranindonesia.com',
+  url: 'https://baluranindonesia.reaksy.com',
   phone: '085333050863',
   whatsappRaw: '6285333050863',
   whatsappFormatted: '085333050863',
