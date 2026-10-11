@@ -30,17 +30,17 @@ import { packagesData, siteConfig } from '../data/baluranData';
             <div class="badge-overlay">
               <span class="badge-pill origin-badge">
                 <span class="origin-dot"></span>
-                {pkg.badge}
+                <span data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.badge' : 'pkg.gate.badge'}>{pkg.badge}</span>
               </span>
             </div>
           </div>
 
           <div class="card-body">
-            <h3 class="card-title">{pkg.title}</h3>
+            <h3 class="card-title" data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.title' : 'pkg.gate.title'}>{pkg.title}</h3>
 
             <div class="card-price-wrap">
               <span class="price-val">{pkg.priceFormatted}</span>
-              <span class="price-unit">{pkg.unit}</span>
+              <span class="price-unit" data-i18n="common.per_jeep">{pkg.unit}</span>
             </div>
 
             <!-- Specs Grid -->
@@ -50,7 +50,7 @@ import { packagesData, siteConfig } from '../data/baluranData';
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                <span>{pkg.duration}</span>
+                <span data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.duration' : 'pkg.gate.duration'}>{pkg.duration}</span>
               </div>
 
               <div class="spec-item">
@@ -60,7 +60,7 @@ import { packagesData, siteConfig } from '../data/baluranData';
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                <span>{pkg.capacity}</span>
+                <span data-i18n="common.max_cap">{pkg.capacity}</span>
               </div>
 
               <div class="spec-item full-width-spec">
@@ -68,11 +68,11 @@ import { packagesData, siteConfig } from '../data/baluranData';
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                   <circle cx="12" cy="10" r="3"></circle>
                 </svg>
-                <span>{pkg.pickup}</span>
+                <span data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.pickup' : 'pkg.gate.pickup'}>{pkg.pickup}</span>
               </div>
             </div>
 
-            <p class="card-desc">{pkg.description}</p>
+            <p class="card-desc" data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.desc' : 'pkg.gate.desc'}>{pkg.description}</p>
 
             <div class="card-actions">
               <a 

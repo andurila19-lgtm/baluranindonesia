@@ -6,8 +6,8 @@ import { fleetGalleryData, siteConfig } from '../data/baluranData';
   <div class="container">
     <div class="section-header">
       <div>
-        <h2 class="section-title">Galeri Armada</h2>
-        <p class="section-subtitle">Armada Jeep kami siap mengantar Anda menjelajahi keindahan Baluran.</p>
+        <h2 class="section-title" data-i18n="section.fleet_title">Galeri Armada</h2>
+        <p class="section-subtitle" data-i18n="section.fleet_sub">Armada Jeep kami siap mengantar Anda menjelajahi keindahan Baluran.</p>
       </div>
       <a 
         href={siteConfig.whatsappUrl('Halo Baluran Indonesia, saya ingin melihat pilihan foto armada Jeep yang tersedia.')} 
@@ -15,7 +15,7 @@ import { fleetGalleryData, siteConfig } from '../data/baluranData';
         rel="noopener noreferrer" 
         class="section-link"
       >
-        Lihat Semua Foto
+        <span data-i18n="section.fleet_link">Lihat Semua Foto</span>
         <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor">
           <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
         </svg>
@@ -45,7 +45,7 @@ import { fleetGalleryData, siteConfig } from '../data/baluranData';
                 class="fleet-req-btn"
                 title={`Request Jeep warna ${car.colorName}`}
               >
-                Request Warna Ini
+                <span data-i18n="common.request_color">Request Warna Ini</span>
                 <svg viewBox="0 0 20 20" width="13" height="13" fill="currentColor">
                   <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
                 </svg>

@@ -15,14 +15,14 @@ import { testimonialsData } from '../data/baluranData';
 
   <div class="container testi-container">
     <div class="testi-header">
-      <h2 class="testi-title">Apa Kata Mereka?</h2>
-      <p class="testi-subtitle">Pengalaman seru bersama Baluran Indonesia.</p>
+      <h2 class="testi-title" data-i18n="section.testi_title">Apa Kata Mereka?</h2>
+      <p class="testi-subtitle" data-i18n="section.testi_sub">Pengalaman seru bersama Baluran Indonesia.</p>
     </div>
 
     <div class="testi-grid">
-      {testimonialsData.map((testi) => (
+      {testimonialsData.map((testi, idx) => (
         <div class="testi-card">
-          <p class="testi-quote">"{testi.quote}"</p>
+          <p class="testi-quote" data-i18n={`testi.quote${idx + 1}`}>"{testi.quote}"</p>
           
           <div class="testi-footer">
             <div class="testi-author">

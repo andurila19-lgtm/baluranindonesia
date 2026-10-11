@@ -6,8 +6,8 @@ import { faqData, siteConfig } from '../data/baluranData';
   <div class="container">
     <div class="section-header">
       <div>
-        <h2 class="section-title">Panduan Wisata & <span class="highlight">FAQ</span></h2>
-        <p class="section-subtitle">Semua yang perlu Anda ketahui sebelum berpetualang ke Taman Nasional Baluran.</p>
+        <h2 class="section-title" data-i18n="section.guide_title">Panduan Wisata & <span class="highlight">FAQ</span></h2>
+        <p class="section-subtitle" data-i18n="section.guide_sub">Semua yang perlu Anda ketahui sebelum berpetualang ke Taman Nasional Baluran.</p>
       </div>
     </div>
 
@@ -15,24 +15,24 @@ import { faqData, siteConfig } from '../data/baluranData';
     <div class="guide-cards-grid">
       <div class="guide-card">
         <div class="guide-num">01</div>
-        <h3 class="guide-card-title">Waktu Terbaik Berkunjung</h3>
-        <p class="guide-card-desc">
+        <h3 class="guide-card-title" data-i18n="guide.card1_title">Waktu Terbaik Berkunjung</h3>
+        <p class="guide-card-desc" data-i18n="guide.card1_desc">
           Bulan <strong>Mei hingga Oktober</strong> (musim kemarau) adalah waktu terfavorit. Savana menguning eksotis seperti Afrika dan satwa liar sering berkumpul di kubangan air Bekol.
         </p>
       </div>
 
       <div class="guide-card">
         <div class="guide-num">02</div>
-        <h3 class="guide-card-title">Outfit & Persiapan</h3>
-        <p class="guide-card-desc">
+        <h3 class="guide-card-title" data-i18n="guide.card2_title">Outfit & Persiapan</h3>
+        <p class="guide-card-desc" data-i18n="guide.card2_desc">
           Gunakan pakaian katun nyaman berwarna earthy/safari (khaki, cokelat, olive), kacamata hitam, topi, sunscreen, dan kamera telephoto untuk menangkap satwa dari kejauhan.
         </p>
       </div>
 
       <div class="guide-card">
         <div class="guide-num">03</div>
-        <h3 class="guide-card-title">Etika Konservasi Satwa</h3>
-        <p class="guide-card-desc">
+        <h3 class="guide-card-title" data-i18n="guide.card3_title">Etika Konservasi Satwa</h3>
+        <p class="guide-card-desc" data-i18n="guide.card3_desc">
           Dilarang keras memberi makan satwa liar (terutama monyet ekor panjang), menjaga jarak aman dengan banteng & rusa, serta tidak membuang sampah sembarangan di area taman nasional.
         </p>
       </div>
@@ -40,13 +40,13 @@ import { faqData, siteConfig } from '../data/baluranData';
 
     <!-- Accordion FAQ -->
     <div class="faq-accordion-wrap">
-      <h3 class="faq-block-title">Pertanyaan yang Sering Diajukan</h3>
+      <h3 class="faq-block-title" data-i18n="guide.faq_title">Pertanyaan yang Sering Diajukan</h3>
 
       <div class="accordion-list">
         {faqData.map((faq, index) => (
           <details class="accordion-item" open={index === 0}>
             <summary class="accordion-summary">
-              <span class="faq-question-text">{faq.question}</span>
+              <span class="faq-question-text" data-i18n={`faq.q${index + 1}`}>{faq.question}</span>
               <span class="accordion-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="6 9 12 15 18 9"></polyline>
@@ -54,7 +54,7 @@ import { faqData, siteConfig } from '../data/baluranData';
               </span>
             </summary>
             <div class="accordion-body">
-              <p>{faq.answer}</p>
+              <p data-i18n={`faq.a${index + 1}`}>{faq.answer}</p>
             </div>
           </details>
         ))}

@@ -41,6 +41,10 @@ export const translations: TranslationSet = {
   'widget.badge': { id: 'PILIH RUTE CEPAT', en: 'QUICK ROUTE PICKER' },
   'widget.title': { id: 'Eksplorasi Rute Favorit', en: 'Popular Safari Routes' },
   'widget.sub': { id: 'Klik rute untuk cek tarif & langsung pesan:', en: 'Click route to check rate & book instantly:' },
+  'widget.tab1': { id: 'Baluran (Start Kota)', en: 'Baluran (City Pickup)' },
+  'widget.tab2': { id: 'Baluran (Start Gate)', en: 'Baluran (Main Gate)' },
+  'widget.tab3': { id: 'Kawah Wurung', en: 'Kawah Wurung' },
+  'widget.tab4': { id: 'Hutan De Djawatan', en: 'De Djawatan Forest' },
   'widget.price_label': { id: 'Tarif Sewa 1 Jeep:', en: 'Rate per 1 Jeep:' },
   'widget.cap': { id: 'Maks. 5–6 Orang', en: 'Max. 5–6 People' },
   'widget.duration_label': { id: 'Durasi:', en: 'Duration:' },
@@ -60,10 +64,25 @@ export const translations: TranslationSet = {
   'trust.driver_title': { id: 'Driver Pemandu & Foto', en: 'Driver Guide & Photographer' },
   'trust.driver_sub': { id: 'Paham spot foto estetik Baluran', en: 'Knows top scenic photography spots' },
 
-  // Sections
+  // Packages Section & Cards
   'section.packages_title': { id: 'Paket Jeep Safari Baluran', en: 'Baluran Jeep Safari Packages' },
   'section.packages_sub': { id: 'Pilih paket Jeep Baluran sesuai kebutuhan perjalanan Anda.', en: 'Choose your preferred Baluran Jeep tour package.' },
   'section.see_all_pkg': { id: 'Lihat Semua Paket', en: 'View All Packages' },
+  'pkg.bwx.title': { id: 'Rute Baluran (Start Banyuwangi Kota)', en: 'Baluran Route (Start Banyuwangi City)' },
+  'pkg.bwx.badge': { id: 'Start Banyuwangi Kota', en: 'Start Banyuwangi City' },
+  'pkg.bwx.duration': { id: '5 Jam', en: '5 Hours' },
+  'pkg.bwx.capacity': { id: 'Maks. 5–6 orang', en: 'Max. 5–6 people' },
+  'pkg.bwx.pickup': { id: 'Penjemputan area Banyuwangi Kota', en: 'Pickup in Banyuwangi City area' },
+  'pkg.bwx.desc': { id: 'Cocok untuk Anda yang ingin perjalanan lebih praktis dengan layanan penjemputan di Bandara, Stasiun, Terminal, atau Pelabuhan.', en: 'Ideal for travelers seeking seamless pickup at Airport, Train Station, Ferry Port, or Hotel.' },
+  
+  'pkg.gate.title': { id: 'Rute Baluran (Start Pintu Masuk Baluran)', en: 'Baluran Route (Start Baluran Gate)' },
+  'pkg.gate.badge': { id: 'Start Pintu Masuk Baluran', en: 'Start Baluran Main Gate' },
+  'pkg.gate.duration': { id: '4 Jam', en: '4 Hours' },
+  'pkg.gate.capacity': { id: 'Maks. 5–6 orang', en: 'Max. 5–6 people' },
+  'pkg.gate.pickup': { id: 'Meeting point Pintu Masuk Baluran', en: 'Meeting point at Baluran National Park Gate' },
+  'pkg.gate.desc': { id: 'Pilihan paket dengan durasi lebih singkat bagi Anda yang menuju titik keberangkatan secara mandiri.', en: 'Short duration budget-friendly package for guests driving directly to the park gate.' },
+
+  // Why Us Section
   'section.why_title': { id: 'Mengapa Memilih Baluran Indonesia?', en: 'Why Choose Baluran Indonesia?' },
   'section.why_desc': { id: 'Kami adalah operator Jeep Baluran yang fokus pada layanan perjalanan aman, nyaman, dan berkesan dengan harga jelas dan pelayanan profesional.', en: 'We are a dedicated Baluran Jeep operator focused on safe, comfortable, and memorable adventures with transparent pricing and professional service.' },
   'section.why.f1_title': { id: 'Harga Transparan', en: 'Transparent Pricing' },
@@ -75,15 +94,110 @@ export const translations: TranslationSet = {
   'section.why.f4_title': { id: 'Operator Berpengalaman', en: 'Seasoned Local Guides' },
   'section.why.f4_desc': { id: 'Fokus pada wisata Jeep Baluran dan sekitarnya dengan layanan terpercaya.', en: 'Dedicated Baluran safari specialists providing reliable local guidance.' },
 
+  // Destinations Section & Cards
   'section.dest_title': { id: 'Destinasi Lainnya', en: 'Other Destinations' },
   'section.dest_sub': { id: 'Selain Baluran, kami juga melayani perjalanan ke destinasi wisata populer di sekitar Banyuwangi.', en: 'Beyond Baluran, we also offer Jeep tours to popular attractions around Banyuwangi.' },
+  'dest.kw.title': { id: 'Rute Kawah Wurung', en: 'Kawah Wurung Highland Route' },
+  'dest.kw.duration': { id: '6–7 Jam', en: '6–7 Hours' },
+  'dest.kw.capacity': { id: 'Maks. 5–6 orang', en: 'Max. 5–6 people' },
+  'dest.dj.title': { id: 'Rute Hutan De Djawatan', en: 'De Djawatan Forest Route' },
+  'dest.dj.duration': { id: '5 Jam', en: '5 Hours' },
+  'dest.dj.capacity': { id: 'Maks. 5–6 orang', en: 'Max. 5–6 people' },
+
+  // Facilities & Terms (FASILITAS DAN KETENTUAN)
   'section.facilities_title': { id: 'Fasilitas dan Ketentuan', en: 'Facilities & Terms' },
+  'section.facilities_sub': { id: 'Informasi penting sebelum Anda melakukan pemesanan.', en: 'Essential information before making your reservation.' },
+  'section.facilities_link': { id: 'Lihat Detail Harga', en: 'View Pricing Details' },
+  'facilities.included_title': { id: 'Sudah Termasuk', en: "What's Included" },
+  'facilities.inc_1': { id: 'Mobil Jeep + Driver + BBM', en: '4x4 Jeep + Driver + Fuel' },
+  'facilities.inc_2': { id: 'Penjemputan area Banyuwangi Kota (Bandara, Stasiun, Terminal, Pelabuhan)', en: 'Pickup in Banyuwangi City area (Airport, Station, Port, Hotel)' },
+  'facilities.inc_3': { id: 'Sesuai rute yang dipilih', en: 'All destinations per selected route' },
+  'facilities.excluded_title': { id: 'Tidak Termasuk', en: 'Not Included' },
+  'facilities.exc_1': { id: 'Parkir', en: 'Parking fees' },
+  'facilities.exc_2': { id: 'Tiket masuk wisata', en: 'National Park entrance tickets' },
+  'facilities.exc_3': { id: 'Uang makan driver', en: 'Driver meal allowance' },
+  'facilities.exc_4': { id: 'Tips (se-ikhlasnya)', en: 'Driver tips (optional)' },
+  'facilities.exc_5': { id: 'Pemakaian di luar rute yang dipilih ada biaya tambahan', en: 'Additional surcharge for travel outside chosen route' },
+  'facilities.terms_title': { id: 'Ketentuan Penting', en: 'Important Terms' },
+  'facilities.terms_1': { id: 'Peak season surcharge 15–20% (Lebaran, Natal, Tahun Baru)', en: 'Peak season surcharge 15–20% (Eid, Christmas, New Year)' },
+  'facilities.terms_2': { id: 'Request warna Jeep maksimal H-3', en: 'Jeep color request minimum D-3 before trip' },
+  'facilities.terms_3': { id: 'Durasi dapat berubah mengikuti jadwal', en: 'Tour duration may adjust depending on schedule' },
+  'facilities.terms_4': { id: 'Overtime Rp80.000/jam', en: 'Overtime Rp80,000/hour' },
+  'facilities.terms_5': { id: 'Jumlah peserta sesuai kapasitas', en: 'Participant count must adhere to vehicle limit' },
+  'facilities.capacity_title': { id: 'Kapasitas', en: 'Capacity' },
+  'facilities.cap_1': { id: 'Maksimal 5–6 orang per Jeep', en: 'Maximum 5–6 passengers per Jeep' },
+
+  // Fleet Gallery
   'section.fleet_title': { id: 'Galeri Armada', en: 'Our Jeep Fleet' },
   'section.fleet_sub': { id: 'Armada Jeep kami siap mengantar Anda menjelajahi keindahan Baluran.', en: 'Our customized 4x4 Jeep fleet is ready to take you across Baluran.' },
+  'section.fleet_link': { id: 'Lihat Semua Foto', en: 'View All Photos' },
+
+  // Testimonials
   'section.testi_title': { id: 'Apa Kata Mereka?', en: 'Traveler Testimonials' },
   'section.testi_sub': { id: 'Pengalaman seru bersama Baluran Indonesia.', en: 'Exciting safari experiences with Baluran Indonesia.' },
+  'testi.quote1': { 
+    id: 'Drivernya sangat ramah dan paham spot-spot terbaik untuk foto satwa di Savana Bekol. Anak-anak sangat senang melihat banteng dan rusa dari dekat. Jeepnya bersih dan tangguh!', 
+    en: 'The driver was exceptionally friendly and knew all the top spots for wildlife photography at Bekol Savanna. Kids were thrilled to see buffaloes and deer up close. Clean, sturdy Jeep!' 
+  },
+  'testi.quote2': { 
+    id: 'Penjemputan tepat waktu di stasiun Banyuwangi. Perjalanan lancar dan seru banget. Sunset di Savana Baluran beneran mirip di Afrika. Recommended buat yang mau liburan tanpa ribet!', 
+    en: 'Punctual pickup right at Banyuwangi train station. Super smooth and scenic trip. Sunset at Bekol savanna truly felt like Serengeti Africa. Highly recommended!' 
+  },
+  'testi.quote3': { 
+    id: 'Pelayanan sangat profesional dan responsif dari awal tanya-tanya di WhatsApp sampai selesai trip. Harga transparan tanpa biaya siluman. Bakal balik lagi sewa Jeep di sini!', 
+    en: 'Extremely professional and responsive from WhatsApp booking to trip completion. Honest transparent pricing with zero hidden fees. Will definitely book again!' 
+  },
+
+  // Guide & FAQ
+  'section.guide_title': { id: 'Panduan Wisata & FAQ', en: 'Visitor Guide & FAQ' },
+  'section.guide_sub': { id: 'Semua yang perlu Anda ketahui sebelum berpetualang ke Taman Nasional Baluran.', en: 'Everything you need to know before venturing into Baluran National Park.' },
+  'guide.card1_title': { id: 'Waktu Terbaik Berkunjung', en: 'Best Time to Visit' },
+  'guide.card1_desc': { 
+    id: 'Bulan Mei hingga Oktober (musim kemarau) adalah waktu terfavorit. Savana menguning eksotis seperti Afrika dan satwa liar sering berkumpul di kubangan air Bekol.', 
+    en: 'Months from May to October (dry season) are best. The savanna turns golden like Africa and wild animals gather around watering holes.' 
+  },
+  'guide.card2_title': { id: 'Outfit & Persiapan', en: 'Outfit & Essentials' },
+  'guide.card2_desc': { 
+    id: 'Gunakan pakaian katun nyaman berwarna earthy/safari (khaki, cokelat, olive), kacamata hitam, topi, sunscreen, dan kamera telephoto untuk menangkap satwa dari kejauhan.', 
+    en: 'Wear comfortable safari cotton clothes (khaki, olive, brown), sunglasses, hat, sunscreen, and telephoto camera for distant wildlife shots.' 
+  },
+  'guide.card3_title': { id: 'Etika Konservasi Satwa', en: 'Wildlife Conservation Etiquette' },
+  'guide.card3_desc': { 
+    id: 'Dilarang keras memberi makan satwa liar (terutama monyet ekor panjang), menjaga jarak aman dengan banteng & rusa, serta tidak membuang sampah sembarangan di area taman nasional.', 
+    en: 'Strictly prohibited to feed wild monkeys, keep safe distance from wild buffaloes & deer, and never litter in the national park.' 
+  },
+  'guide.faq_title': { id: 'Pertanyaan yang Sering Diajukan', en: 'Frequently Asked Questions' },
+
+  // FAQ Items
+  'faq.q1': { id: 'Berapa harga sewa Jeep Safari Baluran?', en: 'How much is the Baluran Jeep Safari rental rate?' },
+  'faq.a1': { 
+    id: 'Harga paket Jeep Baluran kami mulai dari Rp650.000/Jeep (Start Pintu Masuk Batangan Baluran) dan Rp750.000/Jeep (Start Penjemputan Banyuwangi Kota). Satu Jeep dapat diisi hingga 5–6 orang penumpang.', 
+    en: 'Our Baluran Jeep rates start from Rp650,000/Jeep (Start at Baluran Main Gate) and Rp750,000/Jeep (Start with Banyuwangi City pickup). Fits up to 5–6 passengers.' 
+  },
+  'faq.q2': { id: 'Apakah harga sudah termasuk tiket masuk Taman Nasional Baluran?', en: 'Are Baluran National Park entrance tickets included?' },
+  'faq.a2': { 
+    id: 'Harga sewa Jeep sudah mencakup unit Jeep 4x4, Driver berpengalaman, dan BBM. Tiket masuk kawasan dibayarkan langsung di loket resmi TN Baluran (WNI ~Rp16.000/orang di hari kerja atau ~Rp18.500 di hari libur; WNA ~Rp165.000).', 
+    en: 'The Jeep rental covers 4x4 Jeep unit, driver guide, and fuel. Park entrance tickets are paid directly at the official ticket counter (Domestic ~Rp16,000 - Rp18,500; International ~Rp165,000).' 
+  },
+  'faq.q3': { id: 'Bisa dijemput di mana saja untuk paket Banyuwangi Kota?', en: 'Where are the pickup points for the Banyuwangi City package?' },
+  'faq.a3': { 
+    id: 'Kami melayani penjemputan gratis di area Banyuwangi Kota, meliputi Bandara Banyuwangi (BWX), Stasiun Ketapang, Stasiun Banyuwangi Kota, Pelabuhan Ketapang, terminal bus, serta hotel tempat Anda menginap.', 
+    en: 'We provide complimentary pickup across Banyuwangi City, including Airport (BWX), Ketapang Station, Banyuwangi Kota Station, Ferry Port, and your hotel.' 
+  },
+  'faq.q4': { id: 'Kapan waktu terbaik untuk melakukan Jeep Safari di Baluran?', en: 'When is the best time for a Jeep Safari in Baluran?' },
+  'faq.a4': { 
+    id: 'Musim kemarau (Mei hingga Oktober) adalah waktu terbaik jika Anda ingin merasakan sensasi savana eksotis berwarna keemasan mirip padang rumput Serengeti Afrika (Africa van Java) serta melihat satwa liar berkumpul di kubangan air.', 
+    en: 'Dry season (May to October) is the prime window to witness golden Serengeti-style savanna (Africa van Java) and observe wildlife around waterholes.' 
+  },
+  'faq.q5': { id: 'Bisakah request warna Jeep tertentu?', en: 'Can we request a specific Jeep color?' },
+  'faq.a5': { 
+    id: 'Bisa! Kami memiliki armada Jeep dengan varian warna putih, merah, hijau army, kuning, dan biru. Mohon request ketersediaan warna maksimal H-3 sebelum jadwal keberangkatan.', 
+    en: 'Yes! We have Jeep fleets in white, red, army green, yellow, and blue. Please request your preferred color at least 3 days prior to departure.' 
+  },
+
+  // CTA Section
   'section.cta_title': { id: 'Siap Menjelajahi Baluran?', en: 'Ready to Explore Baluran?' },
-  'section.cta_desc': { id: 'Booking sekarang melalui WhatsApp dan dapatkan pengalaman Jeep Safari yang tak terlupakan.', en: 'Book now via WhatsApp and enjoy an unforgettable safari adventure.' },
+  'section.cta_desc': { id: 'Booking sekarang melalui WhatsApp dan dapatkan pengalaman Jeep Safari yang tak terlupakan.', en: 'Book now via WhatsApp and enjoy an unforgettable savanna safari adventure.' },
 
   // Package Page (/paket)
   'page.packages.title': { id: 'Paket Jeep Safari Baluran', en: 'Baluran Jeep Safari Packages' },

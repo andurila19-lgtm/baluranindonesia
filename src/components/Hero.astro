@@ -123,7 +123,7 @@ const quickRoutes = [
               data-desc={route.desc}
               data-msg={route.msg}
             >
-              {route.label}
+              <span data-i18n={`widget.tab${idx + 1}`}>{route.label}</span>
             </button>
           ))}
         </div>

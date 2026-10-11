@@ -32,20 +32,20 @@ import { packagesData, otherDestinationsData, facilitiesData, siteConfig } from 
       <div class="price-cards-grid">
         {packagesData.map((pkg) => (
           <div class="price-tier-card featured-tier">
-            <div class="tier-popular-tag">{pkg.badge}</div>
+            <div class="tier-popular-tag" data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.badge' : 'pkg.gate.badge'}>{pkg.badge}</div>
             <div class="tier-head">
-              <h2 class="tier-name">{pkg.title}</h2>
+              <h2 class="tier-name" data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.title' : 'pkg.gate.title'}>{pkg.title}</h2>
               <div class="tier-price-box">
                 <span class="t-price">{pkg.priceFormatted}</span>
-                <span class="t-unit">{pkg.unit}</span>
+                <span class="t-unit" data-i18n="common.per_jeep">{pkg.unit}</span>
               </div>
-              <p class="tier-summary">{pkg.description}</p>
+              <p class="tier-summary" data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.desc' : 'pkg.gate.desc'}>{pkg.description}</p>
             </div>
 
             <div class="tier-specs">
-              <div class="t-spec">⏱️ Durasi: <strong>{pkg.duration}</strong></div>
-              <div class="t-spec">👥 Kapasitas: <strong>{pkg.capacity}</strong></div>
-              <div class="t-spec">📍 Penjemputan: <strong>{pkg.pickup}</strong></div>
+              <div class="t-spec">⏱️ <span data-i18n="widget.duration_label">Durasi:</span> <strong data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.duration' : 'pkg.gate.duration'}>{pkg.duration}</strong></div>
+              <div class="t-spec">👥 <span data-i18n="facilities.capacity_title">Kapasitas:</span> <strong data-i18n="common.max_cap">{pkg.capacity}</strong></div>
+              <div class="t-spec">📍 <span data-i18n="widget.pickup_label">Penjemputan:</span> <strong data-i18n={pkg.id === 'rute-banyuwangi' ? 'pkg.bwx.pickup' : 'pkg.gate.pickup'}>{pkg.pickup}</strong></div>
             </div>
 
             <div class="tier-action">
@@ -55,7 +55,7 @@ import { packagesData, otherDestinationsData, facilitiesData, siteConfig } from 
                 rel="noopener noreferrer" 
                 class="btn-wa full-width"
               >
-                Pesan via WhatsApp
+                <span data-i18n="common.book_wa">Pesan via WhatsApp</span>
               </a>
             </div>
           </div>
@@ -63,20 +63,20 @@ import { packagesData, otherDestinationsData, facilitiesData, siteConfig } from 
 
         {otherDestinationsData.map((dest) => (
           <div class="price-tier-card">
-            <div class="tier-popular-tag bg-neutral">Destinasi Populer</div>
+            <div class="tier-popular-tag bg-neutral" data-i18n="page.dest.badge">Destinasi Populer</div>
             <div class="tier-head">
-              <h2 class="tier-name">{dest.title}</h2>
+              <h2 class="tier-name" data-i18n={dest.id === 'kawah-wurung' ? 'dest.kw.title' : 'dest.dj.title'}>{dest.title}</h2>
               <div class="tier-price-box">
                 <span class="t-price">{dest.priceFormatted}</span>
-                <span class="t-unit">{dest.unit}</span>
+                <span class="t-unit" data-i18n="common.per_jeep">{dest.unit}</span>
               </div>
               <p class="tier-summary">{dest.description}</p>
             </div>
 
             <div class="tier-specs">
-              <div class="t-spec">⏱️ Durasi: <strong>{dest.duration}</strong></div>
-              <div class="t-spec">👥 Kapasitas: <strong>{dest.capacity}</strong></div>
-              <div class="t-spec">📍 Penjemputan: <strong>Banyuwangi Kota</strong></div>
+              <div class="t-spec">⏱️ <span data-i18n="widget.duration_label">Durasi:</span> <strong data-i18n={dest.id === 'kawah-wurung' ? 'dest.kw.duration' : 'dest.dj.duration'}>{dest.duration}</strong></div>
+              <div class="t-spec">👥 <span data-i18n="facilities.capacity_title">Kapasitas:</span> <strong data-i18n="common.max_cap">{dest.capacity}</strong></div>
+              <div class="t-spec">📍 <span data-i18n="widget.pickup_label">Penjemputan:</span> <strong>Banyuwangi Kota</strong></div>
             </div>
 
             <div class="tier-action">
@@ -86,7 +86,7 @@ import { packagesData, otherDestinationsData, facilitiesData, siteConfig } from 
                 rel="noopener noreferrer" 
                 class="btn-outline full-width text-center"
               >
-                Pesan via WhatsApp
+                <span data-i18n="common.book_wa">Pesan via WhatsApp</span>
               </a>
             </div>
           </div>

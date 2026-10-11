@@ -30,11 +30,11 @@ import { otherDestinationsData, siteConfig } from '../data/baluranData';
           </div>
 
           <div class="dest-content">
-            <h3 class="dest-title">{dest.title}</h3>
+            <h3 class="dest-title" data-i18n={dest.id === 'kawah-wurung' ? 'dest.kw.title' : 'dest.dj.title'}>{dest.title}</h3>
             
             <div class="dest-price-wrap">
               <span class="price-val">{dest.priceFormatted}</span>
-              <span class="price-unit">{dest.unit}</span>
+              <span class="price-unit" data-i18n="common.per_jeep">{dest.unit}</span>
             </div>
 
             <div class="dest-meta">
@@ -43,14 +43,14 @@ import { otherDestinationsData, siteConfig } from '../data/baluranData';
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                <span>{dest.duration}</span>
+                <span data-i18n={dest.id === 'kawah-wurung' ? 'dest.kw.duration' : 'dest.dj.duration'}>{dest.duration}</span>
               </div>
               <div class="meta-item">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                   <circle cx="9" cy="7" r="4"></circle>
                 </svg>
-                <span>{dest.capacity}</span>
+                <span data-i18n="common.max_cap">{dest.capacity}</span>
               </div>
             </div>
 
