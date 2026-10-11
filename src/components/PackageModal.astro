@@ -393,10 +393,9 @@ const modalItems = [
   </div>
 </div>
 
-<script define:vars={{ modalItems, siteConfig }}>
+<script define:vars={{ modalItems, whatsappNumber: siteConfig.whatsappRaw }}>
   const modal = document.getElementById('packageModal');
   const closeBtn = document.getElementById('modalCloseBtn');
-  const openButtons = document.querySelectorAll('.open-modal-btn, .open-dest-modal-btn');
   let currentActiveId = null;
 
   function getLang() {
@@ -407,117 +406,126 @@ const modalItems = [
     return 'id';
   }
 
+  function getWhatsappUrl(message) {
+    const base = `https://wa.me/${whatsappNumber || '6285333050863'}`;
+    return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+  }
+
   function openPackageDetail(id) {
-    const item = modalItems.find(i => i.id === id);
-    if (!item) return;
-    currentActiveId = id;
+    try {
+      const item = modalItems.find(i => i.id === id);
+      if (!item) return;
+      currentActiveId = id;
 
-    const lang = getLang();
-    const data = lang === 'en' ? item.en_data : item.id_data;
+      const lang = getLang();
+      const data = lang === 'en' ? item.en_data : item.id_data;
 
-    // Headings localization
-    const hlHeading = document.getElementById('modalHlHeading');
-    if (hlHeading) hlHeading.textContent = lang === 'en' ? 'Tour Destinations & Highlights' : 'Destinasi & Highlight Trip';
+      // Headings localization
+      const hlHeading = document.getElementById('modalHlHeading');
+      if (hlHeading) hlHeading.textContent = lang === 'en' ? 'Tour Destinations & Highlights' : 'Destinasi & Highlight Trip';
 
-    const incHeading = document.getElementById('modalIncHeading');
-    if (incHeading) incHeading.textContent = lang === 'en' ? "What's Included" : 'Fasilitas Termasuk';
+      const incHeading = document.getElementById('modalIncHeading');
+      if (incHeading) incHeading.textContent = lang === 'en' ? "What's Included" : 'Fasilitas Termasuk';
 
-    const excHeading = document.getElementById('modalExcHeading');
-    if (excHeading) excHeading.textContent = lang === 'en' ? 'Not Included' : 'Tidak Termasuk';
+      const excHeading = document.getElementById('modalExcHeading');
+      if (excHeading) excHeading.textContent = lang === 'en' ? 'Not Included' : 'Tidak Termasuk';
 
-    const schHeading = document.getElementById('modalSchHeading');
-    if (schHeading) schHeading.textContent = lang === 'en' ? 'Sample Tour Itinerary' : 'Contoh Jadwal Perjalanan (Itinerary)';
+      const schHeading = document.getElementById('modalSchHeading');
+      if (schHeading) schHeading.textContent = lang === 'en' ? 'Sample Tour Itinerary' : 'Contoh Jadwal Perjalanan (Itinerary)';
 
-    const waBtnText = document.getElementById('modalWaBtnText');
-    if (waBtnText) waBtnText.textContent = lang === 'en' ? 'Book This Tour via WhatsApp' : 'Booking Paket Ini via WhatsApp';
+      const waBtnText = document.getElementById('modalWaBtnText');
+      if (waBtnText) waBtnText.textContent = lang === 'en' ? 'Book This Tour via WhatsApp' : 'Booking Paket Ini via WhatsApp';
 
-    // Fill data
-    const imgEl = document.getElementById('modalImg');
-    if (imgEl) imgEl.src = item.image;
+      // Fill data
+      const imgEl = document.getElementById('modalImg');
+      if (imgEl) imgEl.src = item.image;
 
-    const badgeEl = document.getElementById('modalBadge');
-    if (badgeEl) badgeEl.textContent = data.badge;
+      const badgeEl = document.getElementById('modalBadge');
+      if (badgeEl) badgeEl.textContent = data.badge;
 
-    const titleEl = document.getElementById('modalTitle');
-    if (titleEl) titleEl.textContent = data.title;
+      const titleEl = document.getElementById('modalTitle');
+      if (titleEl) titleEl.textContent = data.title;
 
-    const priceEl = document.getElementById('modalPrice');
-    if (priceEl) priceEl.textContent = item.priceFormatted;
+      const priceEl = document.getElementById('modalPrice');
+      if (priceEl) priceEl.textContent = item.priceFormatted;
 
-    const unitEl = document.getElementById('modalUnit');
-    if (unitEl) unitEl.textContent = item.unit;
+      const unitEl = document.getElementById('modalUnit');
+      if (unitEl) unitEl.textContent = item.unit;
 
-    const durEl = document.getElementById('modalDuration');
-    if (durEl) durEl.textContent = data.duration;
+      const durEl = document.getElementById('modalDuration');
+      if (durEl) durEl.textContent = data.duration;
 
-    const capEl = document.getElementById('modalCapacity');
-    if (capEl) capEl.textContent = data.capacity;
+      const capEl = document.getElementById('modalCapacity');
+      if (capEl) capEl.textContent = data.capacity;
 
-    const pickEl = document.getElementById('modalPickup');
-    if (pickEl) pickEl.textContent = data.pickup;
+      const pickEl = document.getElementById('modalPickup');
+      if (pickEl) pickEl.textContent = data.pickup;
 
-    const descEl = document.getElementById('modalDesc');
-    if (descEl) descEl.textContent = data.description;
+      const descEl = document.getElementById('modalDesc');
+      if (descEl) descEl.textContent = data.description;
 
-    // Highlights
-    const hlList = document.getElementById('modalHighlights');
-    if (hlList) {
-      hlList.innerHTML = '';
-      (data.highlights || []).forEach(hl => {
-        const li = document.createElement('li');
-        li.textContent = hl;
-        hlList.appendChild(li);
-      });
-    }
+      // Highlights
+      const hlList = document.getElementById('modalHighlights');
+      if (hlList) {
+        hlList.innerHTML = '';
+        (data.highlights || []).forEach(hl => {
+          const li = document.createElement('li');
+          li.textContent = hl;
+          hlList.appendChild(li);
+        });
+      }
 
-    // Included
-    const incList = document.getElementById('modalIncluded');
-    if (incList) {
-      incList.innerHTML = '';
-      (data.included || []).forEach(inc => {
-        const li = document.createElement('li');
-        li.textContent = inc;
-        incList.appendChild(li);
-      });
-    }
+      // Included
+      const incList = document.getElementById('modalIncluded');
+      if (incList) {
+        incList.innerHTML = '';
+        (data.included || []).forEach(inc => {
+          const li = document.createElement('li');
+          li.textContent = inc;
+          incList.appendChild(li);
+        });
+      }
 
-    // Not Included
-    const notList = document.getElementById('modalNotIncluded');
-    if (notList) {
-      notList.innerHTML = '';
-      (data.notIncluded || []).forEach(not => {
-        const li = document.createElement('li');
-        li.textContent = not;
-        notList.appendChild(li);
-      });
-    }
+      // Not Included
+      const notList = document.getElementById('modalNotIncluded');
+      if (notList) {
+        notList.innerHTML = '';
+        (data.notIncluded || []).forEach(not => {
+          const li = document.createElement('li');
+          li.textContent = not;
+          notList.appendChild(li);
+        });
+      }
 
-    // Schedule timeline
-    const timelineEl = document.getElementById('modalTimeline');
-    if (timelineEl) {
-      timelineEl.innerHTML = '';
-      (data.schedule || []).forEach(sch => {
-        const div = document.createElement('div');
-        div.className = 'timeline-item';
-        div.textContent = sch;
-        timelineEl.appendChild(div);
-      });
-    }
+      // Schedule timeline
+      const timelineEl = document.getElementById('modalTimeline');
+      if (timelineEl) {
+        timelineEl.innerHTML = '';
+        (data.schedule || []).forEach(sch => {
+          const div = document.createElement('div');
+          div.className = 'timeline-item';
+          div.textContent = sch;
+          timelineEl.appendChild(div);
+        });
+      }
 
-    // WhatsApp CTA button link
-    const waBtn = document.getElementById('modalWaBtn');
-    if (waBtn) {
-      const waMsg = lang === 'en' 
-        ? `Hello Baluran Indonesia, I would like to book the ${data.title} (${item.priceFormatted}). Please check date availability.`
-        : item.msg;
-      waBtn.href = siteConfig.whatsappUrl(waMsg);
-    }
+      // WhatsApp CTA button link
+      const waBtn = document.getElementById('modalWaBtn');
+      if (waBtn) {
+        const waMsg = lang === 'en' 
+          ? `Hello Baluran Indonesia, I would like to book the ${data.title} (${item.priceFormatted}). Please check date availability.`
+          : item.msg;
+        waBtn.href = getWhatsappUrl(waMsg);
+      }
 
-    // Open modal & lock scroll
-    if (modal) {
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      // Open modal & lock scroll
+      if (modal) {
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    } catch (err) {
+      console.error('Error opening package modal:', err);
     }
   }
 
@@ -530,13 +538,18 @@ const modalItems = [
     }
   }
 
-  // Event Listeners for Opening
-  openButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
+  // Delegated Event Listener for Opening (works for both package and destination cards)
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!target) return;
+    const btn = target.closest('.open-modal-btn, .open-dest-modal-btn');
+    if (btn) {
       e.preventDefault();
       const id = btn.getAttribute('data-detail-id') || btn.getAttribute('data-dest-id');
-      if (id) openPackageDetail(id);
-    });
+      if (id) {
+        openPackageDetail(id);
+      }
+    }
   });
 
   // Close handlers
