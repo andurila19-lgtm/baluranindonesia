@@ -487,7 +487,7 @@ import Layout from '../../layouts/Layout.astro';
     // Fetch Live Data
     async function loadSanityData() {
       try {
-        const query = encodeURIComponent('*[_type in ["siteSettings", "tourPackage", "destination", "fleet", "testimonial", "faq"]]');
+        const query = encodeURIComponent('*[_type in ["siteSettings", "tourPackage", "destination", "fleet", "testimonial", "faq"]]{ ..., "imageUrl": image.asset->url }');
         const url = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/query/${SANITY_DATASET}?query=${query}`;
         const res = await fetch(url);
         const json = await res.json();
@@ -574,6 +574,91 @@ import Layout from '../../layouts/Layout.astro';
       }
     }
 
+    // Upload & Attach Image to Sanity
+    async function uploadAndAttachImage(file: File, docId: string, previewEl: HTMLImageElement, statusEl: HTMLElement) {
+      if (!file) return;
+
+      const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+      if (!validTypes.includes(file.type)) {
+        showToast('Format foto harus JPG, PNG, atau WEBP.', true);
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        showToast('Ukuran foto maksimal 10MB.', true);
+        return;
+      }
+
+      previewEl.src = URL.createObjectURL(file);
+      statusEl.style.display = 'flex';
+      statusEl.className = 'upload-status status-uploading';
+      statusEl.innerHTML = '<span class="spinner-sm"></span> <span>Mengunggah foto ke Sanity CDN...</span>';
+
+      try {
+        const filename = encodeURIComponent(file.name || 'image.webp');
+        const uploadUrl = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/assets/images/${SANITY_DATASET}?filename=${filename}`;
+        
+        const res = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${SANITY_TOKEN}`,
+            'Content-Type': file.type
+          },
+          body: file
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.document) {
+          throw new Error(data.message || 'Gagal mengunggah foto ke cloud.');
+        }
+
+        const assetId = data.document._id;
+        const cdnUrl = data.document.url;
+
+        // Attach image to Sanity doc
+        const patchUrl = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/mutate/${SANITY_DATASET}`;
+        const patchRes = await fetch(patchUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SANITY_TOKEN}`
+          },
+          body: JSON.stringify({
+            mutations: [
+              {
+                patch: {
+                  id: docId,
+                  set: {
+                    image: {
+                      _type: 'image',
+                      asset: {
+                        _type: 'reference',
+                        _ref: assetId
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          })
+        });
+
+        if (!patchRes.ok) {
+          throw new Error('Gagal menautkan asset foto ke dokumen.');
+        }
+
+        previewEl.src = cdnUrl;
+        statusEl.className = 'upload-status status-success';
+        statusEl.innerHTML = '<span>✅ Foto berhasil diperbarui di website!</span>';
+        showToast('Foto berhasil diunggah dan aktif di website!');
+        setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
+      } catch (err: any) {
+        console.error('Upload image error:', err);
+        statusEl.className = 'upload-status status-error';
+        statusEl.innerHTML = `<span>❌ ${err.message || 'Gagal upload'}</span>`;
+        showToast('Gagal upload foto: ' + err.message, true);
+      }
+    }
+
     // Render Data into Forms
     function renderAllData() {
       renderPackages();
@@ -652,6 +737,24 @@ import Layout from '../../layouts/Layout.astro';
               <label class="form-label">Deskripsi Singkat Rute</label>
               <textarea class="form-control" id="pkg-desc-${pkg._id}" rows="3" placeholder="Jelaskan detail rute atau fasilitas...">${pkg.description || ''}</textarea>
             </div>
+
+            <div class="col-12 image-uploader-box">
+              <label class="form-label">Foto Banner Paket Jeep</label>
+              <div class="uploader-body">
+                <div class="image-preview-card">
+                  <img id="img-preview-${pkg._id}" src="${pkg.imageUrl || '/images/hero-baluran.webp'}" alt="${pkg.title}" class="thumb-preview" />
+                  <span class="preview-badge">Foto Aktif</span>
+                </div>
+                <div class="uploader-controls">
+                  <label class="btn-upload-action" for="file-upload-${pkg._id}">
+                    <span>📸</span> Pilih / Upload Foto Baru
+                  </label>
+                  <input type="file" id="file-upload-${pkg._id}" class="file-input-pkg" data-id="${pkg._id}" accept="image/png,image/jpeg,image/webp" style="display:none;" />
+                  <span class="upload-tip">Format: JPG, PNG, WEBP (Maks 10MB). Otomatis di-host di Sanity CDN global.</span>
+                  <div class="upload-status" id="upload-status-${pkg._id}" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="card-footer-action">
@@ -665,6 +768,20 @@ import Layout from '../../layouts/Layout.astro';
           </div>
         </div>
       `).join('');
+
+      // File upload event listener
+      container.querySelectorAll('.file-input-pkg').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const target = e.target as HTMLInputElement;
+          const file = target.files?.[0];
+          const id = target.getAttribute('data-id')!;
+          const previewEl = document.getElementById(`img-preview-${id}`) as HTMLImageElement;
+          const statusEl = document.getElementById(`upload-status-${id}`) as HTMLElement;
+          if (file && previewEl && statusEl) {
+            uploadAndAttachImage(file, id, previewEl, statusEl);
+          }
+        });
+      });
 
       container.querySelectorAll('.btn-save').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -829,6 +946,24 @@ import Layout from '../../layouts/Layout.astro';
               <label class="form-label">Deskripsi Lengkap Tempat</label>
               <textarea class="form-control" id="dest-desc-${d._id}" rows="3">${d.description || ''}</textarea>
             </div>
+
+            <div class="col-12 image-uploader-box">
+              <label class="form-label">Foto Destinasi</label>
+              <div class="uploader-body">
+                <div class="image-preview-card">
+                  <img id="dest-img-preview-${d._id}" src="${d.imageUrl || '/images/kawah-wurung.webp'}" alt="${d.title}" class="thumb-preview" />
+                  <span class="preview-badge">Foto Aktif</span>
+                </div>
+                <div class="uploader-controls">
+                  <label class="btn-upload-action" for="dest-file-${d._id}">
+                    <span>📸</span> Pilih / Upload Foto Destinasi
+                  </label>
+                  <input type="file" id="dest-file-${d._id}" class="dest-file-input" data-id="${d._id}" accept="image/png,image/jpeg,image/webp" style="display:none;" />
+                  <span class="upload-tip">Format JPG, PNG, WEBP. Maks 10MB.</span>
+                  <div class="upload-status" id="dest-upload-status-${d._id}" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="card-footer-action">
@@ -842,6 +977,19 @@ import Layout from '../../layouts/Layout.astro';
           </div>
         </div>
       `).join('');
+
+      container.querySelectorAll('.dest-file-input').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const target = e.target as HTMLInputElement;
+          const file = target.files?.[0];
+          const id = target.getAttribute('data-id')!;
+          const previewEl = document.getElementById(`dest-img-preview-${id}`) as HTMLImageElement;
+          const statusEl = document.getElementById(`dest-upload-status-${id}`) as HTMLElement;
+          if (file && previewEl && statusEl) {
+            uploadAndAttachImage(file, id, previewEl, statusEl);
+          }
+        });
+      });
 
       container.querySelectorAll('.btn-save').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -877,6 +1025,15 @@ import Layout from '../../layouts/Layout.astro';
           </div>
 
           <div class="fleet-body-form">
+            <div class="fleet-img-wrap">
+              <img id="fl-img-preview-${f._id}" src="${f.imageUrl || '/images/hero-baluran.webp'}" alt="${f.name}" class="fleet-thumb-preview" />
+              <label class="btn-upload-fleet" for="fl-file-${f._id}">
+                <span>📸</span> Ganti Foto Unit
+              </label>
+              <input type="file" id="fl-file-${f._id}" class="fl-file-input" data-id="${f._id}" accept="image/png,image/jpeg,image/webp" style="display:none;" />
+              <div class="upload-status" id="fl-upload-status-${f._id}" style="display:none;"></div>
+            </div>
+
             <div class="form-group-sm">
               <label class="form-label-sm">Nama Varian Unit</label>
               <input type="text" class="form-control form-control-sm" id="fl-name-${f._id}" value="${f.name || ''}" />
@@ -900,6 +1057,19 @@ import Layout from '../../layouts/Layout.astro';
           </div>
         </div>
       `).join('');
+
+      container.querySelectorAll('.fl-file-input').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const target = e.target as HTMLInputElement;
+          const file = target.files?.[0];
+          const id = target.getAttribute('data-id')!;
+          const previewEl = document.getElementById(`fl-img-preview-${id}`) as HTMLImageElement;
+          const statusEl = document.getElementById(`fl-upload-status-${id}`) as HTMLElement;
+          if (file && previewEl && statusEl) {
+            uploadAndAttachImage(file, id, previewEl, statusEl);
+          }
+        });
+      });
 
       container.querySelectorAll('.btn-save').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -2034,6 +2204,167 @@ import Layout from '../../layouts/Layout.astro';
 
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+
+  /* ----------------------------------------------------
+     IMAGE UPLOAD & PREVIEW STYLES
+     ---------------------------------------------------- */
+  .image-uploader-box {
+    margin-top: 0.5rem;
+    padding: 1.25rem;
+    background: rgba(6, 20, 13, 0.65);
+    border: 1px dashed rgba(46, 204, 113, 0.3);
+    border-radius: 14px;
+    box-sizing: border-box;
+  }
+
+  .uploader-body {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .image-preview-card {
+    position: relative;
+    width: 170px;
+    height: 105px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid rgba(46, 204, 113, 0.3);
+    background: #020c07;
+    flex-shrink: 0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .thumb-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .image-preview-card:hover .thumb-preview {
+    transform: scale(1.05);
+  }
+
+  .preview-badge {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    background: rgba(6, 21, 14, 0.85);
+    border: 1px solid rgba(46, 204, 113, 0.4);
+    color: #34d399;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 6px;
+  }
+
+  .uploader-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .btn-upload-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #34d399;
+    padding: 0.65rem 1.15rem;
+    border-radius: 10px;
+    font-size: 0.825rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: fit-content;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-upload-action:hover {
+    background: #10b981;
+    color: #06150e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+  }
+
+  .upload-tip {
+    font-size: 0.725rem;
+    color: #94a3b8;
+    line-height: 1.4;
+  }
+
+  .upload-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.775rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    width: fit-content;
+  }
+
+  .status-uploading {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  .status-success {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .status-error {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  /* FLEET SPECIFIC IMAGE STYLES */
+  .fleet-img-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .fleet-thumb-preview {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .btn-upload-fleet {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-upload-fleet:hover {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: #10b981;
+    color: #34d399;
   }
 
   /* ----------------------------------------------------
