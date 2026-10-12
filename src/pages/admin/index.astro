@@ -87,13 +87,21 @@ import Layout from '../../layouts/Layout.astro';
       <!-- Dashboard Top Navbar -->
       <header class="dash-navbar">
         <div class="dash-brand">
-          <span class="dash-logo">🚙</span>
+          <div class="brand-icon-box">🚙</div>
           <div>
             <div class="dash-title">BALURAN INDONESIA</div>
-            <div class="dash-status"><span class="status-indicator"></span> Operator Management System</div>
+            <div class="dash-status">
+              <span class="status-indicator"></span> 
+              <span>Operator Management System</span>
+              <span class="env-pill">Live Production</span>
+            </div>
           </div>
         </div>
+        
         <div class="dash-user-actions">
+          <a href="/" target="_blank" class="btn-view-site" title="Buka website publik">
+            <span>🌐</span> Lihat Website
+          </a>
           <div class="user-chip">
             <span class="user-avatar">👮</span>
             <span class="user-name">Operator: <strong>Admin</strong></span>
@@ -108,45 +116,95 @@ import Layout from '../../layouts/Layout.astro';
       <div class="dash-layout">
         <!-- Sidebar Navigation -->
         <aside class="dash-sidebar">
+          <div class="sidebar-section-title">NAVIGASI MODUL</div>
           <nav class="dash-menu">
             <button class="menu-tab active" data-target="tab-packages">
-              <span class="tab-icon">🚙</span> Paket Jeep Baluran
+              <span class="tab-icon">🚙</span> 
+              <span class="tab-text">Paket Jeep Baluran</span>
+              <span class="tab-badge" id="badge-pkg-count">2</span>
             </button>
             <button class="menu-tab" data-target="tab-contacts">
-              <span class="tab-icon">⚙️</span> WhatsApp & Kontak
+              <span class="tab-icon">⚙️</span> 
+              <span class="tab-text">WhatsApp & Kontak</span>
             </button>
             <button class="menu-tab" data-target="tab-destinations">
-              <span class="tab-icon">📍</span> Destinasi Sekitar
+              <span class="tab-icon">📍</span> 
+              <span class="tab-text">Destinasi Sekitar</span>
+              <span class="tab-badge" id="badge-dest-count">2</span>
             </button>
             <button class="menu-tab" data-target="tab-fleet">
-              <span class="tab-icon">🛞</span> Armada Jeep
+              <span class="tab-icon">🛞</span> 
+              <span class="tab-text">Armada Jeep</span>
+              <span class="tab-badge" id="badge-fleet-count">5</span>
             </button>
             <button class="menu-tab" data-target="tab-faq">
-              <span class="tab-icon">❓</span> Tanya Jawab (FAQ)
+              <span class="tab-icon">❓</span> 
+              <span class="tab-text">Tanya Jawab (FAQ)</span>
             </button>
             <button class="menu-tab" data-target="tab-testimonials">
-              <span class="tab-icon">💬</span> Testimoni Tamu
+              <span class="tab-icon">💬</span> 
+              <span class="tab-text">Testimoni Tamu</span>
             </button>
           </nav>
 
           <div class="sidebar-help-card">
-            <h4>💡 Panduan Operator</h4>
-            <p>Setiap perubahan yang Anda simpan akan langsung disinkronkan ke server secara aman tanpa mengganggu operasional website.</p>
+            <div class="help-header">
+              <span class="help-icon">💡</span>
+              <h4>Panduan Operator</h4>
+            </div>
+            <p>Setiap perubahan yang Anda simpan akan langsung disinkronkan secara realtime ke database dan tercermin di website.</p>
+            <div class="help-status-tag">● Cloud Database Sync Aktif</div>
           </div>
         </aside>
 
         <!-- Content Area -->
         <main class="dash-content">
+          <!-- Quick Status Overview Banner -->
+          <div class="dash-overview-bar">
+            <div class="stat-card">
+              <div class="stat-icon">🚙</div>
+              <div class="stat-info">
+                <span class="stat-label">Paket Aktif</span>
+                <span class="stat-val" id="stat-pkg-val">2 Rute</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📞</div>
+              <div class="stat-info">
+                <span class="stat-label">WhatsApp Booking</span>
+                <span class="stat-val" id="stat-wa-val">085333050863</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🛞</div>
+              <div class="stat-info">
+                <span class="stat-label">Armada Terdaftar</span>
+                <span class="stat-val" id="stat-fleet-val">5 Unit</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🛡️</div>
+              <div class="stat-info">
+                <span class="stat-label">Sistem Keamanan</span>
+                <span class="stat-val text-green">Aman & Terlindungi</span>
+              </div>
+            </div>
+          </div>
+
           <!-- TAB 1: PAKET JEEP -->
           <section class="tab-pane active" id="tab-packages">
             <div class="pane-header">
               <div>
                 <h2>Kelola Paket Jeep Safari Baluran</h2>
-                <p>Ubah harga sewa, durasi, kapasitas, dan rute perjalanan Jeep.</p>
+                <p>Ubah harga sewa, durasi, kapasitas, dan rute perjalanan Jeep Safari secara langsung.</p>
               </div>
+              <button class="btn-refresh" id="btn-refresh-packages" title="Muat ulang data">🔄 Refresh Data</button>
             </div>
             <div id="packages-container" class="cards-list">
-              <div class="loading-state">Memuat data paket...</div>
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Memuat data paket dari server...</span>
+              </div>
             </div>
           </section>
 
@@ -155,11 +213,14 @@ import Layout from '../../layouts/Layout.astro';
             <div class="pane-header">
               <div>
                 <h2>Pengaturan Kontak & WhatsApp Booking</h2>
-                <p>Nomor ini yang akan menerima chat otomatis saat calon wisatawan menekan tombol booking.</p>
+                <p>Nomor ini yang akan menerima pesan otomatis saat calon wisatawan menekan tombol booking di website.</p>
               </div>
             </div>
-            <div id="contacts-container" class="form-card">
-              <div class="loading-state">Memuat pengaturan kontak...</div>
+            <div id="contacts-container" class="cards-list">
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Memuat pengaturan kontak...</span>
+              </div>
             </div>
           </section>
 
@@ -167,12 +228,15 @@ import Layout from '../../layouts/Layout.astro';
           <section class="tab-pane" id="tab-destinations">
             <div class="pane-header">
               <div>
-                <h2>Kelola Destinasi Tambahan</h2>
-                <p>Paket rute sekitar Banyuwangi (Kawah Wurung, De Djawatan, dll).</p>
+                <h2>Kelola Destinasi Tambahan Sekitar</h2>
+                <p>Paket rute gabungan sekitar Banyuwangi (Kawah Wurung, De Djawatan, dll).</p>
               </div>
             </div>
             <div id="destinations-container" class="cards-list">
-              <div class="loading-state">Memuat data destinasi...</div>
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Memuat data destinasi...</span>
+              </div>
             </div>
           </section>
 
@@ -181,11 +245,14 @@ import Layout from '../../layouts/Layout.astro';
             <div class="pane-header">
               <div>
                 <h2>Galeri Armada Jeep Safari</h2>
-                <p>Kelola daftar varian unit Jeep yang ditampilkan kepada wisatawan.</p>
+                <p>Kelola daftar varian unit Jeep 4x4 yang ditampilkan kepada calon wisatawan.</p>
               </div>
             </div>
             <div id="fleet-container" class="cards-grid">
-              <div class="loading-state">Memuat data armada...</div>
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Memuat data armada...</span>
+              </div>
             </div>
           </section>
 
@@ -194,11 +261,14 @@ import Layout from '../../layouts/Layout.astro';
             <div class="pane-header">
               <div>
                 <h2>Tanya Jawab Seputar Sewa Jeep (FAQ)</h2>
-                <p>Perbarui pertanyaan yang paling sering ditanyakan pelanggan.</p>
+                <p>Perbarui pertanyaan dan jawaban yang sering diajukan pelanggan.</p>
               </div>
             </div>
             <div id="faq-container" class="cards-list">
-              <div class="loading-state">Memuat FAQ...</div>
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Memuat FAQ...</span>
+              </div>
             </div>
           </section>
 
@@ -207,11 +277,14 @@ import Layout from '../../layouts/Layout.astro';
             <div class="pane-header">
               <div>
                 <h2>Ulasan & Testimoni Pelanggan</h2>
-                <p>Testimoni wisatawan yang ditampilkan di halaman depan.</p>
+                <p>Ulasan wisatawan nyata yang ditampilkan di halaman beranda.</p>
               </div>
             </div>
             <div id="testimonials-container" class="cards-list">
-              <div class="loading-state">Memuat testimoni...</div>
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Memuat testimoni...</span>
+              </div>
             </div>
           </section>
         </main>
@@ -306,7 +379,9 @@ import Layout from '../../layouts/Layout.astro';
 
     function showToast(msg: string, isError = false) {
       toastMsg.innerText = msg;
-      toastNotif.style.background = isError ? '#e74c3c' : '#2ecc71';
+      const icon = toastNotif.querySelector('.toast-icon') as HTMLElement;
+      if (icon) icon.innerText = isError ? '⚠️' : '✅';
+      toastNotif.className = 'toast-notification ' + (isError ? 'toast-error' : 'toast-success');
       toastNotif.style.display = 'flex';
       setTimeout(() => {
         toastNotif.style.display = 'none';
@@ -322,6 +397,11 @@ import Layout from '../../layouts/Layout.astro';
         (e.currentTarget as HTMLElement).classList.add('active');
         document.getElementById(target)?.classList.add('active');
       });
+    });
+
+    document.getElementById('btn-refresh-packages')?.addEventListener('click', () => {
+      loadSanityData();
+      showToast('Memperbarui data dari server...');
     });
 
     // Check Authentication
@@ -421,6 +501,21 @@ import Layout from '../../layouts/Layout.astro';
           globalStore.testimonials = docs.filter((d: any) => d._type === 'testimonial');
           globalStore.faqs = docs.filter((d: any) => d._type === 'faq').sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
 
+          // Update header badges
+          const bPkg = document.getElementById('badge-pkg-count');
+          if (bPkg) bPkg.innerText = globalStore.packages.length.toString();
+          const bDest = document.getElementById('badge-dest-count');
+          if (bDest) bDest.innerText = globalStore.destinations.length.toString();
+          const bFleet = document.getElementById('badge-fleet-count');
+          if (bFleet) bFleet.innerText = globalStore.fleet.length.toString();
+
+          const statPkg = document.getElementById('stat-pkg-val');
+          if (statPkg) statPkg.innerText = `${globalStore.packages.length} Rute`;
+          const statWa = document.getElementById('stat-wa-val');
+          if (statWa && globalStore.siteSettings.whatsapp) statWa.innerText = globalStore.siteSettings.whatsapp;
+          const statFleet = document.getElementById('stat-fleet-val');
+          if (statFleet) statFleet.innerText = `${globalStore.fleet.length} Unit`;
+
           renderAllData();
         }
       } catch (err) {
@@ -431,8 +526,8 @@ import Layout from '../../layouts/Layout.astro';
 
     // Save Generic Document
     async function saveDoc(docId: string, fields: Record<string, any>, btnElement: HTMLButtonElement) {
-      const originalText = btnElement.innerText;
-      btnElement.innerText = 'Menyimpan...';
+      const originalHTML = btnElement.innerHTML;
+      btnElement.innerHTML = '<span class="spinner-sm"></span> Menyimpan...';
       btnElement.setAttribute('disabled', 'true');
 
       // Sanitasi input ketat (Anti-XSS & SQLi)
@@ -467,14 +562,14 @@ import Layout from '../../layouts/Layout.astro';
         const data = await res.json();
 
         if (res.ok && data.results) {
-          showToast('Data berhasil disimpan permanen ke server!');
+          showToast('Data berhasil disimpan dan disinkronkan ke live website!');
         } else {
           showToast('Gagal menyimpan data.', true);
         }
       } catch (err) {
         showToast('Koneksi terputus saat menyimpan.', true);
       } finally {
-        btnElement.innerText = originalText;
+        btnElement.innerHTML = originalHTML;
         btnElement.removeAttribute('disabled');
       }
     }
@@ -493,47 +588,80 @@ import Layout from '../../layouts/Layout.astro';
     function renderPackages() {
       const container = document.getElementById('packages-container')!;
       if (!globalStore.packages || globalStore.packages.length === 0) {
-        container.innerHTML = '<div class="empty-state">Belum ada paket Jeep.</div>';
+        container.innerHTML = '<div class="empty-state"><span class="empty-icon">📭</span><p>Belum ada paket Jeep.</p></div>';
         return;
       }
       container.innerHTML = globalStore.packages.map((pkg: any) => `
         <div class="edit-card">
           <div class="card-header-bar">
-            <h3>🚙 ${pkg.title}</h3>
-            <span class="badge-tag">${pkg.badge || 'Standar'}</span>
+            <div class="card-title-group">
+              <span class="card-icon">🚙</span>
+              <div>
+                <h3 class="card-title">${pkg.title || 'Paket Jeep Safari'}</h3>
+                <span class="card-subtitle">ID: ${pkg._id} • ${pkg.badge || 'Paket Standar'}</span>
+              </div>
+            </div>
+            <div class="header-pills">
+              <span class="badge-price">${pkg.priceFormatted || 'Rp' + (pkg.price || 0).toLocaleString('id-ID')}</span>
+              <span class="badge-status">Aktif</span>
+            </div>
           </div>
+
           <div class="form-grid">
             <div class="col-6">
-              <label>Nama Paket</label>
-              <input type="text" id="pkg-title-${pkg._id}" value="${pkg.title || ''}" />
+              <label class="form-label">
+                <span>Nama Paket Jeep</span>
+                <span class="req-star">*</span>
+              </label>
+              <input type="text" class="form-control" id="pkg-title-${pkg._id}" value="${pkg.title || ''}" placeholder="Nama paket..." />
             </div>
+
             <div class="col-6">
-              <label>Harga Sewa (Angka)</label>
-              <input type="number" id="pkg-price-${pkg._id}" value="${pkg.price || 0}" />
+              <label class="form-label">
+                <span>Harga Sewa (Format Angka / Numeric)</span>
+                <span class="req-star">*</span>
+              </label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">Rp</span>
+                <input type="number" class="form-control with-prefix" id="pkg-price-${pkg._id}" value="${pkg.price || 0}" />
+              </div>
             </div>
+
             <div class="col-4">
-              <label>Tampilan Format Harga</label>
-              <input type="text" id="pkg-priceFmt-${pkg._id}" value="${pkg.priceFormatted || ''}" />
+              <label class="form-label">Tampilan Format Harga</label>
+              <input type="text" class="form-control" id="pkg-priceFmt-${pkg._id}" value="${pkg.priceFormatted || ''}" placeholder="Rp750.000" />
+              <small class="field-hint">Teks harga yang dilihat pengunjung.</small>
             </div>
+
             <div class="col-4">
-              <label>Durasi</label>
-              <input type="text" id="pkg-duration-${pkg._id}" value="${pkg.duration || ''}" />
+              <label class="form-label">Durasi Tour</label>
+              <input type="text" class="form-control" id="pkg-duration-${pkg._id}" value="${pkg.duration || ''}" placeholder="Contoh: 5 Jam" />
             </div>
+
             <div class="col-4">
-              <label>Kapasitas</label>
-              <input type="text" id="pkg-capacity-${pkg._id}" value="${pkg.capacity || ''}" />
+              <label class="form-label">Kapasitas Maksimal</label>
+              <input type="text" class="form-control" id="pkg-capacity-${pkg._id}" value="${pkg.capacity || ''}" placeholder="Contoh: Maks. 5–6 orang" />
             </div>
+
             <div class="col-12">
-              <label>Lokasi Penjemputan / Meeting Point</label>
-              <input type="text" id="pkg-pickup-${pkg._id}" value="${pkg.pickup || ''}" />
+              <label class="form-label">Lokasi Penjemputan / Meeting Point</label>
+              <input type="text" class="form-control" id="pkg-pickup-${pkg._id}" value="${pkg.pickup || ''}" placeholder="Titik jemput..." />
             </div>
+
             <div class="col-12">
-              <label>Deskripsi Singkat</label>
-              <textarea id="pkg-desc-${pkg._id}" rows="2">${pkg.description || ''}</textarea>
+              <label class="form-label">Deskripsi Singkat Rute</label>
+              <textarea class="form-control" id="pkg-desc-${pkg._id}" rows="3" placeholder="Jelaskan detail rute atau fasilitas...">${pkg.description || ''}</textarea>
             </div>
           </div>
+
           <div class="card-footer-action">
-            <button class="btn-save" data-id="${pkg._id}">Simpan Perubahan Paket</button>
+            <div class="action-meta">
+              <span class="sync-dot"></span>
+              <span>Perubahan otomatis disimpan ke Sanity & Website</span>
+            </div>
+            <button class="btn-save" data-id="${pkg._id}">
+              <span class="btn-icon">💾</span> Simpan Perubahan Paket
+            </button>
           </div>
         </div>
       `).join('');
@@ -561,39 +689,83 @@ import Layout from '../../layouts/Layout.astro';
       const container = document.getElementById('contacts-container')!;
       const s = globalStore.siteSettings || {};
       container.innerHTML = `
-        <div class="form-grid">
-          <div class="col-6">
-            <label>Nomor WhatsApp Booking (Aktif)</label>
-            <input type="text" id="set-wa" value="${s.whatsapp || '085333050863'}" placeholder="Contoh: 085333050863" />
-            <small class="hint-text">Nomor ini yang langsung dihubungi wisatawan saat menekan tombol WhatsApp Booking.</small>
+        <div class="edit-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <span class="card-icon">⚙️</span>
+              <div>
+                <h3 class="card-title">Nomor Kontak & Booking WhatsApp</h3>
+                <span class="card-subtitle">Pengaturan saluran komunikasi utama Baluran Indonesia</span>
+              </div>
+            </div>
+            <span class="badge-status">Realtime Sync</span>
           </div>
-          <div class="col-6">
-            <label>Nomor Telepon Cadangan</label>
-            <input type="text" id="set-phone" value="${s.phone || '085333050863'}" />
+
+          <div class="form-grid">
+            <div class="col-6">
+              <label class="form-label">
+                <span>Nomor WhatsApp Booking (CS Utama)</span>
+                <span class="req-star">*</span>
+              </label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">📱</span>
+                <input type="text" class="form-control with-prefix" id="set-wa" value="${s.whatsapp || '085333050863'}" placeholder="085333050863" />
+              </div>
+              <small class="field-hint text-emerald">Paling krusial: nomor ini langsung menerima chat pemesanan dari seluruh tombol booking di web.</small>
+            </div>
+
+            <div class="col-6">
+              <label class="form-label">Nomor Telepon Cadangan / Kantor</label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">📞</span>
+                <input type="text" class="form-control with-prefix" id="set-phone" value="${s.phone || '085333050863'}" placeholder="085333050863" />
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Nama Usaha / Legal Brand</label>
+              <input type="text" class="form-control" id="set-fullname" value="${s.fullName || 'BALURAN INDONESIA - Jeep Safari Baluran'}" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Deskripsi Profil Singkat</label>
+              <textarea class="form-control" id="set-desc" rows="3">${s.description || ''}</textarea>
+            </div>
+
+            <div class="col-4">
+              <label class="form-label">Instagram Profil</label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">📷</span>
+                <input type="text" class="form-control with-prefix" id="set-ig" value="${s.instagram || ''}" placeholder="https://instagram.com/..." />
+              </div>
+            </div>
+
+            <div class="col-4">
+              <label class="form-label">Facebook Fanpage</label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">📘</span>
+                <input type="text" class="form-control with-prefix" id="set-fb" value="${s.facebook || ''}" placeholder="https://facebook.com/..." />
+              </div>
+            </div>
+
+            <div class="col-4">
+              <label class="form-label">YouTube Channel</label>
+              <div class="input-prefix-wrap">
+                <span class="input-prefix">▶️</span>
+                <input type="text" class="form-control with-prefix" id="set-yt" value="${s.youtube || ''}" placeholder="https://youtube.com/..." />
+              </div>
+            </div>
           </div>
-          <div class="col-12">
-            <label>Nama Usaha / Operator</label>
-            <input type="text" id="set-fullname" value="${s.fullName || 'BALURAN INDONESIA - Jeep Safari Baluran'}" />
+
+          <div class="card-footer-action">
+            <div class="action-meta">
+              <span class="sync-dot"></span>
+              <span>Sinkronisasi otomatis ke footer dan tombol WA</span>
+            </div>
+            <button class="btn-save" id="btn-save-contacts">
+              <span class="btn-icon">💾</span> Simpan Pengaturan Kontak & WhatsApp
+            </button>
           </div>
-          <div class="col-12">
-            <label>Deskripsi Singkat</label>
-            <textarea id="set-desc" rows="2">${s.description || ''}</textarea>
-          </div>
-          <div class="col-4">
-            <label>Link Instagram</label>
-            <input type="text" id="set-ig" value="${s.instagram || ''}" placeholder="https://instagram.com/..." />
-          </div>
-          <div class="col-4">
-            <label>Link Facebook</label>
-            <input type="text" id="set-fb" value="${s.facebook || ''}" />
-          </div>
-          <div class="col-4">
-            <label>Link YouTube</label>
-            <input type="text" id="set-yt" value="${s.youtube || ''}" />
-          </div>
-        </div>
-        <div class="card-footer-action">
-          <button class="btn-save" id="btn-save-contacts">Simpan Pengaturan Kontak & WhatsApp</button>
         </div>
       `;
 
@@ -616,39 +788,57 @@ import Layout from '../../layouts/Layout.astro';
     function renderDestinations() {
       const container = document.getElementById('destinations-container')!;
       if (!globalStore.destinations || globalStore.destinations.length === 0) {
-        container.innerHTML = '<div class="empty-state">Belum ada destinasi.</div>';
+        container.innerHTML = '<div class="empty-state"><span class="empty-icon">📭</span><p>Belum ada destinasi tambahan.</p></div>';
         return;
       }
       container.innerHTML = globalStore.destinations.map((d: any) => `
         <div class="edit-card">
           <div class="card-header-bar">
-            <h3>📍 ${d.title}</h3>
-            <span class="badge-tag">${d.priceFormatted || ''}</span>
+            <div class="card-title-group">
+              <span class="card-icon">📍</span>
+              <div>
+                <h3 class="card-title">${d.title}</h3>
+                <span class="card-subtitle">Destinasi Kombinasi Sekitar Banyuwangi</span>
+              </div>
+            </div>
+            <span class="badge-price">${d.priceFormatted || 'Kontak CS'}</span>
           </div>
+
           <div class="form-grid">
             <div class="col-6">
-              <label>Nama Destinasi</label>
-              <input type="text" id="dest-title-${d._id}" value="${d.title || ''}" />
+              <label class="form-label">Nama Destinasi</label>
+              <input type="text" class="form-control" id="dest-title-${d._id}" value="${d.title || ''}" />
             </div>
+
             <div class="col-6">
-              <label>Harga Tampilan</label>
-              <input type="text" id="dest-price-${d._id}" value="${d.priceFormatted || ''}" />
+              <label class="form-label">Tampilan Format Tarif / Info</label>
+              <input type="text" class="form-control" id="dest-price-${d._id}" value="${d.priceFormatted || ''}" />
             </div>
+
             <div class="col-6">
-              <label>Durasi Tour</label>
-              <input type="text" id="dest-dur-${d._id}" value="${d.duration || ''}" />
+              <label class="form-label">Durasi Tour</label>
+              <input type="text" class="form-control" id="dest-dur-${d._id}" value="${d.duration || ''}" />
             </div>
+
             <div class="col-6">
-              <label>Kapasitas</label>
-              <input type="text" id="dest-cap-${d._id}" value="${d.capacity || ''}" />
+              <label class="form-label">Kapasitas Maksimal</label>
+              <input type="text" class="form-control" id="dest-cap-${d._id}" value="${d.capacity || ''}" />
             </div>
+
             <div class="col-12">
-              <label>Deskripsi Tempat</label>
-              <textarea id="dest-desc-${d._id}" rows="2">${d.description || ''}</textarea>
+              <label class="form-label">Deskripsi Lengkap Tempat</label>
+              <textarea class="form-control" id="dest-desc-${d._id}" rows="3">${d.description || ''}</textarea>
             </div>
           </div>
+
           <div class="card-footer-action">
-            <button class="btn-save" data-id="${d._id}">Simpan Destinasi</button>
+            <div class="action-meta">
+              <span class="sync-dot"></span>
+              <span>ID Destinasi: ${d._id}</span>
+            </div>
+            <button class="btn-save" data-id="${d._id}">
+              <span class="btn-icon">💾</span> Simpan Destinasi
+            </button>
           </div>
         </div>
       `).join('');
@@ -673,25 +863,41 @@ import Layout from '../../layouts/Layout.astro';
     function renderFleet() {
       const container = document.getElementById('fleet-container')!;
       if (!globalStore.fleet || globalStore.fleet.length === 0) {
-        container.innerHTML = '<div class="empty-state">Belum ada armada.</div>';
+        container.innerHTML = '<div class="empty-state"><span class="empty-icon">📭</span><p>Belum ada armada.</p></div>';
         return;
       }
       container.innerHTML = globalStore.fleet.map((f: any) => `
         <div class="fleet-item-card">
-          <h4>🛞 ${f.name}</h4>
-          <div class="form-group">
-            <label>Nama Unit</label>
-            <input type="text" id="fl-name-${f._id}" value="${f.name || ''}" />
+          <div class="fleet-card-header">
+            <span class="fleet-icon">🛞</span>
+            <div class="fleet-header-text">
+              <h4>${f.name}</h4>
+              <span class="fleet-tag-pill">${f.colorName || 'Standar'}</span>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Karakter Warna</label>
-            <input type="text" id="fl-color-${f._id}" value="${f.colorName || ''}" />
+
+          <div class="fleet-body-form">
+            <div class="form-group-sm">
+              <label class="form-label-sm">Nama Varian Unit</label>
+              <input type="text" class="form-control form-control-sm" id="fl-name-${f._id}" value="${f.name || ''}" />
+            </div>
+
+            <div class="form-group-sm">
+              <label class="form-label-sm">Warna Karakter</label>
+              <input type="text" class="form-control form-control-sm" id="fl-color-${f._id}" value="${f.colorName || ''}" />
+            </div>
+
+            <div class="form-group-sm">
+              <label class="form-label-sm">Tagline / Keterangan</label>
+              <input type="text" class="form-control form-control-sm" id="fl-tag-${f._id}" value="${f.tag || ''}" />
+            </div>
           </div>
-          <div class="form-group">
-            <label>Tagline</label>
-            <input type="text" id="fl-tag-${f._id}" value="${f.tag || ''}" />
+
+          <div class="fleet-footer-btn">
+            <button class="btn-save btn-sm" data-id="${f._id}">
+              <span>💾</span> Simpan Armada
+            </button>
           </div>
-          <button class="btn-save" data-id="${f._id}">Simpan Armada</button>
         </div>
       `).join('');
 
@@ -711,21 +917,41 @@ import Layout from '../../layouts/Layout.astro';
     function renderFaq() {
       const container = document.getElementById('faq-container')!;
       if (!globalStore.faqs || globalStore.faqs.length === 0) {
-        container.innerHTML = '<div class="empty-state">Belum ada FAQ.</div>';
+        container.innerHTML = '<div class="empty-state"><span class="empty-icon">📭</span><p>Belum ada FAQ.</p></div>';
         return;
       }
-      container.innerHTML = globalStore.faqs.map((q: any) => `
+      container.innerHTML = globalStore.faqs.map((q: any, idx: number) => `
         <div class="edit-card">
-          <div class="form-group">
-            <label>Pertanyaan</label>
-            <input type="text" id="faq-q-${q._id}" value="${q.question || ''}" />
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <span class="card-icon">❓</span>
+              <div>
+                <h3 class="card-title">Pertanyaan #${idx + 1}</h3>
+                <span class="card-subtitle">FAQ Seputar Sewa Jeep Baluran</span>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Jawaban</label>
-            <textarea id="faq-a-${q._id}" rows="3">${q.answer || ''}</textarea>
+
+          <div class="form-grid">
+            <div class="col-12">
+              <label class="form-label">Teks Pertanyaan</label>
+              <input type="text" class="form-control" id="faq-q-${q._id}" value="${q.question || ''}" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Teks Jawaban Resmi</label>
+              <textarea class="form-control" id="faq-a-${q._id}" rows="3">${q.answer || ''}</textarea>
+            </div>
           </div>
+
           <div class="card-footer-action">
-            <button class="btn-save" data-id="${q._id}">Simpan FAQ</button>
+            <div class="action-meta">
+              <span class="sync-dot"></span>
+              <span>Ditampilkan di Accordion FAQ</span>
+            </div>
+            <button class="btn-save" data-id="${q._id}">
+              <span class="btn-icon">💾</span> Simpan FAQ
+            </button>
           </div>
         </div>
       `).join('');
@@ -745,27 +971,47 @@ import Layout from '../../layouts/Layout.astro';
     function renderTestimonials() {
       const container = document.getElementById('testimonials-container')!;
       if (!globalStore.testimonials || globalStore.testimonials.length === 0) {
-        container.innerHTML = '<div class="empty-state">Belum ada testimoni.</div>';
+        container.innerHTML = '<div class="empty-state"><span class="empty-icon">📭</span><p>Belum ada testimoni.</p></div>';
         return;
       }
       container.innerHTML = globalStore.testimonials.map((t: any) => `
         <div class="edit-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <span class="card-icon">💬</span>
+              <div>
+                <h3 class="card-title">${t.name || 'Nama Tamu'}</h3>
+                <span class="card-subtitle">${t.city || 'Asal Kota'}</span>
+              </div>
+            </div>
+            <span class="badge-status">⭐⭐⭐⭐⭐ 5.0</span>
+          </div>
+
           <div class="form-grid">
             <div class="col-6">
-              <label>Nama Wisatawan</label>
-              <input type="text" id="testi-name-${t._id}" value="${t.name || ''}" />
+              <label class="form-label">Nama Wisatawan</label>
+              <input type="text" class="form-control" id="testi-name-${t._id}" value="${t.name || ''}" />
             </div>
+
             <div class="col-6">
-              <label>Kota Asal</label>
-              <input type="text" id="testi-city-${t._id}" value="${t.city || ''}" />
+              <label class="form-label">Kota / Daerah Asal</label>
+              <input type="text" class="form-control" id="testi-city-${t._id}" value="${t.city || ''}" />
             </div>
+
             <div class="col-12">
-              <label>Kutipan Review</label>
-              <textarea id="testi-quote-${t._id}" rows="2">${t.quote || ''}</textarea>
+              <label class="form-label">Kutipan Review Pengunjung</label>
+              <textarea class="form-control" id="testi-quote-${t._id}" rows="3">${t.quote || ''}</textarea>
             </div>
           </div>
+
           <div class="card-footer-action">
-            <button class="btn-save" data-id="${t._id}">Simpan Testimoni</button>
+            <div class="action-meta">
+              <span class="sync-dot"></span>
+              <span>Testimoni Terverifikasi</span>
+            </div>
+            <button class="btn-save" data-id="${t._id}">
+              <span class="btn-icon">💾</span> Simpan Testimoni
+            </button>
           </div>
         </div>
       `).join('');
@@ -787,33 +1033,57 @@ import Layout from '../../layouts/Layout.astro';
   </script>
 </Layout>
 
-<style>
-  .admin-wrapper {
-    min-height: 100vh;
-    background: #081a12;
-    color: #e2e8f0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+<style is:global>
+  /* ========================================================
+     PREMIUM OPERATOR PORTAL DESIGN SYSTEM (GLOBAL APPLICATION)
+     ======================================================== */
+  :root {
+    --adm-bg-main: #06150e;
+    --adm-bg-surface: #0a2116;
+    --adm-bg-card: rgba(12, 34, 23, 0.75);
+    --adm-border: rgba(46, 204, 113, 0.16);
+    --adm-border-hover: rgba(46, 204, 113, 0.35);
+    --adm-primary: #10b981;
+    --adm-primary-hover: #059669;
+    --adm-primary-glow: rgba(16, 185, 129, 0.25);
+    --adm-text-main: #f8fafc;
+    --adm-text-muted: #94a3b8;
+    --adm-text-subtle: #64748b;
   }
 
-  /* LOGIN VIEW */
+  body {
+    background-color: var(--adm-bg-main);
+  }
+
+  .admin-wrapper {
+    min-height: 100vh;
+    background: radial-gradient(circle at 15% 15%, #0d2f1f 0%, #06150e 70%);
+    color: var(--adm-text-main);
+    font-family: -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', 'Inter', 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* ----------------------------------------------------
+     1. LOGIN SCREEN
+     ---------------------------------------------------- */
   .login-view {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at center, #123824 0%, #06130d 100%);
     padding: 1.5rem;
+    background: radial-gradient(circle at 50% 30%, #113824 0%, #05130c 100%);
   }
 
   .login-card {
     max-width: 440px;
     width: 100%;
-    background: rgba(18, 48, 33, 0.7);
+    background: rgba(10, 31, 21, 0.85);
     border: 1px solid rgba(46, 204, 113, 0.25);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 24px;
     padding: 2.75rem 2.25rem;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 40px rgba(46, 204, 113, 0.08);
   }
 
   .brand-badge {
@@ -822,59 +1092,62 @@ import Layout from '../../layouts/Layout.astro';
     gap: 0.5rem;
     background: rgba(46, 204, 113, 0.12);
     border: 1px solid rgba(46, 204, 113, 0.3);
-    color: #2ecc71;
-    font-size: 0.7rem;
+    color: #34d399;
+    font-size: 0.725rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
-    padding: 0.35rem 0.85rem;
+    letter-spacing: 0.14em;
+    padding: 0.4rem 0.9rem;
     border-radius: 999px;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .logo-mark {
-    font-size: 2.8rem;
+    font-size: 3rem;
     margin-bottom: 0.5rem;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
   }
 
   .login-title {
-    font-size: 1.6rem;
+    font-size: 1.75rem;
     font-weight: 800;
     color: #ffffff;
     margin: 0 0 0.35rem 0;
+    letter-spacing: -0.02em;
   }
 
   .login-subtitle {
     color: #94a3b8;
-    font-size: 0.85rem;
-    margin: 0 0 1.75rem 0;
+    font-size: 0.875rem;
+    margin: 0 0 2rem 0;
     line-height: 1.5;
   }
 
   .alert-box {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    background: rgba(231, 76, 60, 0.15);
-    border: 1px solid rgba(231, 76, 60, 0.4);
-    color: #ff7675;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    margin-bottom: 1.25rem;
+    gap: 0.75rem;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
   }
 
   .form-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.35rem;
     text-align: left;
   }
 
   .form-group label {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.825rem;
     font-weight: 600;
     color: #cbd5e1;
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
   }
 
   .input-wrap {
@@ -886,27 +1159,28 @@ import Layout from '../../layouts/Layout.astro';
   .input-icon {
     position: absolute;
     left: 1rem;
-    font-size: 1rem;
+    font-size: 1.1rem;
     pointer-events: none;
     opacity: 0.7;
   }
 
   .input-wrap input {
     width: 100%;
-    padding: 0.85rem 1rem 0.85rem 2.8rem;
-    background: rgba(6, 20, 13, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.9rem 1rem 0.9rem 2.85rem;
+    background: rgba(4, 15, 10, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 12px;
     color: #ffffff;
     font-size: 0.95rem;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
   }
 
   .input-wrap input:focus {
     outline: none;
-    border-color: #2ecc71;
-    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
-    background: rgba(6, 20, 13, 0.9);
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    background: rgba(4, 15, 10, 0.95);
   }
 
   .btn-toggle-pw {
@@ -915,7 +1189,7 @@ import Layout from '../../layouts/Layout.astro';
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
     opacity: 0.7;
     transition: opacity 0.2s;
   }
@@ -926,27 +1200,27 @@ import Layout from '../../layouts/Layout.astro';
 
   .btn-login {
     width: 100%;
-    padding: 0.95rem;
-    background: #2ecc71;
-    color: #061a10;
+    padding: 1rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
     font-weight: 700;
     font-size: 0.95rem;
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    margin-top: 0.75rem;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    transition: all 0.2s;
-    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.35);
+    gap: 0.6rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);
   }
 
   .btn-login:hover {
-    background: #27ae60;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.45);
+    box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5);
+    filter: brightness(1.08);
   }
 
   .btn-login:disabled {
@@ -961,29 +1235,34 @@ import Layout from '../../layouts/Layout.astro';
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    font-size: 0.75rem;
+    gap: 0.45rem;
+    font-size: 0.775rem;
     color: #64748b;
   }
 
   .sec-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.55rem;
   }
 
   .dot {
     width: 6px;
     height: 6px;
-    background: #2ecc71;
+    background: #10b981;
     border-radius: 50%;
+    box-shadow: 0 0 6px #10b981;
   }
 
-  /* DASHBOARD VIEW */
+  /* ----------------------------------------------------
+     2. DASHBOARD TOP NAVBAR
+     ---------------------------------------------------- */
   .dash-navbar {
-    background: #06170f;
+    background: rgba(6, 21, 14, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(46, 204, 113, 0.2);
-    padding: 1rem 2rem;
+    padding: 0.85rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -995,17 +1274,25 @@ import Layout from '../../layouts/Layout.astro';
   .dash-brand {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.9rem;
   }
 
-  .dash-logo {
-    font-size: 2rem;
+  .brand-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
   }
 
   .dash-title {
     font-weight: 800;
-    font-size: 1.1rem;
-    letter-spacing: 0.05em;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
     color: #ffffff;
   }
 
@@ -1014,64 +1301,115 @@ import Layout from '../../layouts/Layout.astro';
     color: #94a3b8;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
+    margin-top: 0.1rem;
   }
 
   .status-indicator {
     width: 8px;
     height: 8px;
-    background: #2ecc71;
+    background: #10b981;
     border-radius: 50%;
-    box-shadow: 0 0 8px #2ecc71;
+    box-shadow: 0 0 8px #10b981;
+  }
+
+  .env-pill {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    font-size: 0.675rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    margin-left: 0.35rem;
   }
 
   .dash-user-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.85rem;
+  }
+
+  .btn-view-site {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+    font-size: 0.825rem;
+    font-weight: 600;
+    padding: 0.5rem 0.95rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-view-site:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
   }
 
   .user-chip {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.06);
-    padding: 0.4rem 0.85rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 0.45rem 0.95rem;
     border-radius: 999px;
-    font-size: 0.85rem;
+    font-size: 0.825rem;
+    color: #e2e8f0;
   }
 
   .btn-logout {
-    background: rgba(231, 76, 60, 0.15);
-    border: 1px solid rgba(231, 76, 60, 0.3);
-    color: #ff7675;
-    padding: 0.45rem 1rem;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+    padding: 0.5rem 1rem;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.825rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     transition: all 0.2s;
   }
 
   .btn-logout:hover {
-    background: #e74c3c;
+    background: #ef4444;
     color: #ffffff;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
   }
 
-  /* LAYOUT */
+  /* ----------------------------------------------------
+     3. DASHBOARD MAIN LAYOUT & SIDEBAR
+     ---------------------------------------------------- */
   .dash-layout {
     display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: calc(100vh - 72px);
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 66px);
   }
 
   .dash-sidebar {
-    background: #091e14;
+    background: #081d13;
     border-right: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 1.5rem 1rem;
+    padding: 1.75rem 1.15rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .sidebar-section-title {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #64748b;
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
   }
 
   .dash-menu {
@@ -1087,47 +1425,151 @@ import Layout from '../../layouts/Layout.astro';
     width: 100%;
     padding: 0.85rem 1rem;
     background: transparent;
-    border: none;
-    border-radius: 10px;
+    border: 1px solid transparent;
+    border-radius: 12px;
     color: #94a3b8;
     font-weight: 600;
     font-size: 0.9rem;
     cursor: pointer;
     text-align: left;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .menu-tab .tab-icon {
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+
+  .menu-tab .tab-text {
+    flex: 1;
+  }
+
+  .menu-tab .tab-badge {
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    font-size: 0.725rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
   }
 
   .menu-tab:hover {
     background: rgba(255, 255, 255, 0.05);
     color: #ffffff;
+    transform: translateX(3px);
   }
 
   .menu-tab.active {
-    background: rgba(46, 204, 113, 0.15);
-    color: #2ecc71;
-    border-left: 3px solid #2ecc71;
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border-color: rgba(16, 185, 129, 0.3);
+    font-weight: 700;
+  }
+
+  .menu-tab.active .tab-badge {
+    background: #10b981;
+    color: #06150e;
   }
 
   .sidebar-help-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 1rem;
-    font-size: 0.8rem;
+    background: rgba(16, 185, 129, 0.06);
+    border: 1px solid rgba(16, 185, 129, 0.16);
+    border-radius: 14px;
+    padding: 1.15rem;
+    font-size: 0.825rem;
     color: #94a3b8;
     line-height: 1.5;
   }
 
-  .sidebar-help-card h4 {
-    color: #cbd5e1;
-    margin: 0 0 0.4rem 0;
+  .sidebar-help-card .help-header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.5rem;
   }
 
-  /* CONTENT */
+  .sidebar-help-card h4 {
+    color: #e2e8f0;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .help-status-tag {
+    margin-top: 0.75rem;
+    color: #34d399;
+    font-size: 0.725rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* ----------------------------------------------------
+     4. CONTENT AREA & OVERVIEW STATS
+     ---------------------------------------------------- */
   .dash-content {
-    padding: 2.5rem;
-    background: #081a12;
+    padding: 2.25rem 2.5rem;
+    background: #071910;
     overflow-y: auto;
+  }
+
+  .dash-overview-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .stat-card {
+    background: rgba(12, 36, 24, 0.7);
+    border: 1px solid rgba(46, 204, 113, 0.16);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(46, 204, 113, 0.35);
+  }
+
+  .stat-icon {
+    font-size: 2rem;
+    background: rgba(16, 185, 129, 0.12);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+  }
+
+  .stat-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .stat-val {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-top: 0.2rem;
+  }
+
+  .text-green {
+    color: #34d399 !important;
+    font-size: 0.95rem;
   }
 
   .tab-pane {
@@ -1136,156 +1578,412 @@ import Layout from '../../layouts/Layout.astro';
 
   .tab-pane.active {
     display: block;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   .pane-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     margin-bottom: 2rem;
-    padding-bottom: 1rem;
+    padding-bottom: 1.25rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .pane-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 800;
     color: #ffffff;
-    margin: 0 0 0.35rem 0;
+    margin: 0 0 0.4rem 0;
+    letter-spacing: -0.01em;
   }
 
   .pane-header p {
     color: #94a3b8;
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.925rem;
   }
 
-  /* FORMS & CARDS */
+  .btn-refresh {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+    font-size: 0.825rem;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-refresh:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+  }
+
+  /* ----------------------------------------------------
+     5. PREMIUM EDIT CARDS & INPUT STYLING (GLOBAL)
+     ---------------------------------------------------- */
   .cards-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    max-width: 900px;
+    gap: 1.75rem;
+    max-width: 960px;
   }
 
   .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1050px;
   }
 
-  .edit-card, .form-card, .fleet-item-card {
-    background: #0d281c;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 1.75rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  .edit-card {
+    background: rgba(12, 34, 23, 0.8);
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .edit-card:hover {
+    border-color: rgba(46, 204, 113, 0.35);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
   }
 
   .card-header-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.15rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .card-header-bar h3 {
+  .card-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .card-icon {
+    font-size: 1.85rem;
+    background: rgba(16, 185, 129, 0.12);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+  }
+
+  .card-title {
     margin: 0;
-    font-size: 1.15rem;
+    font-size: 1.25rem;
+    font-weight: 800;
     color: #ffffff;
   }
 
-  .badge-tag {
-    background: rgba(46, 204, 113, 0.15);
-    color: #2ecc71;
-    padding: 0.25rem 0.65rem;
-    border-radius: 6px;
+  .card-subtitle {
+    font-size: 0.775rem;
+    color: #94a3b8;
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  .header-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .badge-price {
+    background: rgba(16, 185, 129, 0.18);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #34d399;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.825rem;
+    font-weight: 800;
+  }
+
+  .badge-status {
+    background: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
     font-size: 0.75rem;
     font-weight: 700;
   }
 
+  /* FORMS & GRID */
   .form-grid {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    gap: 1rem;
+    gap: 1.35rem 1.25rem;
   }
 
   .col-12 { grid-column: span 12; }
   .col-6 { grid-column: span 6; }
   .col-4 { grid-column: span 4; }
 
-  label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.825rem;
+    font-weight: 700;
     color: #cbd5e1;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
   }
 
-  input[type="text"], input[type="number"], textarea {
-    width: 100%;
-    padding: 0.75rem 0.9rem;
-    background: #06160f;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 8px;
-    color: #ffffff;
-    font-size: 0.9rem;
-    font-family: inherit;
-    box-sizing: border-box;
+  .req-star {
+    color: #ef4444;
   }
 
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: #2ecc71;
-    box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
-  }
-
-  .hint-text {
+  .field-hint {
     display: block;
-    color: #2ecc71;
+    color: #94a3b8;
     font-size: 0.75rem;
     margin-top: 0.35rem;
+    line-height: 1.4;
   }
 
+  .text-emerald {
+    color: #34d399 !important;
+  }
+
+  /* INPUT & TEXTAREA CONTROLS (CRITICAL STYLING) */
+  .form-control {
+    width: 100% !important;
+    padding: 0.85rem 1rem !important;
+    background: #05160d !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    font-size: 0.925rem !important;
+    font-family: inherit !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .form-control:focus {
+    outline: none !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
+    background: #04120b !important;
+  }
+
+  .form-control::placeholder {
+    color: #64748b;
+  }
+
+  textarea.form-control {
+    resize: vertical;
+    min-height: 75px;
+    line-height: 1.5;
+  }
+
+  .input-prefix-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #94a3b8;
+    pointer-events: none;
+  }
+
+  .form-control.with-prefix {
+    padding-left: 2.85rem !important;
+  }
+
+  /* CARD FOOTER & SAVE BUTTON */
   .card-footer-action {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .action-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.775rem;
+    color: #64748b;
+  }
+
+  .sync-dot {
+    width: 6px;
+    height: 6px;
+    background: #10b981;
+    border-radius: 50%;
+  }
+
+  .btn-save {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 0.85rem 1.75rem !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .btn-save:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 22px rgba(16, 185, 129, 0.45) !important;
+    filter: brightness(1.08) !important;
+  }
+
+  .btn-save:disabled {
+    opacity: 0.65 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+  }
+
+  /* FLEET ITEM CARD */
+  .fleet-item-card {
+    background: rgba(12, 34, 23, 0.8);
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .fleet-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .fleet-icon {
+    font-size: 1.75rem;
+  }
+
+  .fleet-header-text h4 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .fleet-tag-pill {
+    font-size: 0.725rem;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.15);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    display: inline-block;
+    margin-top: 0.2rem;
+  }
+
+  .fleet-body-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .form-group-sm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .form-label-sm {
+    font-size: 0.775rem;
+    color: #cbd5e1;
+    font-weight: 600;
+  }
+
+  .form-control-sm {
+    padding: 0.65rem 0.85rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  .fleet-footer-btn {
+    margin-top: 1.35rem;
     display: flex;
     justify-content: flex-end;
   }
 
-  .btn-save {
-    background: #2ecc71;
-    color: #061a10;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s;
+  .btn-sm {
+    padding: 0.65rem 1.25rem !important;
+    font-size: 0.825rem !important;
   }
 
-  .btn-save:hover {
-    background: #27ae60;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+  /* LOADING & EMPTY STATES */
+  .loading-state, .empty-state {
+    padding: 3.5rem 2rem;
+    text-align: center;
+    background: rgba(12, 34, 23, 0.4);
+    border: 1px dashed rgba(46, 204, 113, 0.2);
+    border-radius: 16px;
+    color: #94a3b8;
   }
 
-  .btn-save:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  .empty-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .pulse-loader {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(16, 185, 129, 0.2);
+    border-top-color: #10b981;
+    border-radius: 50%;
+    margin: 0 auto 1rem auto;
+    animation: spin 0.8s linear infinite;
   }
 
   .spinner {
     width: 16px;
     height: 16px;
-    border: 2px solid rgba(0, 0, 0, 0.2);
-    border-top-color: #000;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
     border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .spinner-sm {
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
     animation: spin 0.8s linear infinite;
   }
 
@@ -1293,22 +1991,34 @@ import Layout from '../../layouts/Layout.astro';
     to { transform: rotate(360deg); }
   }
 
-  /* TOAST NOTIF */
+  /* ----------------------------------------------------
+     6. TOAST NOTIFICATIONS
+     ---------------------------------------------------- */
   .toast-notification {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
     padding: 1rem 1.5rem;
     color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    font-weight: 600;
+    gap: 0.85rem;
+    font-weight: 700;
     font-size: 0.9rem;
-    z-index: 999;
-    animation: slideUp 0.3s ease;
+    z-index: 9999;
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .toast-success {
+    background: #059669;
+    border: 1px solid #34d399;
+  }
+
+  .toast-error {
+    background: #dc2626;
+    border: 1px solid #f87171;
   }
 
   @keyframes slideUp {
@@ -1316,12 +2026,43 @@ import Layout from '../../layouts/Layout.astro';
     to { transform: translateY(0); opacity: 1; }
   }
 
-  @media (max-width: 768px) {
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .dash-overview-bar {
+      grid-template-columns: repeat(2, 1fr);
+    }
     .dash-layout {
+      grid-template-columns: 240px 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dash-navbar {
+      padding: 0.75rem 1rem;
+    }
+    .dash-layout {
+      grid-template-columns: 1fr;
+    }
+    .dash-sidebar {
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .dash-content {
+      padding: 1.5rem 1rem;
+    }
+    .dash-overview-bar {
       grid-template-columns: 1fr;
     }
     .col-6, .col-4 {
       grid-column: span 12;
+    }
+    .card-footer-action {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch;
+    }
+    .btn-save {
+      justify-content: center;
     }
   }
 </style>
