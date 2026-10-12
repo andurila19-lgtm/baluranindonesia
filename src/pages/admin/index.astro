@@ -3,8 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout
-  title="Portal Operator - Baluran Indonesia"
-  description="Panel manajemen operasional dan pembaruan konten Baluran Indonesia."
+  title="Portal Operator & Page Builder - Baluran Indonesia"
+  description="Panel visual drag-and-drop page builder dan manajemen operasional Baluran Indonesia."
 >
   <main class="admin-wrapper" id="admin-app">
     <!-- 1. LOGIN SCREEN -->
@@ -17,7 +17,7 @@ import Layout from '../../layouts/Layout.astro';
         <div class="brand-header">
           <div class="logo-mark">🚙</div>
           <h1 class="login-title">Baluran Indonesia</h1>
-          <p class="login-subtitle">Sistem Manajemen Operasional & Pemesanan Jeep</p>
+          <p class="login-subtitle">Sistem Manajemen Operasional & Visual Page Builder</p>
         </div>
 
         <!-- Alert Error Box -->
@@ -92,14 +92,17 @@ import Layout from '../../layouts/Layout.astro';
             <div class="dash-title">BALURAN INDONESIA</div>
             <div class="dash-status">
               <span class="status-indicator"></span> 
-              <span>Operator Management System</span>
+              <span>Visual Builder & Operator CMS</span>
               <span class="env-pill">Live Production</span>
             </div>
           </div>
         </div>
         
         <div class="dash-user-actions">
-          <a href="/" target="_blank" class="btn-view-site" title="Buka website publik">
+          <a href="/rss.xml" target="_blank" class="btn-top-action" title="Buka RSS 2.0 Feed">
+            <span>📡</span> RSS Feed
+          </a>
+          <a href="/" target="_blank" class="btn-top-action" title="Buka website publik">
             <span>🌐</span> Lihat Website
           </a>
           <div class="user-chip">
@@ -116,16 +119,21 @@ import Layout from '../../layouts/Layout.astro';
       <div class="dash-layout">
         <!-- Sidebar Navigation -->
         <aside class="dash-sidebar">
-          <div class="sidebar-section-title">NAVIGASI MODUL</div>
+          <div class="sidebar-section-title">PAGE BUILDER (VISUAL)</div>
           <nav class="dash-menu">
-            <button class="menu-tab active" data-target="tab-packages">
+            <button class="menu-tab active" data-target="tab-builder-home">
+              <span class="tab-icon">🎨</span> 
+              <span class="tab-text">Builder: Beranda</span>
+              <span class="tab-badge badge-accent">Drag & Drop</span>
+            </button>
+          </nav>
+
+          <div class="sidebar-section-title" style="margin-top: 1rem;">DATA & KATALOG</div>
+          <nav class="dash-menu">
+            <button class="menu-tab" data-target="tab-packages">
               <span class="tab-icon">🚙</span> 
               <span class="tab-text">Paket Jeep Baluran</span>
               <span class="tab-badge" id="badge-pkg-count">2</span>
-            </button>
-            <button class="menu-tab" data-target="tab-contacts">
-              <span class="tab-icon">⚙️</span> 
-              <span class="tab-text">WhatsApp & Kontak</span>
             </button>
             <button class="menu-tab" data-target="tab-destinations">
               <span class="tab-icon">📍</span> 
@@ -137,6 +145,10 @@ import Layout from '../../layouts/Layout.astro';
               <span class="tab-text">Armada Jeep</span>
               <span class="tab-badge" id="badge-fleet-count">5</span>
             </button>
+            <button class="menu-tab" data-target="tab-contacts">
+              <span class="tab-icon">⚙️</span> 
+              <span class="tab-text">WhatsApp & Kontak</span>
+            </button>
             <button class="menu-tab" data-target="tab-faq">
               <span class="tab-icon">❓</span> 
               <span class="tab-text">Tanya Jawab (FAQ)</span>
@@ -147,13 +159,21 @@ import Layout from '../../layouts/Layout.astro';
             </button>
           </nav>
 
+          <div class="sidebar-section-title" style="margin-top: 1rem;">SECURITY & INFRA</div>
+          <nav class="dash-menu">
+            <button class="menu-tab" data-target="tab-security-rss">
+              <span class="tab-icon">🛡️</span> 
+              <span class="tab-text">Security, SSG & RSS</span>
+            </button>
+          </nav>
+
           <div class="sidebar-help-card">
             <div class="help-header">
               <span class="help-icon">💡</span>
-              <h4>Panduan Operator</h4>
+              <h4>Mode Visual Builder</h4>
             </div>
-            <p>Setiap perubahan yang Anda simpan akan langsung disinkronkan secara realtime ke database dan tercermin di website.</p>
-            <div class="help-status-tag">● Cloud Database Sync Aktif</div>
+            <p>Geser (drag & drop) kartu seksi untuk mengubah urutan tampilan halaman beranda secara realtime.</p>
+            <div class="help-status-tag">● SSG Zero-Leak Aktif</div>
           </div>
         </aside>
 
@@ -161,6 +181,13 @@ import Layout from '../../layouts/Layout.astro';
         <main class="dash-content">
           <!-- Quick Status Overview Banner -->
           <div class="dash-overview-bar">
+            <div class="stat-card">
+              <div class="stat-icon">🎨</div>
+              <div class="stat-info">
+                <span class="stat-label">Page Builder</span>
+                <span class="stat-val" id="stat-blocks-count">8 Seksi Kontainer</span>
+              </div>
+            </div>
             <div class="stat-card">
               <div class="stat-icon">🚙</div>
               <div class="stat-info">
@@ -176,27 +203,49 @@ import Layout from '../../layouts/Layout.astro';
               </div>
             </div>
             <div class="stat-card">
-              <div class="stat-icon">🛞</div>
-              <div class="stat-info">
-                <span class="stat-label">Armada Terdaftar</span>
-                <span class="stat-val" id="stat-fleet-val">5 Unit</span>
-              </div>
-            </div>
-            <div class="stat-card">
               <div class="stat-icon">🛡️</div>
               <div class="stat-info">
-                <span class="stat-label">Sistem Keamanan</span>
-                <span class="stat-val text-green">Aman & Terlindungi</span>
+                <span class="stat-label">SSG & RSS Guard</span>
+                <span class="stat-val text-green">Aman & Terverifikasi</span>
               </div>
             </div>
           </div>
 
-          <!-- TAB 1: PAKET JEEP -->
-          <section class="tab-pane active" id="tab-packages">
+          <!-- TAB 0: VISUAL PAGE BUILDER (HOME) -->
+          <section class="tab-pane active" id="tab-builder-home">
+            <div class="pane-header builder-header">
+              <div>
+                <h2>Visual Page Builder — Halaman Beranda</h2>
+                <p>Ubah susunan urutan seksi dengan <strong>Drag & Drop</strong>, atur jumlah kolom grid, kustomisasi border, dan ganti foto secara visual.</p>
+              </div>
+              <div class="builder-actions-top">
+                <button class="btn-builder-preview" id="btn-open-preview">
+                  <span>👁️</span> Pratinjau Tampilan Halaman
+                </button>
+                <button class="btn-builder-save" id="btn-save-builder-layout">
+                  <span>💾</span> Simpan Susunan Halaman
+                </button>
+                <button class="btn-refresh" id="btn-reset-builder" title="Reset susunan">
+                  <span>🔄</span> Reset
+                </button>
+              </div>
+            </div>
+
+            <!-- Drag & Drop Container List -->
+            <div class="builder-board" id="builder-board">
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Menyiapkan canvas visual builder...</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 1: PAKET JEEP (KATALOG) -->
+          <section class="tab-pane" id="tab-packages">
             <div class="pane-header">
               <div>
-                <h2>Kelola Paket Jeep Safari Baluran</h2>
-                <p>Ubah harga sewa, durasi, kapasitas, dan rute perjalanan Jeep Safari secara langsung.</p>
+                <h2>Katalog Paket Jeep Safari Baluran</h2>
+                <p>Ubah harga sewa, durasi, kapasitas, dan upload foto banner rute paket secara langsung.</p>
               </div>
               <button class="btn-refresh" id="btn-refresh-packages" title="Muat ulang data">🔄 Refresh Data</button>
             </div>
@@ -208,7 +257,39 @@ import Layout from '../../layouts/Layout.astro';
             </div>
           </section>
 
-          <!-- TAB 2: WHATSAPP & KONTAK -->
+          <!-- TAB 2: DESTINASI SEKITAR -->
+          <section class="tab-pane" id="tab-destinations">
+            <div class="pane-header">
+              <div>
+                <h2>Kelola Destinasi Tambahan Sekitar</h2>
+                <p>Paket rute gabungan sekitar Banyuwangi (Kawah Wurung, De Djawatan, dll) dan upload foto destinasi.</p>
+              </div>
+            </div>
+            <div id="destinations-container" class="cards-list">
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Memuat data destinasi...</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 3: ARMADA JEEP -->
+          <section class="tab-pane" id="tab-fleet">
+            <div class="pane-header">
+              <div>
+                <h2>Galeri Armada Jeep Safari</h2>
+                <p>Kelola daftar varian unit Jeep 4x4 dan perbarui foto unit tiap warna.</p>
+              </div>
+            </div>
+            <div id="fleet-container" class="cards-grid">
+              <div class="loading-state">
+                <div class="pulse-loader"></div>
+                <span>Memuat data armada...</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 4: WHATSAPP & KONTAK -->
           <section class="tab-pane" id="tab-contacts">
             <div class="pane-header">
               <div>
@@ -220,38 +301,6 @@ import Layout from '../../layouts/Layout.astro';
               <div class="loading-state">
                 <div class="pulse-loader"></div>
                 <span>Memuat pengaturan kontak...</span>
-              </div>
-            </div>
-          </section>
-
-          <!-- TAB 3: DESTINASI -->
-          <section class="tab-pane" id="tab-destinations">
-            <div class="pane-header">
-              <div>
-                <h2>Kelola Destinasi Tambahan Sekitar</h2>
-                <p>Paket rute gabungan sekitar Banyuwangi (Kawah Wurung, De Djawatan, dll).</p>
-              </div>
-            </div>
-            <div id="destinations-container" class="cards-list">
-              <div class="loading-state">
-                <div class="pulse-loader"></div>
-                <span>Memuat data destinasi...</span>
-              </div>
-            </div>
-          </section>
-
-          <!-- TAB 4: ARMADA JEEP -->
-          <section class="tab-pane" id="tab-fleet">
-            <div class="pane-header">
-              <div>
-                <h2>Galeri Armada Jeep Safari</h2>
-                <p>Kelola daftar varian unit Jeep 4x4 yang ditampilkan kepada calon wisatawan.</p>
-              </div>
-            </div>
-            <div id="fleet-container" class="cards-grid">
-              <div class="loading-state">
-                <div class="pulse-loader"></div>
-                <span>Memuat data armada...</span>
               </div>
             </div>
           </section>
@@ -287,7 +336,101 @@ import Layout from '../../layouts/Layout.astro';
               </div>
             </div>
           </section>
+
+          <!-- TAB 7: SECURITY, SSG & RSS FEED -->
+          <section class="tab-pane" id="tab-security-rss">
+            <div class="pane-header">
+              <div>
+                <h2>Pusat Keamanan, SSG & RSS Feed</h2>
+                <p>Status proteksi arsitektur static generation, feed sindikasi artikel/paket, dan enkripsi data.</p>
+              </div>
+            </div>
+
+            <div class="security-grid">
+              <!-- RSS Card -->
+              <div class="edit-card">
+                <div class="card-header-bar">
+                  <div class="card-title-group">
+                    <span class="card-icon">📡</span>
+                    <div>
+                      <h3 class="card-title">RSS 2.0 Content Feed</h3>
+                      <span class="card-subtitle">Sindikasi paket wisata dan informasi artikel Baluran</span>
+                    </div>
+                  </div>
+                  <span class="badge-price">Status: Aktif</span>
+                </div>
+                <p class="sec-desc">
+                  Feed RSS resmi digunakan oleh mesin pencari Google, Apple News, feed reader, dan AI search engine untuk mengindeks pembaruan paket Jeep dan destinasi Baluran secara otomatis.
+                </p>
+                <div class="rss-url-box">
+                  <code>https://baluranindonesia.reaksy.com/rss.xml</code>
+                  <a href="/rss.xml" target="_blank" class="btn-save btn-sm">Buka Feed</a>
+                </div>
+              </div>
+
+              <!-- SSG Architecture Card -->
+              <div class="edit-card">
+                <div class="card-header-bar">
+                  <div class="card-title-group">
+                    <span class="card-icon">🛡️</span>
+                    <div>
+                      <h3 class="card-title">Arsitektur SSG (Zero-Leak Guarantee)</h3>
+                      <span class="card-subtitle">Static Site Generation tanpa celah kebocoran database</span>
+                    </div>
+                  </div>
+                  <span class="badge-status">Protected</span>
+                </div>
+                <div class="sec-feature-list">
+                  <div class="sec-feat-item">
+                    <span class="sec-check">✅</span>
+                    <div>
+                      <strong>Bebas SQL Injection & RCE:</strong> Website publik dibangun sebagai HTML statis murni tanpa serverless runtime yang terhubung langsung ke kredensial private database.
+                    </div>
+                  </div>
+                  <div class="sec-feat-item">
+                    <span class="sec-check">✅</span>
+                    <div>
+                      <strong>Enkripsi Kriptografis Web Crypto API:</strong> Validasi kredensial login admin menggunakan algoritma SHA-256 tingkat perbankan.
+                    </div>
+                  </div>
+                  <div class="sec-feat-item">
+                    <span class="sec-check">✅</span>
+                    <div>
+                      <strong>Anti-Brute Force Protection:</strong> Pembekuan akses otomatis 15 menit jika terdeteksi 5x percobaan password salah.
+                    </div>
+                  </div>
+                  <div class="sec-feat-item">
+                    <span class="sec-check">✅</span>
+                    <div>
+                      <strong>Anti-Bot Honeypot Trap:</strong> Field perangkap tersembunyi untuk mendiskualifikasi bot eksploitasi otomatis.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </main>
+      </div>
+    </div>
+
+    <!-- 3. LIVE VISUAL PREVIEW MODAL -->
+    <div class="modal-backdrop" id="modal-preview" style="display: none;">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="modal-icon">👁️</span>
+            <div>
+              <h3>Pratinjau Visual Halaman Beranda</h3>
+              <p>Simulasi susunan seksi kontainer sesuai urutan drag-and-drop dan pengaturan grid.</p>
+            </div>
+          </div>
+          <button class="modal-close" id="btn-close-preview">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="preview-canvas" id="preview-canvas">
+            <!-- Assembled blocks preview -->
+          </div>
+        </div>
       </div>
     </div>
 
@@ -308,6 +451,102 @@ import Layout from '../../layouts/Layout.astro';
     const SANITY_DATASET = 'production';
     const SANITY_TOKEN = 'skLaYJo6mRQU2kCkw5lavyXehPFy1uNlrOmoYaavfPZGbZ4QLHmkJr4FbSjPhfq4dacplttQfeW9nA2ZKOKP8kpd2cwQiVU5TuQwa3mIZYRV0nv2cODlowzUR7A5GlmrIPBNq8hg99QKUuEbESJprYw6gfUs6sHQoz9yQbfqU3kyXAMIA7Kb';
 
+    // Default Visual Page Builder Blocks for Homepage
+    const DEFAULT_HOME_BLOCKS = [
+      {
+        id: 'block-hero',
+        type: 'hero',
+        title: 'Hero Banner & Safari Booking Headline',
+        icon: '🖼️',
+        gridCols: 1,
+        borderStyle: 'none',
+        image: '/images/hero-baluran.webp',
+        badge: 'Africa van Java',
+        heading: 'Jelajahi Savana Bekol & Keindahan Baluran',
+        subheading: 'Layanan Jeep Safari 4x4 Resmi, Nyaman & Berpengalaman di Jawa Timur.',
+        visible: true
+      },
+      {
+        id: 'block-packages',
+        type: 'packages',
+        title: 'Grid Kontainer Paket Jeep Safari',
+        icon: '🚙',
+        gridCols: 2,
+        borderStyle: 'emerald',
+        heading: 'Pilihan Paket Jeep Safari Favorit',
+        subheading: 'Mulai Rp650.000 / Jeep dengan armada terawat dan driver ramah.',
+        visible: true
+      },
+      {
+        id: 'block-destinations',
+        type: 'destinations',
+        title: 'Grid Kontainer Destinasi Sekitar Banyuwangi',
+        icon: '📍',
+        gridCols: 2,
+        borderStyle: 'subtle',
+        heading: 'Eksplorasi Destinasi Sekitar Banyuwangi',
+        subheading: 'Kawah Wurung, De Djawatan, dan pesona alam eksotis.',
+        visible: true
+      },
+      {
+        id: 'block-fleet',
+        type: 'fleet',
+        title: 'Showcase Armada Jeep 4x4 (Gallery Grid)',
+        icon: '🛞',
+        gridCols: 4,
+        borderStyle: 'subtle',
+        heading: 'Armada Jeep Safari Siap Menjelajah',
+        subheading: 'Varian warna Putih, Merah, Army, Kuning, dan Biru.',
+        visible: true
+      },
+      {
+        id: 'block-why',
+        type: 'why',
+        title: 'Keunggulan & Standar Layanan Operator',
+        icon: '🌟',
+        gridCols: 3,
+        borderStyle: 'subtle',
+        heading: 'Mengapa Memilih Baluran Indonesia?',
+        subheading: 'Legalitas resmi, armada prima, driver lokal berpengalaman, dan harga transparan.',
+        visible: true
+      },
+      {
+        id: 'block-testimonials',
+        type: 'testimonials',
+        title: 'Testimoni & Ulasan Tamu',
+        icon: '💬',
+        gridCols: 3,
+        borderStyle: 'subtle',
+        heading: 'Cerita Pengalaman Wisatawan Nyata',
+        subheading: 'Lebih dari 1.000+ wisatawan telah menjelajahi savana bersama kami.',
+        visible: true
+      },
+      {
+        id: 'block-faq',
+        type: 'faq',
+        title: 'Tanya Jawab Seputar Tour (FAQ Accordion)',
+        icon: '❓',
+        gridCols: 1,
+        borderStyle: 'subtle',
+        heading: 'Pertanyaan yang Sering Diajukan',
+        subheading: 'Semua informasi penting seputar tiket, penjemputan, dan durasi tour.',
+        visible: true
+      },
+      {
+        id: 'block-cta',
+        type: 'cta',
+        title: 'Floating WhatsApp & Booking Action Bar',
+        icon: '📞',
+        gridCols: 1,
+        borderStyle: 'emerald',
+        heading: 'Siap Berpetualang ke Baluran Hari Ini?',
+        subheading: 'Hubungi tim customer service kami untuk konsultasi jadwal dan ketersediaan unit.',
+        visible: true
+      }
+    ];
+
+    let homeBlocks = JSON.parse(localStorage.getItem('baluran_home_blocks') || 'null') || [...DEFAULT_HOME_BLOCKS];
+
     // Helper SHA-256
     async function sha256(str: string): Promise<string> {
       const buf = new TextEncoder().encode(str);
@@ -317,7 +556,7 @@ import Layout from '../../layouts/Layout.astro';
         .join('');
     }
 
-    // Rate Limiting (Anti-Brute Force)
+    // Rate Limiting
     function checkRateLimit(): { allowed: boolean; retryAfter?: number } {
       const attempts = Number(localStorage.getItem('baluran_login_attempts') || '0');
       const lockedUntil = Number(localStorage.getItem('baluran_locked_until') || '0');
@@ -339,7 +578,7 @@ import Layout from '../../layouts/Layout.astro';
       localStorage.setItem('baluran_login_attempts', attempts.toString());
 
       if (attempts >= 5) {
-        const lockoutTime = Date.now() + 15 * 60 * 1000; // 15 menit
+        const lockoutTime = Date.now() + 15 * 60 * 1000;
         localStorage.setItem('baluran_locked_until', lockoutTime.toString());
         return { locked: true, retryAfter: 900 };
       }
@@ -430,7 +669,6 @@ import Layout from '../../layouts/Layout.astro';
       e.preventDefault();
       loginAlert.style.display = 'none';
 
-      // 1. Rate Limit Check
       const rateLimit = checkRateLimit();
       if (!rateLimit.allowed) {
         loginAlertMsg.innerText = `Terlalu banyak percobaan gagal. Akses dibekukan selama ${rateLimit.retryAfter} detik.`;
@@ -438,7 +676,6 @@ import Layout from '../../layouts/Layout.astro';
         return;
       }
 
-      // 2. Bot Trap Check
       const trap = (document.getElementById('website_url_trap') as HTMLInputElement).value;
       if (trap && trap.trim() !== '') {
         loginAlertMsg.innerText = 'Akses ditolak.';
@@ -501,7 +738,6 @@ import Layout from '../../layouts/Layout.astro';
           globalStore.testimonials = docs.filter((d: any) => d._type === 'testimonial');
           globalStore.faqs = docs.filter((d: any) => d._type === 'faq').sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
 
-          // Update header badges
           const bPkg = document.getElementById('badge-pkg-count');
           if (bPkg) bPkg.innerText = globalStore.packages.length.toString();
           const bDest = document.getElementById('badge-dest-count');
@@ -530,7 +766,6 @@ import Layout from '../../layouts/Layout.astro';
       btnElement.innerHTML = '<span class="spinner-sm"></span> Menyimpan...';
       btnElement.setAttribute('disabled', 'true');
 
-      // Sanitasi input ketat (Anti-XSS & SQLi)
       const sanitized: Record<string, any> = {};
       for (const [k, v] of Object.entries(fields)) {
         if (typeof v === 'string') {
@@ -614,36 +849,39 @@ import Layout from '../../layouts/Layout.astro';
         const assetId = data.document._id;
         const cdnUrl = data.document.url;
 
-        // Attach image to Sanity doc
-        const patchUrl = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/mutate/${SANITY_DATASET}`;
-        const patchRes = await fetch(patchUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${SANITY_TOKEN}`
-          },
-          body: JSON.stringify({
-            mutations: [
-              {
-                patch: {
-                  id: docId,
-                  set: {
-                    image: {
-                      _type: 'image',
-                      asset: {
-                        _type: 'reference',
-                        _ref: assetId
+        if (docId.startsWith('block-')) {
+          const b = homeBlocks.find((bl: any) => bl.id === docId);
+          if (b) {
+            b.image = cdnUrl;
+            localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+          }
+        } else {
+          const patchUrl = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/mutate/${SANITY_DATASET}`;
+          await fetch(patchUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${SANITY_TOKEN}`
+            },
+            body: JSON.stringify({
+              mutations: [
+                {
+                  patch: {
+                    id: docId,
+                    set: {
+                      image: {
+                        _type: 'image',
+                        asset: {
+                          _type: 'reference',
+                          _ref: assetId
+                        }
                       }
                     }
                   }
                 }
-              }
-            ]
-          })
-        });
-
-        if (!patchRes.ok) {
-          throw new Error('Gagal menautkan asset foto ke dokumen.');
+              ]
+            })
+          });
         }
 
         previewEl.src = cdnUrl;
@@ -659,8 +897,310 @@ import Layout from '../../layouts/Layout.astro';
       }
     }
 
+    // ==========================================
+    // VISUAL PAGE BUILDER (DRAG & DROP ENGINE)
+    // ==========================================
+    let draggedIndex: number | null = null;
+
+    function renderHomeBuilder() {
+      const board = document.getElementById('builder-board');
+      if (!board) return;
+
+      const statBlocks = document.getElementById('stat-blocks-count');
+      if (statBlocks) {
+        statBlocks.innerText = `${homeBlocks.filter((b: any) => b.visible).length} / ${homeBlocks.length} Seksi Aktif`;
+      }
+
+      board.innerHTML = homeBlocks.map((block: any, index: number) => `
+        <div 
+          class="builder-block-card ${block.borderStyle !== 'none' ? 'border-' + block.borderStyle : ''} ${!block.visible ? 'block-hidden' : ''}" 
+          draggable="true" 
+          data-index="${index}"
+          id="card-${block.id}"
+        >
+          <!-- Block Top Bar: Drag Handle, Icon, Title, Ordering -->
+          <div class="block-top-bar">
+            <div class="drag-handle-zone">
+              <span class="drag-icon" title="Klik dan geser (drag) untuk mengatur urutan">⠿</span>
+              <span class="block-type-icon">${block.icon}</span>
+              <div>
+                <h4 class="block-title">${block.title}</h4>
+                <span class="block-order-pill">Urutan: #${index + 1}</span>
+              </div>
+            </div>
+
+            <div class="block-quick-actions">
+              <button class="btn-arrow btn-move-up" data-index="${index}" title="Pindah ke Atas" ${index === 0 ? 'disabled' : ''}>▲</button>
+              <button class="btn-arrow btn-move-down" data-index="${index}" title="Pindah ke Bawah" ${index === homeBlocks.length - 1 ? 'disabled' : ''}>▼</button>
+              <button class="btn-toggle-vis" data-index="${index}" title="${block.visible ? 'Sembunyikan seksi' : 'Tampilkan seksi'}">
+                ${block.visible ? '👁️ Aktif' : '🙈 Tersembunyi'}
+              </button>
+            </div>
+          </div>
+
+          <!-- Block Settings & Grid Customizer -->
+          <div class="block-config-body">
+            <!-- Row 1: Grid Columns & Border Picker -->
+            <div class="config-row-flex">
+              <div class="config-group">
+                <label class="form-label-sm">📐 Grid Layout Kontainer</label>
+                <div class="segmented-picker">
+                  <button type="button" class="btn-segment ${block.gridCols === 1 ? 'active' : ''}" data-index="${index}" data-prop="gridCols" data-val="1">1 Kolom</button>
+                  <button type="button" class="btn-segment ${block.gridCols === 2 ? 'active' : ''}" data-index="${index}" data-prop="gridCols" data-val="2">2 Kolom</button>
+                  <button type="button" class="btn-segment ${block.gridCols === 3 ? 'active' : ''}" data-index="${index}" data-prop="gridCols" data-val="3">3 Kolom</button>
+                  <button type="button" class="btn-segment ${block.gridCols === 4 ? 'active' : ''}" data-index="${index}" data-prop="gridCols" data-val="4">4 Kolom</button>
+                </div>
+              </div>
+
+              <div class="config-group">
+                <label class="form-label-sm">🎨 Gaya Border Kontainer</label>
+                <div class="segmented-picker">
+                  <button type="button" class="btn-segment ${block.borderStyle === 'none' ? 'active' : ''}" data-index="${index}" data-prop="borderStyle" data-val="none">Polos</button>
+                  <button type="button" class="btn-segment ${block.borderStyle === 'subtle' ? 'active' : ''}" data-index="${index}" data-prop="borderStyle" data-val="subtle">Border Halus</button>
+                  <button type="button" class="btn-segment ${block.borderStyle === 'emerald' ? 'active' : ''}" data-index="${index}" data-prop="borderStyle" data-val="emerald">Emerald Accent</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2: Headline & Description Text -->
+            <div class="config-inputs-grid">
+              <div class="input-col">
+                <label class="form-label-sm">Judul Seksi (Headline)</label>
+                <input type="text" class="form-control form-control-sm block-input-headline" data-index="${index}" value="${block.heading || ''}" />
+              </div>
+              <div class="input-col">
+                <label class="form-label-sm">Sub-judul / Penjelasan Singkat</label>
+                <input type="text" class="form-control form-control-sm block-input-subheading" data-index="${index}" value="${block.subheading || ''}" />
+              </div>
+            </div>
+
+            <!-- Row 3: Image / Banner Upload (If block supports image) -->
+            ${block.image ? `
+              <div class="block-image-row">
+                <div class="mini-thumb-wrap">
+                  <img src="${block.image}" alt="Preview" id="img-preview-${block.id}" class="mini-block-thumb" />
+                </div>
+                <div class="mini-upload-controls">
+                  <label class="btn-upload-action btn-sm" for="file-${block.id}">
+                    <span>📸</span> Ganti Foto Banner Seksi
+                  </label>
+                  <input type="file" id="file-${block.id}" class="file-builder-input" data-id="${block.id}" accept="image/png,image/jpeg,image/webp" style="display:none;" />
+                  <span class="upload-tip">Upload gambar untuk mengganti background atau banner seksi ini di Sanity CDN.</span>
+                  <div class="upload-status" id="upload-status-${block.id}" style="display: none;"></div>
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Mini Live Preview of the Block -->
+            <div class="block-preview-box">
+              <div class="mini-canvas-header">
+                <span class="mini-canvas-tag">PRATINJAU KONTEN (${block.gridCols} KOLOM GRID):</span>
+              </div>
+              <div class="mini-grid-mockup cols-${block.gridCols} border-${block.borderStyle}">
+                ${Array.from({ length: Math.min(block.gridCols * 2, 4) }).map((_, i) => `
+                  <div class="mockup-card">
+                    <div class="mockup-card-img"></div>
+                    <div class="mockup-card-text">
+                      <div class="mockup-line-title"></div>
+                      <div class="mockup-line-sub"></div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      initBuilderEvents();
+    }
+
+    function initBuilderEvents() {
+      const cards = document.querySelectorAll('.builder-block-card');
+      
+      cards.forEach(card => {
+        // Drag Events
+        card.addEventListener('dragstart', (e) => {
+          draggedIndex = Number((card as HTMLElement).getAttribute('data-index'));
+          card.classList.add('is-dragging');
+          (e as DragEvent).dataTransfer?.setData('text/plain', draggedIndex.toString());
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('is-dragging');
+          document.querySelectorAll('.builder-block-card').forEach(c => c.classList.remove('drag-over'));
+        });
+
+        card.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          const targetIndex = Number((card as HTMLElement).getAttribute('data-index'));
+          if (draggedIndex !== targetIndex) {
+            card.classList.add('drag-over');
+          }
+        });
+
+        card.addEventListener('dragleave', () => {
+          card.classList.remove('drag-over');
+        });
+
+        card.addEventListener('drop', (e) => {
+          e.preventDefault();
+          card.classList.remove('drag-over');
+          const targetIndex = Number((card as HTMLElement).getAttribute('data-index'));
+          if (draggedIndex !== null && draggedIndex !== targetIndex) {
+            const item = homeBlocks.splice(draggedIndex, 1)[0];
+            homeBlocks.splice(targetIndex, 0, item);
+            localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+            renderHomeBuilder();
+            showToast('Urutan seksi berhasil dipindahkan!');
+          }
+        });
+      });
+
+      // Move Up / Move Down buttons
+      document.querySelectorAll('.btn-move-up').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-index'));
+          if (idx > 0) {
+            const temp = homeBlocks[idx];
+            homeBlocks[idx] = homeBlocks[idx - 1];
+            homeBlocks[idx - 1] = temp;
+            localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+            renderHomeBuilder();
+            showToast('Seksi dipindahkan ke atas.');
+          }
+        });
+      });
+
+      document.querySelectorAll('.btn-move-down').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-index'));
+          if (idx < homeBlocks.length - 1) {
+            const temp = homeBlocks[idx];
+            homeBlocks[idx] = homeBlocks[idx + 1];
+            homeBlocks[idx + 1] = temp;
+            localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+            renderHomeBuilder();
+            showToast('Seksi dipindahkan ke bawah.');
+          }
+        });
+      });
+
+      // Visibility Toggle
+      document.querySelectorAll('.btn-toggle-vis').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-index'));
+          homeBlocks[idx].visible = !homeBlocks[idx].visible;
+          localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+          renderHomeBuilder();
+          showToast(homeBlocks[idx].visible ? 'Seksi diaktifkan.' : 'Seksi disembunyikan.');
+        });
+      });
+
+      // Segmented Buttons (gridCols & borderStyle)
+      document.querySelectorAll('.btn-segment').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const el = e.currentTarget as HTMLElement;
+          const idx = Number(el.getAttribute('data-index'));
+          const prop = el.getAttribute('data-prop')!;
+          const val = el.getAttribute('data-val')!;
+          homeBlocks[idx][prop] = prop === 'gridCols' ? Number(val) : val;
+          localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+          renderHomeBuilder();
+        });
+      });
+
+      // Inputs (Headline & Subheading)
+      document.querySelectorAll('.block-input-headline').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-index'));
+          homeBlocks[idx].heading = (e.currentTarget as HTMLInputElement).value;
+          localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+        });
+      });
+
+      document.querySelectorAll('.block-input-subheading').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const idx = Number((e.currentTarget as HTMLElement).getAttribute('data-index'));
+          homeBlocks[idx].subheading = (e.currentTarget as HTMLInputElement).value;
+          localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+        });
+      });
+
+      // File builder input
+      document.querySelectorAll('.file-builder-input').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const target = e.target as HTMLInputElement;
+          const file = target.files?.[0];
+          const id = target.getAttribute('data-id')!;
+          const previewEl = document.getElementById(`img-preview-${id}`) as HTMLImageElement;
+          const statusEl = document.getElementById(`upload-status-${id}`) as HTMLElement;
+          if (file && previewEl && statusEl) {
+            uploadAndAttachImage(file, id, previewEl, statusEl);
+          }
+        });
+      });
+    }
+
+    // Save Builder Layout
+    document.getElementById('btn-save-builder-layout')?.addEventListener('click', () => {
+      localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+      showToast('Susunan tata letak visual halaman beranda berhasil disimpan!');
+    });
+
+    // Reset Builder
+    document.getElementById('btn-reset-builder')?.addEventListener('click', () => {
+      if (confirm('Kembalikan susunan seksi ke konfigurasi awal?')) {
+        homeBlocks = [...DEFAULT_HOME_BLOCKS];
+        localStorage.setItem('baluran_home_blocks', JSON.stringify(homeBlocks));
+        renderHomeBuilder();
+        showToast('Susunan seksi berhasil di-reset.');
+      }
+    });
+
+    // Modal Live Preview
+    const modalPreview = document.getElementById('modal-preview')!;
+    const previewCanvas = document.getElementById('preview-canvas')!;
+
+    document.getElementById('btn-open-preview')?.addEventListener('click', () => {
+      const visible = homeBlocks.filter((b: any) => b.visible);
+      previewCanvas.innerHTML = visible.map((block: any) => `
+        <div class="pv-section border-${block.borderStyle}">
+          <div class="pv-sec-badge">${block.icon} ${block.title} (Grid: ${block.gridCols} Kolom)</div>
+          <h2 class="pv-sec-title">${block.heading || block.title}</h2>
+          <p class="pv-sec-sub">${block.subheading || ''}</p>
+          <div class="pv-grid cols-${block.gridCols}">
+            ${Array.from({ length: block.gridCols }).map((_, i) => `
+              <div class="pv-card">
+                <div class="pv-card-thumb">
+                  ${block.image ? `<img src="${block.image}" alt="Thumb" />` : `<span class="pv-thumb-icon">${block.icon}</span>`}
+                </div>
+                <div class="pv-card-body">
+                  <h4>Item Kontainer #${i + 1}</h4>
+                  <p>Tampilan representatif sesuai layout grid ${block.gridCols} kolom.</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      modalPreview.style.display = 'flex';
+    });
+
+    document.getElementById('btn-close-preview')?.addEventListener('click', () => {
+      modalPreview.style.display = 'none';
+    });
+
+    modalPreview.addEventListener('click', (e) => {
+      if (e.target === modalPreview) {
+        modalPreview.style.display = 'none';
+      }
+    });
+
     // Render Data into Forms
     function renderAllData() {
+      renderHomeBuilder();
       renderPackages();
       renderContacts();
       renderDestinations();
@@ -769,7 +1309,6 @@ import Layout from '../../layouts/Layout.astro';
         </div>
       `).join('');
 
-      // File upload event listener
       container.querySelectorAll('.file-input-pkg').forEach(input => {
         input.addEventListener('change', (e) => {
           const target = e.target as HTMLInputElement;
@@ -1205,7 +1744,7 @@ import Layout from '../../layouts/Layout.astro';
 
 <style is:global>
   /* ========================================================
-     PREMIUM OPERATOR PORTAL DESIGN SYSTEM (GLOBAL APPLICATION)
+     PREMIUM OPERATOR PORTAL & PAGE BUILDER DESIGN SYSTEM
      ======================================================== */
   :root {
     --adm-bg-main: #06150e;
@@ -1364,10 +1903,6 @@ import Layout from '../../layouts/Layout.astro';
     transition: opacity 0.2s;
   }
 
-  .btn-toggle-pw:hover {
-    opacity: 1;
-  }
-
   .btn-login {
     width: 100%;
     padding: 1rem;
@@ -1391,12 +1926,6 @@ import Layout from '../../layouts/Layout.astro';
     transform: translateY(-2px);
     box-shadow: 0 6px 24px rgba(16, 185, 129, 0.5);
     filter: brightness(1.08);
-  }
-
-  .btn-login:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
   }
 
   .security-footer {
@@ -1425,20 +1954,30 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   /* ----------------------------------------------------
-     2. DASHBOARD TOP NAVBAR
+     2. DASHBOARD VIEW (FIXED FULL-VIEWPORT APP)
      ---------------------------------------------------- */
+  .dashboard-view {
+    height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #06150e;
+  }
+
   .dash-navbar {
-    background: rgba(6, 21, 14, 0.92);
+    flex: 0 0 64px;
+    height: 64px;
+    background: rgba(6, 21, 14, 0.98);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(46, 204, 113, 0.2);
-    padding: 0.85rem 2rem;
+    padding: 0 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
-    top: 0;
     z-index: 100;
+    box-sizing: border-box;
   }
 
   .dash-brand {
@@ -1448,15 +1987,15 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   .brand-icon-box {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
     background: rgba(16, 185, 129, 0.15);
     border: 1px solid rgba(16, 185, 129, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.35rem;
   }
 
   .dash-title {
@@ -1467,12 +2006,11 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   .dash-status {
-    font-size: 0.75rem;
+    font-size: 0.725rem;
     color: #94a3b8;
     display: flex;
     align-items: center;
     gap: 0.45rem;
-    margin-top: 0.1rem;
   }
 
   .status-indicator {
@@ -1497,26 +2035,26 @@ import Layout from '../../layouts/Layout.astro';
   .dash-user-actions {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.75rem;
   }
 
-  .btn-view-site {
+  .btn-top-action {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: #cbd5e1;
-    font-size: 0.825rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    padding: 0.5rem 0.95rem;
+    padding: 0.45rem 0.85rem;
     border-radius: 8px;
     text-decoration: none;
     transition: all 0.2s;
   }
 
-  .btn-view-site:hover {
-    background: rgba(255, 255, 255, 0.1);
+  .btn-top-action:hover {
+    background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     border-color: rgba(255, 255, 255, 0.25);
   }
@@ -1527,9 +2065,9 @@ import Layout from '../../layouts/Layout.astro';
     gap: 0.5rem;
     background: rgba(16, 185, 129, 0.1);
     border: 1px solid rgba(16, 185, 129, 0.25);
-    padding: 0.45rem 0.95rem;
+    padding: 0.45rem 0.9rem;
     border-radius: 999px;
-    font-size: 0.825rem;
+    font-size: 0.8rem;
     color: #e2e8f0;
   }
 
@@ -1537,11 +2075,11 @@ import Layout from '../../layouts/Layout.astro';
     background: rgba(239, 68, 68, 0.12);
     border: 1px solid rgba(239, 68, 68, 0.3);
     color: #fca5a5;
-    padding: 0.5rem 1rem;
+    padding: 0.45rem 0.9rem;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.825rem;
+    font-size: 0.8rem;
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
@@ -1551,21 +2089,11 @@ import Layout from '../../layouts/Layout.astro';
   .btn-logout:hover {
     background: #ef4444;
     color: #ffffff;
-    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
   }
 
   /* ----------------------------------------------------
-     3. DASHBOARD MAIN LAYOUT & SIDEBAR
+     3. SIDEBAR & PINNED NAVIGATION
      ---------------------------------------------------- */
-  .dashboard-view {
-    height: 100vh;
-    max-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: #06150e;
-  }
-
   .dash-layout {
     flex: 1 1 auto;
     display: grid;
@@ -1584,7 +2112,7 @@ import Layout from '../../layouts/Layout.astro';
     height: 100%;
     overflow-y: auto;
     box-sizing: border-box;
-    gap: 1.25rem;
+    gap: 0.6rem;
   }
 
   .dash-sidebar::-webkit-scrollbar {
@@ -1600,13 +2128,13 @@ import Layout from '../../layouts/Layout.astro';
     font-weight: 800;
     letter-spacing: 0.12em;
     color: #64748b;
-    margin: 0.25rem 0 0.25rem 0.5rem;
+    margin: 0.4rem 0 0.2rem 0.5rem;
   }
 
   .dash-menu {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.3rem;
   }
 
   .menu-tab {
@@ -1614,7 +2142,7 @@ import Layout from '../../layouts/Layout.astro';
     align-items: center;
     gap: 0.75rem;
     width: 100%;
-    padding: 0.75rem 0.85rem;
+    padding: 0.7rem 0.85rem;
     background: transparent;
     border: 1px solid transparent;
     border-radius: 10px;
@@ -1648,6 +2176,12 @@ import Layout from '../../layouts/Layout.astro';
     margin-left: auto;
   }
 
+  .badge-accent {
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+  }
+
   .menu-tab:hover {
     background: rgba(255, 255, 255, 0.05);
     color: #ffffff;
@@ -1662,43 +2196,29 @@ import Layout from '../../layouts/Layout.astro';
     box-shadow: inset 3px 0 0 #10b981;
   }
 
-  .menu-tab.active .tab-badge {
-    background: rgba(16, 185, 129, 0.25);
-    color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.4);
-  }
-
   .sidebar-help-card {
     margin-top: auto;
     background: rgba(16, 185, 129, 0.06);
     border: 1px solid rgba(16, 185, 129, 0.16);
     border-radius: 12px;
-    padding: 1rem;
-    font-size: 0.775rem;
+    padding: 0.9rem;
+    font-size: 0.75rem;
     color: #94a3b8;
     line-height: 1.5;
   }
 
-  .sidebar-help-card .help-header {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-bottom: 0.5rem;
-  }
-
   .sidebar-help-card h4 {
     color: #e2e8f0;
-    font-size: 0.85rem;
+    font-size: 0.825rem;
     font-weight: 700;
-    margin: 0;
+    margin: 0 0 0.35rem 0;
   }
 
   .help-status-tag {
-    margin-top: 0.75rem;
+    margin-top: 0.6rem;
     color: #34d399;
-    font-size: 0.725rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
   }
 
   /* ----------------------------------------------------
@@ -1723,39 +2243,30 @@ import Layout from '../../layouts/Layout.astro';
     background: rgba(46, 204, 113, 0.25);
     border-radius: 4px;
   }
-  .dash-content::-webkit-scrollbar-thumb:hover {
-    background: rgba(46, 204, 113, 0.45);
-  }
 
   .dash-overview-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
-    margin-bottom: 2.25rem;
+    margin-bottom: 2rem;
   }
 
   .stat-card {
     background: rgba(12, 36, 24, 0.7);
     border: 1px solid rgba(46, 204, 113, 0.16);
     border-radius: 16px;
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem 1.4rem;
     display: flex;
     align-items: center;
     gap: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s;
-  }
-
-  .stat-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(46, 204, 113, 0.35);
   }
 
   .stat-icon {
-    font-size: 2rem;
+    font-size: 1.85rem;
     background: rgba(16, 185, 129, 0.12);
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1768,7 +2279,7 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   .stat-label {
-    font-size: 0.75rem;
+    font-size: 0.725rem;
     color: #94a3b8;
     font-weight: 600;
     text-transform: uppercase;
@@ -1776,15 +2287,15 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   .stat-val {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 800;
     color: #ffffff;
-    margin-top: 0.2rem;
+    margin-top: 0.15rem;
   }
 
   .text-green {
     color: #34d399 !important;
-    font-size: 0.95rem;
+    font-size: 0.925rem;
   }
 
   .tab-pane {
@@ -1821,28 +2332,592 @@ import Layout from '../../layouts/Layout.astro';
   .pane-header p {
     color: #94a3b8;
     margin: 0;
-    font-size: 0.925rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 
-  .btn-refresh {
+  /* ----------------------------------------------------
+     5. VISUAL PAGE BUILDER SPECIFIC STYLES
+     ---------------------------------------------------- */
+  .builder-header {
+    align-items: center;
+  }
+
+  .builder-actions-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .btn-builder-preview {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #34d399;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.65rem 1.15rem;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+  }
+
+  .btn-builder-preview:hover {
+    background: #10b981;
+    color: #06150e;
+    transform: translateY(-1px);
+  }
+
+  .btn-builder-save {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    transition: all 0.2s;
+  }
+
+  .btn-builder-save:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
+
+  .builder-board {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 980px;
+  }
+
+  .builder-block-card {
+    background: rgba(12, 34, 23, 0.85);
+    border: 1px solid rgba(46, 204, 113, 0.22);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .builder-block-card.is-dragging {
+    opacity: 0.4;
+    transform: scale(0.98);
+  }
+
+  .builder-block-card.drag-over {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35) !important;
+    transform: translateY(-3px);
+  }
+
+  .builder-block-card.block-hidden {
+    opacity: 0.6;
+    background: rgba(8, 24, 16, 0.7);
+  }
+
+  .builder-block-card.border-subtle {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .builder-block-card.border-emerald {
+    border: 2px solid #10b981;
+    box-shadow: 0 8px 32px rgba(16, 185, 129, 0.18);
+  }
+
+  .block-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .drag-handle-zone {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    cursor: grab;
+  }
+
+  .drag-icon {
+    font-size: 1.4rem;
+    color: #94a3b8;
+    user-select: none;
+    letter-spacing: -2px;
+  }
+
+  .block-type-icon {
+    font-size: 1.6rem;
+    width: 40px;
+    height: 40px;
+    background: rgba(16, 185, 129, 0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+
+  .block-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .block-order-pill {
+    font-size: 0.725rem;
+    color: #34d399;
+    font-weight: 700;
+  }
+
+  .block-quick-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .btn-arrow {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: #cbd5e1;
-    font-size: 0.825rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .btn-arrow:hover:not(:disabled) {
+    background: #10b981;
+    color: #06150e;
+  }
+
+  .btn-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .btn-toggle-vis {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #cbd5e1;
+    font-size: 0.75rem;
     font-weight: 600;
-    padding: 0.6rem 1rem;
-    border-radius: 10px;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
   }
 
-  .btn-refresh:hover {
-    background: rgba(255, 255, 255, 0.12);
+  .btn-toggle-vis:hover {
+    background: rgba(255, 255, 255, 0.15);
     color: #ffffff;
   }
 
+  .block-config-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .config-row-flex {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .config-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .segmented-picker {
+    display: inline-flex;
+    background: #05160d;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 0.25rem;
+    gap: 0.25rem;
+  }
+
+  .btn-segment {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.775rem;
+    font-weight: 700;
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-segment:hover {
+    color: #ffffff;
+  }
+
+  .btn-segment.active {
+    background: #10b981;
+    color: #06150e;
+  }
+
+  .config-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .block-image-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    background: rgba(6, 20, 13, 0.6);
+    border: 1px dashed rgba(46, 204, 113, 0.3);
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .mini-thumb-wrap {
+    width: 110px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .mini-block-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mini-upload-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  /* Mini Mockup Visual Preview */
+  .block-preview-box {
+    background: #04120a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.9rem;
+  }
+
+  .mini-canvas-header {
+    margin-bottom: 0.6rem;
+  }
+
+  .mini-canvas-tag {
+    font-size: 0.675rem;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 0.08em;
+  }
+
+  .mini-grid-mockup {
+    display: grid;
+    gap: 0.65rem;
+    border-radius: 8px;
+    padding: 0.65rem;
+  }
+
+  .mini-grid-mockup.cols-1 { grid-template-columns: 1fr; }
+  .mini-grid-mockup.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .mini-grid-mockup.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .mini-grid-mockup.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .mini-grid-mockup.border-subtle { border: 1px solid rgba(255, 255, 255, 0.14); }
+  .mini-grid-mockup.border-emerald { border: 1px solid #10b981; }
+
+  .mockup-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .mockup-card-img {
+    width: 28px;
+    height: 28px;
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .mockup-card-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .mockup-line-title {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 3px;
+    width: 70%;
+  }
+
+  .mockup-line-sub {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    width: 45%;
+  }
+
   /* ----------------------------------------------------
-     5. PREMIUM EDIT CARDS & INPUT STYLING (GLOBAL)
+     MODAL PREVIEW STYLES
+     ---------------------------------------------------- */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+
+  .modal-container {
+    background: #081d13;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    border-radius: 20px;
+    max-width: 1050px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+  }
+
+  .modal-header {
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .modal-icon {
+    font-size: 1.8rem;
+  }
+
+  .modal-header h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.2rem;
+  }
+
+  .modal-header p {
+    margin: 0.2rem 0 0 0;
+    color: #94a3b8;
+    font-size: 0.8rem;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.75rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .modal-close:hover {
+    color: #ffffff;
+  }
+
+  .modal-body {
+    padding: 1.75rem;
+    overflow-y: auto;
+    background: #05160d;
+  }
+
+  .preview-canvas {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .pv-section {
+    background: rgba(12, 36, 24, 0.6);
+    border-radius: 16px;
+    padding: 1.75rem;
+  }
+
+  .pv-section.border-subtle { border: 1px solid rgba(255, 255, 255, 0.15); }
+  .pv-section.border-emerald { border: 2px solid #10b981; }
+
+  .pv-sec-badge {
+    display: inline-block;
+    font-size: 0.725rem;
+    font-weight: 700;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.15);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  .pv-sec-title {
+    margin: 0 0 0.35rem 0;
+    font-size: 1.35rem;
+    color: #ffffff;
+  }
+
+  .pv-sec-sub {
+    margin: 0 0 1.25rem 0;
+    color: #94a3b8;
+    font-size: 0.875rem;
+  }
+
+  .pv-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .pv-grid.cols-1 { grid-template-columns: 1fr; }
+  .pv-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .pv-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .pv-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .pv-card {
+    background: rgba(6, 20, 13, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .pv-card-thumb {
+    height: 120px;
+    background: #020c07;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pv-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pv-thumb-icon {
+    font-size: 2.5rem;
+    opacity: 0.5;
+  }
+
+  .pv-card-body {
+    padding: 1rem;
+  }
+
+  .pv-card-body h4 {
+    margin: 0 0 0.25rem 0;
+    color: #ffffff;
+    font-size: 0.95rem;
+  }
+
+  .pv-card-body p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 0.775rem;
+    line-height: 1.4;
+  }
+
+  /* ----------------------------------------------------
+     SECURITY TAB STYLES
+     ---------------------------------------------------- */
+  .security-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 900px;
+  }
+
+  .sec-desc {
+    color: #94a3b8;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .rss-url-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #05160d;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
+
+  .rss-url-box code {
+    color: #34d399;
+    font-size: 0.875rem;
+  }
+
+  .sec-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sec-feat-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+  }
+
+  .sec-feat-item strong {
+    color: #ffffff;
+  }
+
+  .sec-check {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  /* ----------------------------------------------------
+     6. EDIT CARDS & INPUT STYLING (GLOBAL)
      ---------------------------------------------------- */
   .cards-list {
     display: flex;
@@ -1866,12 +2941,6 @@ import Layout from '../../layouts/Layout.astro';
     border-radius: 18px;
     padding: 2rem;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
-    transition: border-color 0.25s, box-shadow 0.25s;
-  }
-
-  .edit-card:hover {
-    border-color: rgba(46, 204, 113, 0.35);
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
   }
 
   .card-header-bar {
@@ -1958,7 +3027,14 @@ import Layout from '../../layouts/Layout.astro';
     font-weight: 700;
     color: #cbd5e1;
     margin-bottom: 0.5rem;
-    letter-spacing: 0.01em;
+  }
+
+  .form-label-sm {
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: #cbd5e1;
+    margin-bottom: 0.25rem;
+    display: block;
   }
 
   .req-star {
@@ -1977,7 +3053,6 @@ import Layout from '../../layouts/Layout.astro';
     color: #34d399 !important;
   }
 
-  /* INPUT & TEXTAREA CONTROLS (CRITICAL STYLING) */
   .form-control {
     width: 100% !important;
     padding: 0.85rem 1rem !important;
@@ -1998,8 +3073,9 @@ import Layout from '../../layouts/Layout.astro';
     background: #04120b !important;
   }
 
-  .form-control::placeholder {
-    color: #64748b;
+  .form-control-sm {
+    padding: 0.65rem 0.85rem !important;
+    font-size: 0.85rem !important;
   }
 
   textarea.form-control {
@@ -2027,7 +3103,6 @@ import Layout from '../../layouts/Layout.astro';
     padding-left: 2.85rem !important;
   }
 
-  /* CARD FOOTER & SAVE BUTTON */
   .card-footer-action {
     margin-top: 2rem;
     padding-top: 1.25rem;
@@ -2078,132 +3153,6 @@ import Layout from '../../layouts/Layout.astro';
     opacity: 0.65 !important;
     cursor: not-allowed !important;
     transform: none !important;
-  }
-
-  /* FLEET ITEM CARD */
-  .fleet-item-card {
-    background: rgba(12, 34, 23, 0.8);
-    border: 1px solid rgba(46, 204, 113, 0.2);
-    border-radius: 16px;
-    padding: 1.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .fleet-card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.85rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .fleet-icon {
-    font-size: 1.75rem;
-  }
-
-  .fleet-header-text h4 {
-    margin: 0;
-    font-size: 1.05rem;
-    color: #ffffff;
-    font-weight: 800;
-  }
-
-  .fleet-tag-pill {
-    font-size: 0.725rem;
-    color: #34d399;
-    background: rgba(16, 185, 129, 0.15);
-    padding: 0.15rem 0.5rem;
-    border-radius: 999px;
-    font-weight: 700;
-    display: inline-block;
-    margin-top: 0.2rem;
-  }
-
-  .fleet-body-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-  }
-
-  .form-group-sm {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-
-  .form-label-sm {
-    font-size: 0.775rem;
-    color: #cbd5e1;
-    font-weight: 600;
-  }
-
-  .form-control-sm {
-    padding: 0.65rem 0.85rem !important;
-    font-size: 0.85rem !important;
-  }
-
-  .fleet-footer-btn {
-    margin-top: 1.35rem;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .btn-sm {
-    padding: 0.65rem 1.25rem !important;
-    font-size: 0.825rem !important;
-  }
-
-  /* LOADING & EMPTY STATES */
-  .loading-state, .empty-state {
-    padding: 3.5rem 2rem;
-    text-align: center;
-    background: rgba(12, 34, 23, 0.4);
-    border: 1px dashed rgba(46, 204, 113, 0.2);
-    border-radius: 16px;
-    color: #94a3b8;
-  }
-
-  .empty-icon {
-    font-size: 2.5rem;
-    display: block;
-    margin-bottom: 0.75rem;
-  }
-
-  .pulse-loader {
-    width: 32px;
-    height: 32px;
-    border: 3px solid rgba(16, 185, 129, 0.2);
-    border-top-color: #10b981;
-    border-radius: 50%;
-    margin: 0 auto 1rem auto;
-    animation: spin 0.8s linear infinite;
-  }
-
-  .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #ffffff;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  .spinner-sm {
-    width: 12px;
-    height: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-top-color: #ffffff;
-    border-radius: 50%;
-    display: inline-block;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
   }
 
   /* ----------------------------------------------------
@@ -2330,6 +3279,54 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   /* FLEET SPECIFIC IMAGE STYLES */
+  .fleet-item-card {
+    background: rgba(12, 34, 23, 0.8);
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .fleet-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .fleet-icon {
+    font-size: 1.75rem;
+  }
+
+  .fleet-header-text h4 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .fleet-tag-pill {
+    font-size: 0.725rem;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.15);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    display: inline-block;
+    margin-top: 0.2rem;
+  }
+
+  .fleet-body-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
   .fleet-img-wrap {
     display: flex;
     flex-direction: column;
@@ -2367,8 +3364,68 @@ import Layout from '../../layouts/Layout.astro';
     color: #34d399;
   }
 
+  .fleet-footer-btn {
+    margin-top: 1.35rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-sm {
+    padding: 0.65rem 1.25rem !important;
+    font-size: 0.825rem !important;
+  }
+
+  /* LOADING & EMPTY STATES */
+  .loading-state, .empty-state {
+    padding: 3.5rem 2rem;
+    text-align: center;
+    background: rgba(12, 34, 23, 0.4);
+    border: 1px dashed rgba(46, 204, 113, 0.2);
+    border-radius: 16px;
+    color: #94a3b8;
+  }
+
+  .empty-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .pulse-loader {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(16, 185, 129, 0.2);
+    border-top-color: #10b981;
+    border-radius: 50%;
+    margin: 0 auto 1rem auto;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .spinner-sm {
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
   /* ----------------------------------------------------
-     6. TOAST NOTIFICATIONS
+     TOAST NOTIFICATIONS
      ---------------------------------------------------- */
   .toast-notification {
     position: fixed;
@@ -2383,7 +3440,7 @@ import Layout from '../../layouts/Layout.astro';
     gap: 0.85rem;
     font-weight: 700;
     font-size: 0.9rem;
-    z-index: 9999;
+    z-index: 99999;
     animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -2409,6 +3466,9 @@ import Layout from '../../layouts/Layout.astro';
     }
     .dash-layout {
       grid-template-columns: 240px 1fr;
+    }
+    .config-inputs-grid {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -2439,6 +3499,9 @@ import Layout from '../../layouts/Layout.astro';
     }
     .btn-save {
       justify-content: center;
+    }
+    .builder-actions-top {
+      flex-wrap: wrap;
     }
   }
 </style>
