@@ -58,5 +58,12 @@ export default defineType({
       title: 'Link YouTube',
       type: 'url',
     }),
+    defineField({
+      name: 'pageLayoutConfig',
+      title: 'Konfigurasi Visual Page Builder (JSON)',
+      type: 'text',
+      description: 'Menyimpan susunan urutan seksi, grid kolom, dan border kustom dari Visual Page Builder.',
+      rows: 5,
+    }),
   ],
 });

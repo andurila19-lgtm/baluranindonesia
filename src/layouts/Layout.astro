@@ -184,5 +184,60 @@ const schemaData = {
       import { initI18n } from '../scripts/i18n';
       initI18n();
     </script>
+
+    <!-- Visual Page Builder Client Hydration -->
+    <script>
+      try {
+        const pageKey = 'baluran_custom_layout_' + (window.location.pathname.replace(/\/$/, '') || '/');
+        const raw = localStorage.getItem(pageKey);
+        if (raw) {
+          const config = JSON.parse(raw);
+          const main = document.querySelector('main') || document.body;
+          if (main && Array.isArray(config.order)) {
+            config.order.forEach((id: string) => {
+              const el = main.querySelector(`[data-builder-id="${id}"]`) || document.getElementById(id) || main.querySelector(`.${id}`);
+              if (el) main.appendChild(el);
+            });
+          }
+          if (config.grids) {
+            Object.entries(config.grids).forEach(([id, cols]: [string, any]) => {
+              const sec = document.getElementById(id) || main.querySelector(`[data-builder-id="${id}"]`) || main.querySelector(`.${id}`);
+              if (sec) {
+                const target = sec.querySelector('.packages-grid, .destinations-grid, .fleet-grid, .facilities-grid, .testi-grid, .why-grid, .packages-list-grid') || sec;
+                if (target) {
+                  (target as HTMLElement).style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+                }
+              }
+            });
+          }
+          if (config.borders) {
+            Object.entries(config.borders).forEach(([id, bStyle]: [string, any]) => {
+              const sec = document.getElementById(id) || main.querySelector(`[data-builder-id="${id}"]`) || main.querySelector(`.${id}`);
+              if (sec) {
+                const target = (sec.querySelector('.container') || sec) as HTMLElement;
+                if (bStyle === 'subtle') {
+                  target.style.border = '1px solid rgba(255,255,255,0.12)';
+                  target.style.borderRadius = '1rem';
+                  target.style.padding = '2rem 1.5rem';
+                } else if (bStyle === 'accent') {
+                  target.style.border = '2px solid #10b981';
+                  target.style.borderRadius = '1rem';
+                  target.style.boxShadow = '0 0 25px rgba(16,185,129,0.15)';
+                  target.style.padding = '2rem 1.5rem';
+                }
+              }
+            });
+          }
+          if (config.images) {
+            Object.entries(config.images).forEach(([selector, src]: [string, any]) => {
+              const img = document.querySelector(selector) as HTMLImageElement;
+              if (img && src) img.src = src;
+            });
+          }
+        }
+      } catch (e) {
+        // Safe fail-silent for static builds
+      }
+    </script>
   </body>
 </html>

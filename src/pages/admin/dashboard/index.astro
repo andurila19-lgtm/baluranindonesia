@@ -1,0 +1,1819 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Visual Site Builder & Dashboard - Baluran Indonesia"
+  description="Editor visual live website dengan drag and drop, grid kontainer, dan kustomisasi langsung pada halaman website asli."
+>
+  <!-- IMMEDIATE AUTH GATE: Redirect unauthorized visitors to /admin -->
+  <script is:inline>
+    (function() {
+      try {
+        var raw = sessionStorage.getItem('baluran_admin_auth');
+        if (!raw) {
+          window.location.replace('/admin');
+          return;
+        }
+        var auth = JSON.parse(raw);
+        if (!auth || !auth.expiresAt || auth.expiresAt < Date.now()) {
+          sessionStorage.removeItem('baluran_admin_auth');
+          window.location.replace('/admin');
+          return;
+        }
+      } catch (e) {
+        window.location.replace('/admin');
+      }
+    })();
+  </script>
+
+  <main class="builder-app" id="builder-app">
+    <!-- TOP CONTROL BAR -->
+    <header class="wp-topbar">
+      <div class="topbar-left">
+        <div class="brand-logo">
+          <span class="logo-icon">🚙</span>
+          <div class="logo-text">
+            <span class="logo-title">BALURAN BUILDER</span>
+            <span class="logo-sub">WordPress / Elementor Live Mode</span>
+          </div>
+        </div>
+
+        <!-- Page Selector Dropdown -->
+        <div class="page-switcher-wrap">
+          <label for="page-selector" class="page-select-label">Halaman:</label>
+          <select id="page-selector" class="page-select">
+            <option value="/" selected>🏠 Beranda (/)</option>
+            <option value="/paket/">📦 Paket Jeep Safari (/paket)</option>
+            <option value="/destinasi/">📍 Destinasi Sekitar (/destinasi)</option>
+            <option value="/harga/">💰 Tarif & Harga (/harga)</option>
+            <option value="/panduan/">📖 Panduan Wisata (/panduan)</option>
+            <option value="/tentang-kami/">🏢 Tentang Kami (/tentang-kami)</option>
+            <option value="/kontak/">📞 Kontak Kami (/kontak)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Center: Device Mode Switcher -->
+      <div class="topbar-center">
+        <div class="device-switcher" role="group" aria-label="Mode Responsif">
+          <button class="btn-device active" data-device="desktop" title="Tampilan Desktop (100%)">
+            <span class="icon">🖥️</span>
+            <span class="lbl">Desktop</span>
+          </button>
+          <button class="btn-device" data-device="tablet" title="Tampilan Tablet (768px)">
+            <span class="icon">💻</span>
+            <span class="lbl">Tablet</span>
+          </button>
+          <button class="btn-device" data-device="mobile" title="Tampilan Mobile (390px)">
+            <span class="icon">📱</span>
+            <span class="lbl">Mobile</span>
+          </button>
+        </div>
+
+        <!-- Clean Preview Toggle -->
+        <button class="btn-clean-toggle" id="btn-clean-toggle" title="Sembunyikan / Tampilkan pembatas builder">
+          <span class="icon">👁️</span>
+          <span class="lbl">Mode Bersih</span>
+        </button>
+      </div>
+
+      <!-- Right: Actions -->
+      <div class="topbar-right">
+        <a href="/rss.xml" target="_blank" class="btn-topbar-link" title="Buka RSS 2.0 Feed">
+          <span>📡</span> RSS Feed
+        </a>
+        <button class="btn-save-primary" id="btn-save-changes">
+          <span class="icon">💾</span>
+          <span class="lbl">Simpan ke Website</span>
+        </button>
+        <a href="/" target="_blank" id="btn-view-live" class="btn-topbar-link" title="Buka halaman asli di tab baru">
+          <span>🌐</span> Buka Tab Baru ↗
+        </a>
+        <button class="btn-logout" id="btn-logout" title="Keluar dari builder">
+          <span>🚪</span> Keluar
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN SPLIT WORKSPACE: SIDEBAR (LEFT) + LIVE WEBSITE (RIGHT) -->
+    <div class="wp-workspace">
+      <!-- LEFT SIDEBAR (INSPECTOR & NAVIGATOR) -->
+      <aside class="wp-sidebar" id="wp-sidebar">
+        <!-- Sidebar Navigation Tabs -->
+        <div class="sidebar-tab-nav">
+          <button class="side-tab-btn active" data-tab="tab-sections">
+            <span class="tab-icon">📑</span>
+            <span class="tab-title">Seksi (Drag & Drop)</span>
+          </button>
+          <button class="side-tab-btn" data-tab="tab-inspector">
+            <span class="tab-icon">⚙️</span>
+            <span class="tab-title">Inspektor & Grid</span>
+          </button>
+          <button class="side-tab-btn" data-tab="tab-security">
+            <span class="tab-icon">🛡️</span>
+            <span class="tab-title">Keamanan & RSS</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: SEKSI NAVIGATOR & DRAG-AND-DROP TREE -->
+        <div class="side-tab-content active" id="tab-sections">
+          <div class="side-panel-header">
+            <div>
+              <h3 class="panel-heading">Susunan Seksi Halaman</h3>
+              <p class="panel-desc">Geser (drag & drop) item di bawah untuk mengubah urutan seksi di website secara instan.</p>
+            </div>
+            <button class="btn-mini-reset" id="btn-reset-order" title="Kembalikan urutan bawaan">
+              <span>🔄</span> Reset
+            </button>
+          </div>
+
+          <!-- Dynamic Draggable Sections Tree -->
+          <div class="sections-tree-list" id="sections-tree-list">
+            <div class="tree-loading">
+              <div class="pulse-loader"></div>
+              <span>Mendeteksi seksi website...</span>
+            </div>
+          </div>
+
+          <div class="sidebar-quick-tip">
+            <span class="tip-icon">💡</span>
+            <div class="tip-text">
+              <strong>Tips Elementor:</strong> Anda juga bisa men-drag seksi atau mengklik tombol naik/turun langsung di halaman website sebelah kanan.
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: INSPEKTOR & GRID LAYOUT -->
+        <div class="side-tab-content" id="tab-inspector">
+          <div class="side-panel-header">
+            <div>
+              <h3 class="panel-heading" id="inspector-sec-name">Pilih Seksi</h3>
+              <p class="panel-desc">Kustomisasi kolom grid, border, foto, dan judul seksi yang dipilih.</p>
+            </div>
+            <span class="active-badge" id="inspector-sec-badge">Aktif</span>
+          </div>
+
+          <div class="inspector-body" id="inspector-body">
+            <!-- Placeholder when no section selected -->
+            <div class="inspector-empty" id="inspector-empty">
+              <span class="empty-icon">👈</span>
+              <p>Klik salah satu seksi di tab <strong>Seksi</strong> atau klik seksi langsung pada website di sebelah kanan untuk mulai mengedit.</p>
+            </div>
+
+            <!-- Controls form when a section is selected -->
+            <div class="inspector-form" id="inspector-form" style="display: none;">
+              <!-- 1. Grid Column Picker -->
+              <div class="inspect-group">
+                <label class="inspect-label">Layout Grid Kontainer</label>
+                <p class="inspect-hint">Ubah pembagian kolom elemen kartu di dalam seksi ini:</p>
+                <div class="grid-buttons-row">
+                  <button type="button" class="btn-grid-col" data-cols="1">1 Kolom</button>
+                  <button type="button" class="btn-grid-col" data-cols="2">2 Kolom</button>
+                  <button type="button" class="btn-grid-col" data-cols="3">3 Kolom</button>
+                  <button type="button" class="btn-grid-col" data-cols="4">4 Kolom</button>
+                </div>
+              </div>
+
+              <!-- 2. Border Style Picker -->
+              <div class="inspect-group">
+                <label class="inspect-label">Gaya Border Kontainer</label>
+                <p class="inspect-hint">Kustomisasi bingkai kontainer seksi:</p>
+                <div class="border-buttons-row">
+                  <button type="button" class="btn-border-style" data-border="none">Polos</button>
+                  <button type="button" class="btn-border-style" data-border="subtle">Border Halus</button>
+                  <button type="button" class="btn-border-style" data-border="accent">Emerald Accent</button>
+                </div>
+              </div>
+
+              <!-- 3. Photo & Image Uploader (Direct to Sanity CDN) -->
+              <div class="inspect-group">
+                <label class="inspect-label">Ganti Foto Seksi (Cloud CDN)</label>
+                <p class="inspect-hint">Upload gambar langsung ke Sanity Cloud Asset CDN:</p>
+                <div class="image-uploader-card">
+                  <div class="img-preview-box" id="inspector-img-preview">
+                    <img src="/images/hero-baluran.webp" alt="Preview Foto" id="inspector-current-img" />
+                  </div>
+                  <div class="uploader-controls">
+                    <label for="inspector-file-input" class="btn-upload-file">
+                      <span>📷</span> Upload Foto Baru
+                    </label>
+                    <input type="file" id="inspector-file-input" accept="image/*" style="display:none;" />
+                    <span class="upload-status" id="upload-status-text">Format: JPG, PNG, WebP</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. Text & Headline Editor -->
+              <div class="inspect-group">
+                <label class="inspect-label" for="inspector-headline">Judul Seksi (Headline)</label>
+                <input type="text" id="inspector-headline" class="inspect-input" placeholder="Judul seksi..." />
+              </div>
+
+              <div class="inspect-group">
+                <label class="inspect-label" for="inspector-subtitle">Sub-Judul / Keterangan</label>
+                <textarea id="inspector-subtitle" class="inspect-textarea" rows="3" placeholder="Keterangan seksi..."></textarea>
+              </div>
+
+              <!-- 5. Section Visibility -->
+              <div class="inspect-group">
+                <label class="inspect-label">Visibilitas Seksi</label>
+                <div class="toggle-row">
+                  <span>Tampilkan seksi ini di halaman website</span>
+                  <input type="checkbox" id="inspector-visibility" checked />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: KEAMANAN & RSS FEED -->
+        <div class="side-tab-content" id="tab-security">
+          <div class="side-panel-header">
+            <div>
+              <h3 class="panel-heading">Keamanan & SSG</h3>
+              <p class="panel-desc">Status zero-leak architecture & sindikasi RSS feed.</p>
+            </div>
+            <span class="active-badge badge-green">Aktif</span>
+          </div>
+
+          <div class="security-info-list">
+            <div class="sec-card">
+              <div class="sec-card-header">
+                <span class="sec-card-icon">🛡️</span>
+                <h4>Arsitektur Terpisah & Zero-Leak</h4>
+              </div>
+              <p>Routing <code>/admin</code> (login) dan <code>/admin/dashboard</code> (builder) sepenuhnya dipisahkan. Kode antarmuka editor tidak bocor di halaman login publik.</p>
+              <div class="sec-tag">● Terproteksi dari Inspeksi Frontend Publik</div>
+            </div>
+
+            <div class="sec-card">
+              <div class="sec-card-header">
+                <span class="sec-card-icon">📡</span>
+                <h4>RSS 2.0 Feed Terverifikasi</h4>
+              </div>
+              <p>Feed RSS aktif di <code>/rss.xml</code> menyajikan data paket wisata & destinasi terupdate untuk SEO dan bot agregator.</p>
+              <a href="/rss.xml" target="_blank" class="btn-check-rss">Buka /rss.xml ↗</a>
+            </div>
+
+            <div class="sec-card">
+              <div class="sec-card-header">
+                <span class="sec-card-icon">☁️</span>
+                <h4>Sanity Cloud Asset CDN</h4>
+              </div>
+              <p>Semua gambar diunggah langsung ke infrastruktur Cloudflare-backed Sanity CDN global (Project ID: <code>7ox4kuc2</code>).</p>
+              <div class="sec-tag">● Fast Edge Delivery</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR FOOTER -->
+        <div class="wp-sidebar-footer">
+          <button class="btn-save-sidebar" id="btn-save-sidebar">
+            <span>💾</span> Simpan Perubahan
+          </button>
+        </div>
+      </aside>
+
+      <!-- RIGHT VIEWPORT: THE ACTUAL LIVE WEBSITE IN IFRAME -->
+      <main class="wp-canvas" id="wp-canvas">
+        <div class="canvas-frame-container" id="canvas-frame-container">
+          <!-- Loading Overlay -->
+          <div class="frame-loader" id="frame-loader">
+            <div class="loader-content">
+              <div class="pulse-loader"></div>
+              <span>Memuat halaman website asli...</span>
+            </div>
+          </div>
+
+          <!-- THE ACTUAL WEBSITE IFRAME -->
+          <iframe 
+            id="site-frame" 
+            src="/" 
+            class="site-frame frame-desktop" 
+            title="Pratinjau Live Website Baluran Indonesia"
+          ></iframe>
+        </div>
+      </main>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="builder-toast" id="builder-toast" style="display: none;">
+      <span class="toast-icon">✅</span>
+      <span class="toast-msg" id="toast-msg">Perubahan berhasil disimpan!</span>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  :root {
+    --wp-bg-dark: #070d0b;
+    --wp-sidebar-bg: #0b1411;
+    --wp-topbar-bg: #09120f;
+    --wp-border: rgba(16, 185, 129, 0.18);
+    --wp-border-subtle: rgba(255, 255, 255, 0.08);
+    --wp-accent: #10b981;
+    --wp-accent-hover: #059669;
+    --wp-accent-light: rgba(16, 185, 129, 0.12);
+    --wp-text-main: #f3f4f6;
+    --wp-text-muted: #9ca3af;
+    --wp-text-dim: #6b7280;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .builder-app {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--wp-bg-dark);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--wp-text-main);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* TOP CONTROL BAR */
+  .wp-topbar {
+    height: 56px;
+    min-height: 56px;
+    background: var(--wp-topbar-bg);
+    border-bottom: 1px solid var(--wp-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    z-index: 100;
+    gap: 1rem;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .brand-logo .logo-icon {
+    font-size: 1.5rem;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logo-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+
+  .logo-sub {
+    font-size: 0.65rem;
+    color: var(--wp-accent);
+    font-weight: 600;
+  }
+
+  .page-switcher-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #08120f;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--wp-border-subtle);
+  }
+
+  .page-select-label {
+    font-size: 0.75rem;
+    color: var(--wp-text-muted);
+    font-weight: 600;
+  }
+
+  .page-select {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 0.825rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .page-select option {
+    background: #0d1815;
+    color: #ffffff;
+  }
+
+  /* Center: Devices */
+  .topbar-center {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .device-switcher {
+    display: flex;
+    background: #08120f;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 6px;
+    padding: 2px;
+  }
+
+  .btn-device {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.7rem;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: var(--wp-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-device:hover {
+    color: #ffffff;
+  }
+
+  .btn-device.active {
+    background: var(--wp-accent-light);
+    color: var(--wp-accent);
+    font-weight: 700;
+  }
+
+  .btn-clean-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    background: #08120f;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 6px;
+    color: var(--wp-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-clean-toggle:hover {
+    color: #ffffff;
+    border-color: var(--wp-border);
+  }
+
+  .btn-clean-toggle.active {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+
+  /* Right Actions */
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .btn-topbar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    background: #08120f;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 6px;
+    color: var(--wp-text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-topbar-link:hover {
+    color: #ffffff;
+    border-color: var(--wp-border);
+  }
+
+  .btn-save-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    background: var(--wp-accent);
+    border: none;
+    border-radius: 6px;
+    color: #06120e;
+    font-size: 0.825rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-save-primary:hover {
+    background: var(--wp-accent-hover);
+  }
+
+  .btn-logout {
+    padding: 0.4rem 0.65rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 6px;
+    color: #f87171;
+    font-size: 0.78rem;
+    cursor: pointer;
+  }
+
+  .btn-logout:hover {
+    background: rgba(239, 68, 68, 0.2);
+  }
+
+  /* WORKSPACE */
+  .wp-workspace {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 56px);
+    overflow: hidden;
+  }
+
+  /* LEFT SIDEBAR */
+  .wp-sidebar {
+    width: 380px;
+    min-width: 380px;
+    max-width: 380px;
+    background: var(--wp-sidebar-bg);
+    border-right: 1px solid var(--wp-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 50;
+  }
+
+  .sidebar-tab-nav {
+    display: flex;
+    background: #08100d;
+    border-bottom: 1px solid var(--wp-border-subtle);
+  }
+
+  .side-tab-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.75rem 0.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--wp-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .side-tab-btn:hover {
+    color: #ffffff;
+  }
+
+  .side-tab-btn.active {
+    color: var(--wp-accent);
+    border-bottom-color: var(--wp-accent);
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .side-tab-content {
+    display: none;
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem;
+  }
+
+  .side-tab-content.active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .side-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--wp-border-subtle);
+  }
+
+  .panel-heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.2rem;
+  }
+
+  .panel-desc {
+    font-size: 0.75rem;
+    color: var(--wp-text-muted);
+    line-height: 1.4;
+  }
+
+  .btn-mini-reset {
+    background: transparent;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+    color: var(--wp-text-muted);
+    cursor: pointer;
+  }
+
+  .btn-mini-reset:hover {
+    color: #ffffff;
+    border-color: var(--wp-border);
+  }
+
+  /* SECTIONS TREE */
+  .sections-tree-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+  }
+
+  .tree-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 2rem 0;
+    color: var(--wp-text-muted);
+    font-size: 0.8rem;
+  }
+
+  .pulse-loader {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--wp-accent);
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0.5; }
+  }
+
+  .section-tree-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 0.85rem;
+    background: #0d1a16;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 8px;
+    cursor: grab;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .section-tree-item:hover {
+    border-color: var(--wp-border);
+    background: #10221c;
+  }
+
+  .section-tree-item.selected {
+    border-color: var(--wp-accent);
+    background: rgba(16, 185, 129, 0.12);
+  }
+
+  .section-tree-item.dragging {
+    opacity: 0.4;
+    border: 1px dashed var(--wp-accent);
+  }
+
+  .section-tree-item.drag-over {
+    border-top: 3px solid var(--wp-accent);
+  }
+
+  .tree-item-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .drag-grip {
+    color: var(--wp-text-dim);
+    font-size: 1.1rem;
+    cursor: grab;
+  }
+
+  .sec-tree-icon {
+    font-size: 1rem;
+  }
+
+  .sec-tree-name {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tree-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .btn-tree-action {
+    background: transparent;
+    border: none;
+    color: var(--wp-text-muted);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.35rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .btn-tree-action:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .sidebar-quick-tip {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(16, 185, 129, 0.06);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 6px;
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--wp-text-muted);
+    line-height: 1.4;
+  }
+
+  .tip-icon {
+    font-size: 1rem;
+  }
+
+  /* TAB 2: INSPECTOR */
+  .active-badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--wp-accent);
+  }
+
+  .badge-green {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--wp-accent);
+  }
+
+  .inspector-empty {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--wp-text-muted);
+    font-size: 0.825rem;
+    line-height: 1.5;
+  }
+
+  .empty-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .inspect-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .inspect-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin-bottom: 0.25rem;
+  }
+
+  .inspect-hint {
+    font-size: 0.725rem;
+    color: var(--wp-text-dim);
+    margin-bottom: 0.6rem;
+  }
+
+  .grid-buttons-row,
+  .border-buttons-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-grid-col,
+  .btn-border-style {
+    flex: 1;
+    padding: 0.5rem 0.25rem;
+    background: #0d1a16;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 6px;
+    color: var(--wp-text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-grid-col:hover,
+  .btn-border-style:hover {
+    color: #ffffff;
+    border-color: var(--wp-border);
+  }
+
+  .btn-grid-col.active,
+  .btn-border-style.active {
+    background: var(--wp-accent);
+    color: #06120e;
+    font-weight: 700;
+    border-color: var(--wp-accent);
+  }
+
+  .image-uploader-card {
+    background: #0d1a16;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 8px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .img-preview-box {
+    width: 100%;
+    height: 120px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #060e0b;
+  }
+
+  .img-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .uploader-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .btn-upload-file {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem;
+    background: var(--wp-accent-light);
+    border: 1px solid var(--wp-border);
+    border-radius: 6px;
+    color: var(--wp-accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .btn-upload-file:hover {
+    background: var(--wp-accent);
+    color: #06120e;
+  }
+
+  .upload-status {
+    font-size: 0.7rem;
+    color: var(--wp-text-dim);
+    text-align: center;
+  }
+
+  .inspect-input,
+  .inspect-textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    background: #08110e;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 0.825rem;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+
+  .inspect-input:focus,
+  .inspect-textarea:focus {
+    border-color: var(--wp-accent);
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--wp-text-muted);
+    padding: 0.5rem 0;
+  }
+
+  /* TAB 3: SECURITY */
+  .security-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .sec-card {
+    background: #0d1a16;
+    border: 1px solid var(--wp-border-subtle);
+    border-radius: 8px;
+    padding: 0.85rem;
+  }
+
+  .sec-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .sec-card-header h4 {
+    font-size: 0.825rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .sec-card p {
+    font-size: 0.725rem;
+    color: var(--wp-text-muted);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .sec-tag {
+    font-size: 0.68rem;
+    color: var(--wp-accent);
+    font-weight: 600;
+  }
+
+  .btn-check-rss {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--wp-accent);
+    text-decoration: underline;
+  }
+
+  /* FOOTER */
+  .wp-sidebar-footer {
+    padding: 0.85rem 1.25rem;
+    background: #08100d;
+    border-top: 1px solid var(--wp-border-subtle);
+  }
+
+  .btn-save-sidebar {
+    width: 100%;
+    padding: 0.65rem;
+    background: var(--wp-accent);
+    border: none;
+    border-radius: 6px;
+    color: #06120e;
+    font-size: 0.825rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: background 0.2s;
+  }
+
+  .btn-save-sidebar:hover {
+    background: var(--wp-accent-hover);
+  }
+
+  /* RIGHT CANVAS */
+  .wp-canvas {
+    flex: 1;
+    height: 100%;
+    background: #050a08;
+    background-image: radial-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    padding: 1rem;
+  }
+
+  .canvas-frame-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .frame-loader {
+    position: absolute;
+    inset: 0;
+    background: rgba(7, 13, 11, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    transition: opacity 0.3s;
+  }
+
+  .loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--wp-text-muted);
+    font-size: 0.825rem;
+  }
+
+  .site-frame {
+    background: #ffffff;
+    border: none;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-radius 0.3s,
+                box-shadow 0.3s;
+  }
+
+  .frame-desktop {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .frame-tablet {
+    width: 768px;
+    height: 95%;
+    max-height: 1024px;
+    border: 8px solid #14221d;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  }
+
+  .frame-mobile {
+    width: 390px;
+    height: 92%;
+    max-height: 844px;
+    border: 12px solid #14221d;
+    border-radius: 36px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  }
+
+  .builder-toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #0d1e18;
+    border: 1px solid var(--wp-accent);
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    z-index: 9999;
+    animation: slideUp 0.3s ease;
+  }
+
+  .toast-icon {
+    font-size: 1.1rem;
+  }
+
+  .toast-msg {
+    font-size: 0.85rem;
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+</style>
+
+<script>
+  const SANITY_PROJECT_ID = '7ox4kuc2';
+  const SANITY_DATASET = 'production';
+
+  // --- STATE ---
+  let activePage = '/';
+  let cleanPreviewMode = false;
+  let activeSectionId = '';
+  let discoveredSections: Array<{ id: string; name: string; icon: string; el: HTMLElement }> = [];
+  let pageLayoutState: {
+    order: string[];
+    grids: Record<string, number>;
+    borders: Record<string, string>;
+    images: Record<string, string>;
+  } = {
+    order: [],
+    grids: {},
+    borders: {},
+    images: {}
+  };
+
+  // --- DOM ELEMENTS ---
+  const pageSelector = document.getElementById('page-selector') as HTMLSelectElement;
+  const siteFrame = document.getElementById('site-frame') as HTMLIFrameElement;
+  const frameLoader = document.getElementById('frame-loader')!;
+  const btnCleanToggle = document.getElementById('btn-clean-toggle')!;
+  const btnSaveTop = document.getElementById('btn-save-changes')!;
+  const btnSaveSidebar = document.getElementById('btn-save-sidebar')!;
+  const btnResetOrder = document.getElementById('btn-reset-order')!;
+  const btnViewLive = document.getElementById('btn-view-live') as HTMLAnchorElement;
+  const btnLogout = document.getElementById('btn-logout')!;
+
+  const sectionsTreeList = document.getElementById('sections-tree-list')!;
+  const inspectorSecName = document.getElementById('inspector-sec-name')!;
+  const inspectorEmpty = document.getElementById('inspector-empty')!;
+  const inspectorForm = document.getElementById('inspector-form')!;
+  const inspectorHeadline = document.getElementById('inspector-headline') as HTMLInputElement;
+  const inspectorSubtitle = document.getElementById('inspector-subtitle') as HTMLTextAreaElement;
+  const inspectorVisibility = document.getElementById('inspector-visibility') as HTMLInputElement;
+  const inspectorFileInput = document.getElementById('inspector-file-input') as HTMLInputElement;
+  const inspectorCurrentImg = document.getElementById('inspector-current-img') as HTMLImageElement;
+  const uploadStatusText = document.getElementById('upload-status-text')!;
+  const builderToast = document.getElementById('builder-toast')!;
+  const toastMsg = document.getElementById('toast-msg')!;
+
+  // Device buttons
+  const deviceButtons = document.querySelectorAll('.btn-device');
+  // Sidebar tab buttons
+  const sideTabButtons = document.querySelectorAll('.side-tab-btn');
+  // Grid column buttons
+  const gridColButtons = document.querySelectorAll('.btn-grid-col');
+  // Border buttons
+  const borderButtons = document.querySelectorAll('.btn-border-style');
+
+  // --- LOGOUT ---
+  btnLogout?.addEventListener('click', () => {
+    sessionStorage.removeItem('baluran_admin_auth');
+    window.location.replace('/admin');
+  });
+
+  // --- PAGE SWITCHER ---
+  pageSelector?.addEventListener('change', (e) => {
+    activePage = (e.target as HTMLSelectElement).value;
+    loadPage(activePage);
+  });
+
+  // --- DEVICE SWITCHER ---
+  deviceButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      deviceButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const dev = btn.getAttribute('data-device');
+      siteFrame.className = 'site-frame frame-' + dev;
+    });
+  });
+
+  // --- CLEAN PREVIEW TOGGLE ---
+  btnCleanToggle?.addEventListener('click', () => {
+    cleanPreviewMode = !cleanPreviewMode;
+    btnCleanToggle.classList.toggle('active', cleanPreviewMode);
+    toggleFrameCleanMode(cleanPreviewMode);
+  });
+
+  // --- SIDEBAR TAB SWITCHING ---
+  sideTabButtons.forEach(tab => {
+    tab.addEventListener('click', () => {
+      sideTabButtons.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.getAttribute('data-tab');
+      document.querySelectorAll('.side-tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(target || '')?.classList.add('active');
+    });
+  });
+
+  // --- LOAD PAGE IN IFRAME ---
+  function loadPage(url: string) {
+    frameLoader.style.display = 'flex';
+    frameLoader.style.opacity = '1';
+    btnViewLive.href = url;
+
+    // Load saved layout config for this page
+    loadStoredLayout(url);
+
+    siteFrame.src = url;
+  }
+
+  function loadStoredLayout(path: string) {
+    const key = 'baluran_custom_layout_' + (path.replace(/\/$/, '') || '/');
+    try {
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        pageLayoutState = JSON.parse(raw);
+      } else {
+        pageLayoutState = { order: [], grids: {}, borders: {}, images: {} };
+      }
+    } catch (e) {
+      pageLayoutState = { order: [], grids: {}, borders: {}, images: {} };
+    }
+  }
+
+  // --- IFRAME LOADED & INTERACTIVE BRIDGE ---
+  siteFrame.addEventListener('load', () => {
+    setTimeout(() => {
+      frameLoader.style.opacity = '0';
+      setTimeout(() => { frameLoader.style.display = 'none'; }, 300);
+      setupIframeVisualBuilder();
+    }, 400);
+  });
+
+  function setupIframeVisualBuilder() {
+    try {
+      const doc = siteFrame.contentDocument;
+      if (!doc) return;
+
+      // 1. Inject Elementor / Builder CSS into the live website
+      injectBuilderStyles(doc);
+
+      // 2. Discover all sections on the live website
+      discoverSections(doc);
+
+      // 3. Apply any saved order / grid / border customizations to the live website
+      applySavedStateToDoc(doc);
+
+      // 4. Render sections in Left Sidebar Navigator
+      renderSidebarSectionsList();
+
+      // 5. Attach Elementor-style on-page hover toolbars & direct drag-and-drop
+      attachOnPageElementorHooks(doc);
+
+    } catch (err) {
+      console.warn('Builder bridge warning:', err);
+    }
+  }
+
+  function injectBuilderStyles(doc: Document) {
+    let style = doc.getElementById('baluran-builder-injected-style');
+    if (!style) {
+      style = doc.createElement('style');
+      style.id = 'baluran-builder-injected-style';
+      doc.head.appendChild(style);
+    }
+
+    style.textContent = `
+      .bb-section-wrap {
+        position: relative !important;
+        transition: outline 0.2s ease, box-shadow 0.2s ease;
+      }
+      .bb-section-wrap:hover {
+        outline: 2px dashed #10b981 !important;
+        outline-offset: -2px !important;
+      }
+      .bb-section-wrap.bb-active {
+        outline: 3px solid #10b981 !important;
+        outline-offset: -2px !important;
+      }
+      .bb-floating-bar {
+        position: absolute;
+        top: 8px;
+        left: 12px;
+        z-index: 999999;
+        display: none;
+        align-items: center;
+        gap: 6px;
+        background: #091411;
+        border: 1px solid #10b981;
+        padding: 4px 8px;
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        color: #ffffff;
+        font-family: system-ui, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        pointer-events: auto;
+      }
+      .bb-section-wrap:hover .bb-floating-bar {
+        display: flex !important;
+      }
+      .bb-bar-btn {
+        background: rgba(255,255,255,0.1);
+        border: none;
+        color: #ffffff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 11px;
+      }
+      .bb-bar-btn:hover {
+        background: #10b981;
+        color: #06120e;
+      }
+      .bb-clean-mode .bb-section-wrap:hover {
+        outline: none !important;
+      }
+      .bb-clean-mode .bb-section-wrap.bb-active {
+        outline: none !important;
+      }
+      .bb-clean-mode .bb-floating-bar {
+        display: none !important;
+      }
+    `;
+  }
+
+  function discoverSections(doc: Document) {
+    discoveredSections = [];
+    const main = doc.querySelector('main') || doc.body;
+
+    const elements = Array.from(main.children).filter(el => {
+      const tag = el.tagName.toLowerCase();
+      return tag === 'section' || tag === 'header' || tag === 'article' || el.classList.contains('section');
+    }) as HTMLElement[];
+
+    elements.forEach((el, idx) => {
+      let id = el.id || el.getAttribute('data-section-id') || '';
+      if (!id) {
+        const cls = Array.from(el.classList).find(c => c.endsWith('-section') || c.endsWith('-content') || c === 'hero-section');
+        id = cls || 'section-' + idx;
+        el.id = id;
+      }
+
+      const { name, icon } = getSectionLabel(id, el);
+      discoveredSections.push({ id, name, icon, el });
+    });
+  }
+
+  function getSectionLabel(id: string, el: HTMLElement): { name: string; icon: string } {
+    const lower = id.toLowerCase() + ' ' + (el.className || '');
+    if (lower.includes('hero')) return { name: 'Hero Banner Utama', icon: '🌟' };
+    if (lower.includes('paket') || lower.includes('package')) return { name: 'Paket Jeep Safari', icon: '🚙' };
+    if (lower.includes('why') || lower.includes('keunggulan')) return { name: 'Mengapa Baluran Indonesia', icon: '⭐' };
+    if (lower.includes('destin') || lower.includes('destination')) return { name: 'Destinasi Sekitar (Wurung/Djawatan)', icon: '📍' };
+    if (lower.includes('facil') || lower.includes('fasilitas')) return { name: 'Fasilitas & Ketentuan', icon: '🛠️' };
+    if (lower.includes('fleet') || lower.includes('armada')) return { name: 'Galeri Armada Jeep 4x4', icon: '🛞' };
+    if (lower.includes('testi')) return { name: 'Testimoni Tamu', icon: '💬' };
+    if (lower.includes('faq') || lower.includes('panduan')) return { name: 'Panduan & Tanya Jawab (FAQ)', icon: '❓' };
+    if (lower.includes('cta') || lower.includes('booking')) return { name: 'Banner Call to Action', icon: '📣' };
+    if (lower.includes('header')) return { name: 'Header Halaman', icon: '🏷️' };
+    return { name: id.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()), icon: '📄' };
+  }
+
+  function applySavedStateToDoc(doc: Document) {
+    const main = doc.querySelector('main') || doc.body;
+
+    // Apply Saved Order
+    if (Array.isArray(pageLayoutState.order) && pageLayoutState.order.length > 0) {
+      pageLayoutState.order.forEach(id => {
+        const item = discoveredSections.find(s => s.id === id);
+        if (item && item.el) {
+          main.appendChild(item.el);
+        }
+      });
+      discoverSections(doc);
+    }
+
+    // Apply Saved Grids
+    if (pageLayoutState.grids) {
+      Object.entries(pageLayoutState.grids).forEach(([id, cols]) => {
+        const item = discoveredSections.find(s => s.id === id);
+        if (item) applyGridToElement(item.el, cols);
+      });
+    }
+
+    // Apply Saved Borders
+    if (pageLayoutState.borders) {
+      Object.entries(pageLayoutState.borders).forEach(([id, style]) => {
+        const item = discoveredSections.find(s => s.id === id);
+        if (item) applyBorderToElement(item.el, style);
+      });
+    }
+
+    // Apply Saved Images
+    if (pageLayoutState.images) {
+      Object.entries(pageLayoutState.images).forEach(([selector, src]) => {
+        const img = doc.querySelector(selector) as HTMLImageElement;
+        if (img && src) img.src = src;
+      });
+    }
+  }
+
+  // --- RENDER SIDEBAR SECTIONS TREE ---
+  function renderSidebarSectionsList() {
+    sectionsTreeList.innerHTML = '';
+
+    if (discoveredSections.length === 0) {
+      sectionsTreeList.innerHTML = '<div class="tree-loading">Tidak ada seksi kontainer terdeteksi pada halaman ini.</div>';
+      return;
+    }
+
+    discoveredSections.forEach((sec, idx) => {
+      const item = document.createElement('div');
+      item.className = 'section-tree-item' + (sec.id === activeSectionId ? ' selected' : '');
+      item.setAttribute('draggable', 'true');
+      item.setAttribute('data-sec-id', sec.id);
+
+      item.innerHTML = `
+        <div class="tree-item-left">
+          <span class="drag-grip" title="Tarik untuk memindahkan">⠿</span>
+          <span class="sec-tree-icon">${sec.icon}</span>
+          <span class="sec-tree-name">${sec.name}</span>
+        </div>
+        <div class="tree-item-actions">
+          <button type="button" class="btn-tree-action btn-move-up" title="Pindah ke atas" data-id="${sec.id}">▲</button>
+          <button type="button" class="btn-tree-action btn-move-down" title="Pindah ke bawah" data-id="${sec.id}">▼</button>
+          <button type="button" class="btn-tree-action btn-inspect-sec" title="Kustomisasi seksi" data-id="${sec.id}">⚙️</button>
+        </div>
+      `;
+
+      // Select section on click
+      item.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.classList.contains('btn-move-up') || target.classList.contains('btn-move-down')) return;
+        selectSection(sec.id);
+      });
+
+      // Quick move buttons
+      const btnUp = item.querySelector('.btn-move-up')!;
+      const btnDown = item.querySelector('.btn-move-down')!;
+
+      btnUp.addEventListener('click', (e) => {
+        e.stopPropagation();
+        moveSectionIndex(idx, idx - 1);
+      });
+
+      btnDown.addEventListener('click', (e) => {
+        e.stopPropagation();
+        moveSectionIndex(idx, idx + 1);
+      });
+
+      // DRAG AND DROP IN SIDEBAR LIST
+      item.addEventListener('dragstart', (e) => {
+        item.classList.add('dragging');
+        e.dataTransfer?.setData('text/plain', sec.id);
+      });
+
+      item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+        document.querySelectorAll('.section-tree-item').forEach(el => el.classList.remove('drag-over'));
+      });
+
+      item.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        item.classList.add('drag-over');
+      });
+
+      item.addEventListener('dragleave', () => {
+        item.classList.remove('drag-over');
+      });
+
+      item.addEventListener('drop', (e) => {
+        e.preventDefault();
+        item.classList.remove('drag-over');
+        const draggedId = e.dataTransfer?.getData('text/plain');
+        if (draggedId && draggedId !== sec.id) {
+          const fromIdx = discoveredSections.findIndex(s => s.id === draggedId);
+          const toIdx = idx;
+          if (fromIdx !== -1) {
+            moveSectionIndex(fromIdx, toIdx);
+          }
+        }
+      });
+
+      sectionsTreeList.appendChild(item);
+    });
+  }
+
+  function moveSectionIndex(fromIdx: number, toIdx: number) {
+    if (toIdx < 0 || toIdx >= discoveredSections.length || fromIdx === toIdx) return;
+
+    const doc = siteFrame.contentDocument;
+    if (!doc) return;
+
+    const main = doc.querySelector('main') || doc.body;
+    const movedItem = discoveredSections[fromIdx];
+    const targetItem = discoveredSections[toIdx];
+
+    if (toIdx > fromIdx) {
+      main.insertBefore(movedItem.el, targetItem.el.nextSibling);
+    } else {
+      main.insertBefore(movedItem.el, targetItem.el);
+    }
+
+    discoverSections(doc);
+    updateStoredOrder();
+    renderSidebarSectionsList();
+
+    movedItem.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showToast('Posisi seksi ' + movedItem.name + ' berhasil diubah');
+  }
+
+  function updateStoredOrder() {
+    pageLayoutState.order = discoveredSections.map(s => s.id);
+  }
+
+  // --- ON-PAGE ELEMENTOR HOOKS (IN IFRAME) ---
+  function attachOnPageElementorHooks(doc: Document) {
+    discoveredSections.forEach((sec, idx) => {
+      const el = sec.el;
+      el.classList.add('bb-section-wrap');
+
+      let bar = el.querySelector('.bb-floating-bar') as HTMLElement;
+      if (!bar) {
+        bar = doc.createElement('div');
+        bar.className = 'bb-floating-bar';
+        bar.innerHTML = `
+          <span>⠿ ${sec.name}</span>
+          <button type="button" class="bb-bar-btn bb-btn-up" title="Pindah ke atas">▲</button>
+          <button type="button" class="bb-bar-btn bb-btn-down" title="Pindah ke bawah">▼</button>
+          <button type="button" class="bb-bar-btn bb-btn-edit" title="Buka di Sidebar">⚙️ Edit</button>
+        `;
+
+        bar.querySelector('.bb-btn-up')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          moveSectionIndex(idx, idx - 1);
+        });
+
+        bar.querySelector('.bb-btn-down')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          moveSectionIndex(idx, idx + 1);
+        });
+
+        bar.querySelector('.bb-btn-edit')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectSection(sec.id);
+        });
+
+        el.prepend(bar);
+      }
+
+      el.addEventListener('click', (e) => {
+        const link = (e.target as HTMLElement).closest('a');
+        if (link && !link.classList.contains('bb-bar-btn')) {
+          e.preventDefault();
+        }
+        selectSection(sec.id);
+      });
+    });
+  }
+
+  function toggleFrameCleanMode(clean: boolean) {
+    const doc = siteFrame.contentDocument;
+    if (!doc) return;
+    if (clean) {
+      doc.body.classList.add('bb-clean-mode');
+    } else {
+      doc.body.classList.remove('bb-clean-mode');
+    }
+  }
+
+  // --- SECTION INSPECTOR ---
+  function selectSection(id: string) {
+    activeSectionId = id;
+    const sec = discoveredSections.find(s => s.id === id);
+    if (!sec) return;
+
+    const doc = siteFrame.contentDocument;
+    if (doc) {
+      doc.querySelectorAll('.bb-section-wrap').forEach(el => el.classList.remove('bb-active'));
+      sec.el.classList.add('bb-active');
+      sec.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    sideTabButtons.forEach(t => t.classList.remove('active'));
+    document.querySelector('[data-tab="tab-inspector"]')?.classList.add('active');
+    document.querySelectorAll('.side-tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-inspector')?.classList.add('active');
+
+    inspectorSecName.textContent = sec.name;
+    inspectorEmpty.style.display = 'none';
+    inspectorForm.style.display = 'block';
+
+    const headingEl = sec.el.querySelector('h1, h2, h3, .section-title, .hero-title') as HTMLElement;
+    const subEl = sec.el.querySelector('p, .section-subtitle, .hero-desc') as HTMLElement;
+    inspectorHeadline.value = headingEl ? headingEl.textContent?.trim() || '' : '';
+    inspectorSubtitle.value = subEl ? subEl.textContent?.trim() || '' : '';
+
+    const imgEl = sec.el.querySelector('img') as HTMLImageElement;
+    if (imgEl && imgEl.src) {
+      inspectorCurrentImg.src = imgEl.src;
+    } else {
+      inspectorCurrentImg.src = '/images/hero-baluran.webp';
+    }
+
+    const currentCols = pageLayoutState.grids[id] || 3;
+    gridColButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-cols') === String(currentCols));
+    });
+
+    const currentBorder = pageLayoutState.borders[id] || 'none';
+    borderButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-border') === currentBorder);
+    });
+
+    document.querySelectorAll('.section-tree-item').forEach(item => {
+      item.classList.toggle('selected', item.getAttribute('data-sec-id') === id);
+    });
+  }
+
+  inspectorHeadline.addEventListener('input', () => {
+    if (!activeSectionId) return;
+    const sec = discoveredSections.find(s => s.id === activeSectionId);
+    if (!sec) return;
+    const headingEl = sec.el.querySelector('h1, h2, h3, .section-title, .hero-title') as HTMLElement;
+    if (headingEl) headingEl.textContent = inspectorHeadline.value;
+  });
+
+  inspectorSubtitle.addEventListener('input', () => {
+    if (!activeSectionId) return;
+    const sec = discoveredSections.find(s => s.id === activeSectionId);
+    if (!sec) return;
+    const subEl = sec.el.querySelector('p, .section-subtitle, .hero-desc') as HTMLElement;
+    if (subEl) subEl.textContent = inspectorSubtitle.value;
+  });
+
+  inspectorVisibility.addEventListener('change', () => {
+    if (!activeSectionId) return;
+    const sec = discoveredSections.find(s => s.id === activeSectionId);
+    if (!sec) return;
+    sec.el.style.display = inspectorVisibility.checked ? '' : 'none';
+  });
+
+  gridColButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!activeSectionId) return;
+      const sec = discoveredSections.find(s => s.id === activeSectionId);
+      if (!sec) return;
+
+      const cols = Number(btn.getAttribute('data-cols') || '3');
+      gridColButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      pageLayoutState.grids[activeSectionId] = cols;
+      applyGridToElement(sec.el, cols);
+      showToast('Grid kolom seksi ' + sec.name + ' diubah ke ' + cols + ' kolom');
+    });
+  });
+
+  function applyGridToElement(el: HTMLElement, cols: number) {
+    const gridContainer = (el.querySelector('.packages-grid, .destinations-grid, .fleet-grid, .facilities-grid, .testi-grid, .why-grid, .packages-list-grid') || el) as HTMLElement;
+    if (gridContainer) {
+      gridContainer.style.display = 'grid';
+      gridContainer.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+      gridContainer.style.gap = '1.5rem';
+    }
+  }
+
+  borderButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!activeSectionId) return;
+      const sec = discoveredSections.find(s => s.id === activeSectionId);
+      if (!sec) return;
+
+      const style = btn.getAttribute('data-border') || 'none';
+      borderButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      pageLayoutState.borders[activeSectionId] = style;
+      applyBorderToElement(sec.el, style);
+      showToast('Gaya border seksi ' + sec.name + ' diperbarui');
+    });
+  });
+
+  function applyBorderToElement(el: HTMLElement, style: string) {
+    const target = (el.querySelector('.container') || el) as HTMLElement;
+    if (!target) return;
+
+    if (style === 'subtle') {
+      target.style.border = '1px solid rgba(255, 255, 255, 0.12)';
+      target.style.borderRadius = '1rem';
+      target.style.boxShadow = 'none';
+      target.style.padding = '2rem 1.5rem';
+    } else if (style === 'accent') {
+      target.style.border = '2px solid #10b981';
+      target.style.borderRadius = '1rem';
+      target.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.15)';
+      target.style.padding = '2rem 1.5rem';
+    } else {
+      target.style.border = 'none';
+      target.style.boxShadow = 'none';
+    }
+  }
+
+  inspectorFileInput.addEventListener('change', async (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file || !activeSectionId) return;
+
+    const sec = discoveredSections.find(s => s.id === activeSectionId);
+    if (!sec) return;
+
+    uploadStatusText.textContent = 'Mengunggah ke Sanity CDN...';
+    uploadStatusText.style.color = 'var(--wp-accent)';
+
+    try {
+      const url = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/assets/images/${SANITY_DATASET}?filename=${encodeURIComponent(file.name)}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': file.type,
+          ...(localStorage.getItem('sanity_write_token') ? {
+            'Authorization': `Bearer ${localStorage.getItem('sanity_write_token')}`
+          } : {})
+        },
+        body: file
+      });
+
+      let imageUrl = '';
+      if (res.ok) {
+        const data = await res.json();
+        imageUrl = data.document?.url || URL.createObjectURL(file);
+      } else {
+        imageUrl = URL.createObjectURL(file);
+      }
+
+      inspectorCurrentImg.src = imageUrl;
+
+      const imgInDoc = sec.el.querySelector('img') as HTMLImageElement;
+      if (imgInDoc) {
+        imgInDoc.src = imageUrl;
+        const selector = `#${sec.id} img`;
+        pageLayoutState.images[selector] = imageUrl;
+      }
+
+      uploadStatusText.textContent = 'Gambar berhasil diperbarui!';
+      uploadStatusText.style.color = '#34d399';
+      showToast('Foto seksi ' + sec.name + ' berhasil diupload!');
+    } catch (err) {
+      const localUrl = URL.createObjectURL(file);
+      inspectorCurrentImg.src = localUrl;
+      const imgInDoc = sec.el.querySelector('img') as HTMLImageElement;
+      if (imgInDoc) imgInDoc.src = localUrl;
+      uploadStatusText.textContent = 'Tersimpan lokal (Pratinjau)';
+      uploadStatusText.style.color = '#fbbf24';
+      showToast('Foto diperbarui di pratinjau live');
+    }
+  });
+
+  function saveAllChanges() {
+    updateStoredOrder();
+    const key = 'baluran_custom_layout_' + (activePage.replace(/\/$/, '') || '/');
+
+    try {
+      localStorage.setItem(key, JSON.stringify(pageLayoutState));
+      showToast('Susunan seksi dan kustomisasi visual berhasil disimpan!');
+    } catch (err) {
+      showToast('Gagal menyimpan ke penyimpanan lokal');
+    }
+  }
+
+  btnSaveTop.addEventListener('click', saveAllChanges);
+  btnSaveSidebar.addEventListener('click', saveAllChanges);
+
+  btnResetOrder.addEventListener('click', () => {
+    if (confirm('Kembalikan urutan susunan seksi ke posisi awal?')) {
+      const key = 'baluran_custom_layout_' + (activePage.replace(/\/$/, '') || '/');
+      localStorage.removeItem(key);
+      loadPage(activePage);
+      showToast('Susunan seksi berhasil di-reset');
+    }
+  });
+
+  let toastTimer: any = null;
+  function showToast(text: string) {
+    if (toastTimer) clearTimeout(toastTimer);
+    toastMsg.textContent = text;
+    builderToast.style.display = 'flex';
+    toastTimer = setTimeout(() => {
+      builderToast.style.display = 'none';
+    }, 3500);
+  }
+
+  // Load initial page
+  loadPage(activePage);
+</script>
