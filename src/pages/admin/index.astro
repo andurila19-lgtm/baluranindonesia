@@ -85,12 +85,6 @@ import Layout from '../../layouts/Layout.astro';
           <div class="spinner" id="login-spinner" style="display: none;"></div>
         </button>
       </form>
-
-      <div class="security-footer">
-        <div class="sec-item"><span class="dot"></span> Otentikasi Supabase Cloud & JWT</div>
-        <div class="sec-item"><span class="dot"></span> Perlindungan Anti-Brute Force</div>
-        <div class="sec-item"><span class="dot"></span> Sesi Terisolasi & Aman</div>
-      </div>
     </div>
   </main>
 </Layout>
@@ -276,30 +270,6 @@ import Layout from '../../layouts/Layout.astro';
   @keyframes spin {
     to { transform: rotate(360deg); }
   }
-
-  .security-footer {
-    margin-top: 1.75rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--login-border-subtle);
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .sec-item {
-    font-size: 0.75rem;
-    color: var(--login-text-muted);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .sec-item .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--login-accent);
-  }
 </style>
 
 <script>
@@ -350,7 +320,7 @@ import Layout from '../../layouts/Layout.astro';
 
     const emailVal = userInput.value.trim();
     if (!emailVal || !emailVal.includes('@')) {
-      loginAlertMsg.textContent = 'Mohon masukkan format email yang valid.';
+      loginAlertMsg.textContent = 'Format email tidak valid.';
       loginAlert.style.display = 'flex';
       return;
     }
@@ -367,15 +337,7 @@ import Layout from '../../layouts/Layout.astro';
       });
 
       if (error) {
-        let msg = 'Email atau password salah.';
-        if (error.message.includes('Invalid login credentials')) {
-          msg = 'Email atau password salah. Pastikan akun sudah didaftarkan di Supabase.';
-        } else if (error.message.includes('Email not confirmed')) {
-          msg = 'Email belum dikonfirmasi di Supabase.';
-        } else if (error.message) {
-          msg = error.message;
-        }
-        loginAlertMsg.textContent = msg;
+        loginAlertMsg.textContent = 'Email atau password salah.';
         loginAlert.style.display = 'flex';
         return;
       }
@@ -388,8 +350,8 @@ import Layout from '../../layouts/Layout.astro';
         }));
         window.location.replace('/admin/dashboard');
       }
-    } catch (err: any) {
-      loginAlertMsg.textContent = err?.message || 'Terjadi gangguan koneksi ke server auth.';
+    } catch {
+      loginAlertMsg.textContent = 'Terjadi kesalahan sistem. Silakan coba sesaat lagi.';
       loginAlert.style.display = 'flex';
     } finally {
       btnSubmit.removeAttribute('disabled');
