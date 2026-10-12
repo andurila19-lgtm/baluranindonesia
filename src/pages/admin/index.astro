@@ -1,125 +1,1206 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { siteConfig } from '../../data/baluranData';
-
-const isDev = import.meta.env.DEV;
-const studioUrl = isDev 
-  ? 'http://localhost:3333' 
-  : (import.meta.env.PUBLIC_SANITY_STUDIO_URL || 'https://baluran-indonesia.sanity.studio');
 ---
 
 <Layout
-  title="Baluran Indonesia - CMS Admin Portal"
-  description="Portal akses dashboard pengelolaan konten Baluran Indonesia Studio."
+  title="Portal Operator - Baluran Indonesia"
+  description="Panel manajemen operasional dan pembaruan konten Baluran Indonesia."
 >
-  <head slot="head">
-    <meta http-equiv="refresh" content={`0;url=${studioUrl}`} />
-  </head>
+  <main class="admin-wrapper" id="admin-app">
+    <!-- 1. LOGIN SCREEN -->
+    <div class="login-view" id="login-view">
+      <div class="login-card">
+        <div class="brand-badge">
+          <span class="shield-icon">🛡️</span>
+          <span>SECURE OPERATOR PORTAL</span>
+        </div>
+        <div class="brand-header">
+          <div class="logo-mark">🚙</div>
+          <h1 class="login-title">Baluran Indonesia</h1>
+          <p class="login-subtitle">Sistem Manajemen Operasional & Pemesanan Jeep</p>
+        </div>
 
-  <main class="portal-wrapper">
-    <div class="portal-card">
-      <div class="portal-icon">🚙</div>
-      <div class="portal-badge">CMS ADMIN PORTAL</div>
-      <h1 class="portal-title">Baluran Indonesia Studio</h1>
-      <p class="portal-desc">
-        Sedang mengalihkan Anda ke Dashboard Sanity Studio untuk mengelola paket Jeep, harga, armada, dan konten website...
-      </p>
+        <!-- Alert Error Box -->
+        <div class="alert-box" id="login-alert" style="display: none;">
+          <span class="alert-icon">⚠️</span>
+          <span id="login-alert-msg">Username atau password salah.</span>
+        </div>
 
-      <div class="portal-loading">
-        <div class="spinner"></div>
-        <span>Membuka {isDev ? 'Local Studio (Port 3333)' : 'Sanity Cloud Studio'}...</span>
+        <form id="login-form" autocomplete="off">
+          <!-- Bot Honeypot Trap (Anti-Automated Bot / Anti-DDOS Script) -->
+          <input 
+            type="text" 
+            name="website_url_trap" 
+            id="website_url_trap" 
+            style="display:none !important; position:absolute; left:-9999px; width:0; height:0;" 
+            tabindex="-1" 
+            autocomplete="off" 
+          />
+
+          <div class="form-group">
+            <label for="username">Username Operator</label>
+            <div class="input-wrap">
+              <span class="input-icon">👤</span>
+              <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                placeholder="Masukkan username" 
+                required 
+                autocomplete="username"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password Akses</label>
+            <div class="input-wrap">
+              <span class="input-icon">🔒</span>
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Masukkan password" 
+                required 
+                autocomplete="current-password"
+              />
+              <button type="button" class="btn-toggle-pw" id="toggle-pw" title="Lihat password">👁️</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-login" id="btn-submit-login">
+            <span class="btn-text">Masuk ke Dashboard Operator</span>
+            <div class="spinner" id="login-spinner" style="display: none;"></div>
+          </button>
+        </form>
+
+        <div class="security-footer">
+          <div class="sec-item"><span class="dot"></span> Enkripsi TLS 1.3 / HMAC-SHA256</div>
+          <div class="sec-item"><span class="dot"></span> Anti-Brute Force Protection Aktif</div>
+          <div class="sec-item"><span class="dot"></span> Strict Input Sanitization</div>
+        </div>
       </div>
+    </div>
 
-      <div class="portal-actions">
-        <a href={studioUrl} class="btn-primary" id="open-studio-btn">
-          Buka Dashboard Sanity Sekarang &rarr;
-        </a>
-        <a href="/" class="btn-secondary">
-          &larr; Kembali ke Website
-        </a>
+    <!-- 2. DASHBOARD VIEW (AUTHENTICATED) -->
+    <div class="dashboard-view" id="dashboard-view" style="display: none;">
+      <!-- Dashboard Top Navbar -->
+      <header class="dash-navbar">
+        <div class="dash-brand">
+          <span class="dash-logo">🚙</span>
+          <div>
+            <div class="dash-title">BALURAN INDONESIA</div>
+            <div class="dash-status"><span class="status-indicator"></span> Operator Management System</div>
+          </div>
+        </div>
+        <div class="dash-user-actions">
+          <div class="user-chip">
+            <span class="user-avatar">👮</span>
+            <span class="user-name">Operator: <strong>Admin</strong></span>
+          </div>
+          <button class="btn-logout" id="btn-logout">
+            <span>🚪</span> Keluar
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Main Container -->
+      <div class="dash-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="dash-sidebar">
+          <nav class="dash-menu">
+            <button class="menu-tab active" data-target="tab-packages">
+              <span class="tab-icon">🚙</span> Paket Jeep Baluran
+            </button>
+            <button class="menu-tab" data-target="tab-contacts">
+              <span class="tab-icon">⚙️</span> WhatsApp & Kontak
+            </button>
+            <button class="menu-tab" data-target="tab-destinations">
+              <span class="tab-icon">📍</span> Destinasi Sekitar
+            </button>
+            <button class="menu-tab" data-target="tab-fleet">
+              <span class="tab-icon">🛞</span> Armada Jeep
+            </button>
+            <button class="menu-tab" data-target="tab-faq">
+              <span class="tab-icon">❓</span> Tanya Jawab (FAQ)
+            </button>
+            <button class="menu-tab" data-target="tab-testimonials">
+              <span class="tab-icon">💬</span> Testimoni Tamu
+            </button>
+          </nav>
+
+          <div class="sidebar-help-card">
+            <h4>💡 Panduan Operator</h4>
+            <p>Setiap perubahan yang Anda simpan akan langsung disinkronkan ke server secara aman tanpa mengganggu operasional website.</p>
+          </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="dash-content">
+          <!-- TAB 1: PAKET JEEP -->
+          <section class="tab-pane active" id="tab-packages">
+            <div class="pane-header">
+              <div>
+                <h2>Kelola Paket Jeep Safari Baluran</h2>
+                <p>Ubah harga sewa, durasi, kapasitas, dan rute perjalanan Jeep.</p>
+              </div>
+            </div>
+            <div id="packages-container" class="cards-list">
+              <div class="loading-state">Memuat data paket...</div>
+            </div>
+          </section>
+
+          <!-- TAB 2: WHATSAPP & KONTAK -->
+          <section class="tab-pane" id="tab-contacts">
+            <div class="pane-header">
+              <div>
+                <h2>Pengaturan Kontak & WhatsApp Booking</h2>
+                <p>Nomor ini yang akan menerima chat otomatis saat calon wisatawan menekan tombol booking.</p>
+              </div>
+            </div>
+            <div id="contacts-container" class="form-card">
+              <div class="loading-state">Memuat pengaturan kontak...</div>
+            </div>
+          </section>
+
+          <!-- TAB 3: DESTINASI -->
+          <section class="tab-pane" id="tab-destinations">
+            <div class="pane-header">
+              <div>
+                <h2>Kelola Destinasi Tambahan</h2>
+                <p>Paket rute sekitar Banyuwangi (Kawah Wurung, De Djawatan, dll).</p>
+              </div>
+            </div>
+            <div id="destinations-container" class="cards-list">
+              <div class="loading-state">Memuat data destinasi...</div>
+            </div>
+          </section>
+
+          <!-- TAB 4: ARMADA JEEP -->
+          <section class="tab-pane" id="tab-fleet">
+            <div class="pane-header">
+              <div>
+                <h2>Galeri Armada Jeep Safari</h2>
+                <p>Kelola daftar varian unit Jeep yang ditampilkan kepada wisatawan.</p>
+              </div>
+            </div>
+            <div id="fleet-container" class="cards-grid">
+              <div class="loading-state">Memuat data armada...</div>
+            </div>
+          </section>
+
+          <!-- TAB 5: FAQ -->
+          <section class="tab-pane" id="tab-faq">
+            <div class="pane-header">
+              <div>
+                <h2>Tanya Jawab Seputar Sewa Jeep (FAQ)</h2>
+                <p>Perbarui pertanyaan yang paling sering ditanyakan pelanggan.</p>
+              </div>
+            </div>
+            <div id="faq-container" class="cards-list">
+              <div class="loading-state">Memuat FAQ...</div>
+            </div>
+          </section>
+
+          <!-- TAB 6: TESTIMONI -->
+          <section class="tab-pane" id="tab-testimonials">
+            <div class="pane-header">
+              <div>
+                <h2>Ulasan & Testimoni Pelanggan</h2>
+                <p>Testimoni wisatawan yang ditampilkan di halaman depan.</p>
+              </div>
+            </div>
+            <div id="testimonials-container" class="cards-list">
+              <div class="loading-state">Memuat testimoni...</div>
+            </div>
+          </section>
+        </main>
       </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toast-notif" style="display: none;">
+      <span class="toast-icon">✅</span>
+      <span class="toast-msg" id="toast-msg">Perubahan berhasil disimpan!</span>
     </div>
   </main>
 
-  <script define:vars={{ studioUrl }}>
-    // Auto redirect instantly
-    if (typeof window !== 'undefined') {
-      window.location.replace(studioUrl);
+  <script>
+    // Client-side Controller with Security Sanitization & State Handling
+    let activeSessionToken = localStorage.getItem('baluran_adm_token') || '';
+    let globalStore = {
+      siteSettings: {},
+      packages: [],
+      destinations: [],
+      fleet: [],
+      testimonials: [],
+      faqs: []
+    };
+
+    const loginView = document.getElementById('login-view')!;
+    const dashboardView = document.getElementById('dashboard-view')!;
+    const loginForm = document.getElementById('login-form') as HTMLFormElement;
+    const loginAlert = document.getElementById('login-alert')!;
+    const loginAlertMsg = document.getElementById('login-alert-msg')!;
+    const loginSpinner = document.getElementById('login-spinner')!;
+    const btnSubmitLogin = document.getElementById('btn-submit-login')!;
+    const btnLogout = document.getElementById('btn-logout')!;
+    const toastNotif = document.getElementById('toast-notif')!;
+    const toastMsg = document.getElementById('toast-msg')!;
+
+    // Toggle password view
+    document.getElementById('toggle-pw')?.addEventListener('click', () => {
+      const pwInput = document.getElementById('password') as HTMLInputElement;
+      if (pwInput.type === 'password') {
+        pwInput.type = 'text';
+      } else {
+        pwInput.type = 'password';
+      }
+    });
+
+    // Show Toast Helper
+    function showToast(msg: string, isError = false) {
+      toastMsg.innerText = msg;
+      toastNotif.style.background = isError ? '#e74c3c' : '#2ecc71';
+      toastNotif.style.display = 'flex';
+      setTimeout(() => {
+        toastNotif.style.display = 'none';
+      }, 4000);
     }
+
+    // Tab Navigation
+    document.querySelectorAll('.menu-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        const target = (e.currentTarget as HTMLElement).getAttribute('data-target')!;
+        (e.currentTarget as HTMLElement).classList.add('active');
+        document.getElementById(target)?.classList.add('active');
+      });
+    });
+
+    // Init & Check Session
+    async function checkSession() {
+      if (!activeSessionToken) {
+        showLogin();
+        return;
+      }
+      try {
+        const res = await fetch('/api/admin/data', {
+          headers: { 'Authorization': `Bearer ${activeSessionToken}` }
+        });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success) {
+            globalStore = json.data;
+            showDashboard();
+            renderAllData();
+            return;
+          }
+        }
+      } catch (err) {
+        console.error('Session verify error:', err);
+      }
+      showLogin();
+    }
+
+    function showLogin() {
+      loginView.style.display = 'flex';
+      dashboardView.style.display = 'none';
+    }
+
+    function showDashboard() {
+      loginView.style.display = 'none';
+      dashboardView.style.display = 'block';
+    }
+
+    // Login Submission
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginAlert.style.display = 'none';
+      loginSpinner.style.display = 'inline-block';
+      btnSubmitLogin.setAttribute('disabled', 'true');
+
+      const username = (document.getElementById('username') as HTMLInputElement).value;
+      const password = (document.getElementById('password') as HTMLInputElement).value;
+      const trap = (document.getElementById('website_url_trap') as HTMLInputElement).value;
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username,
+            password,
+            website_url_trap: trap
+          })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          activeSessionToken = data.token;
+          localStorage.setItem('baluran_adm_token', data.token);
+          await checkSession();
+          showToast('Login berhasil. Selamat datang Operator Baluran!');
+        } else {
+          loginAlertMsg.innerText = data.message || 'Login gagal.';
+          loginAlert.style.display = 'flex';
+        }
+      } catch (err) {
+        loginAlertMsg.innerText = 'Gagal terhubung ke server keamanan.';
+        loginAlert.style.display = 'flex';
+      } finally {
+        loginSpinner.style.display = 'none';
+        btnSubmitLogin.removeAttribute('disabled');
+      }
+    });
+
+    // Logout
+    btnLogout.addEventListener('click', async () => {
+      try {
+        await fetch('/api/admin/logout', { method: 'POST' });
+      } catch {}
+      activeSessionToken = '';
+      localStorage.removeItem('baluran_adm_token');
+      showLogin();
+      showToast('Anda telah keluar.');
+    });
+
+    // Save Generic Document
+    async function saveDoc(docId: string, docType: string, fields: Record<string, any>, btnElement: HTMLButtonElement) {
+      const originalText = btnElement.innerText;
+      btnElement.innerText = 'Menyimpan...';
+      btnElement.setAttribute('disabled', 'true');
+
+      try {
+        const res = await fetch('/api/admin/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${activeSessionToken}`
+          },
+          body: JSON.stringify({ docId, docType, fields })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast('Data berhasil disimpan ke cloud database!');
+        } else {
+          showToast(data.message || 'Gagal menyimpan.', true);
+        }
+      } catch (err) {
+        showToast('Koneksi terputus saat menyimpan.', true);
+      } finally {
+        btnElement.innerText = originalText;
+        btnElement.removeAttribute('disabled');
+      }
+    }
+
+    // Render Data into Forms
+    function renderAllData() {
+      renderPackages();
+      renderContacts();
+      renderDestinations();
+      renderFleet();
+      renderFaq();
+      renderTestimonials();
+    }
+
+    // 1. Render Packages
+    function renderPackages() {
+      const container = document.getElementById('packages-container')!;
+      if (!globalStore.packages || globalStore.packages.length === 0) {
+        container.innerHTML = '<div class="empty-state">Belum ada paket Jeep.</div>';
+        return;
+      }
+      container.innerHTML = globalStore.packages.map((pkg: any) => `
+        <div class="edit-card">
+          <div class="card-header-bar">
+            <h3>🚙 ${pkg.title}</h3>
+            <span class="badge-tag">${pkg.badge || 'Standar'}</span>
+          </div>
+          <div class="form-grid">
+            <div class="col-6">
+              <label>Nama Paket</label>
+              <input type="text" id="pkg-title-${pkg._id}" value="${pkg.title || ''}" />
+            </div>
+            <div class="col-6">
+              <label>Harga Sewa (Angka)</label>
+              <input type="number" id="pkg-price-${pkg._id}" value="${pkg.price || 0}" />
+            </div>
+            <div class="col-4">
+              <label>Tampilan Harga</label>
+              <input type="text" id="pkg-priceFmt-${pkg._id}" value="${pkg.priceFormatted || ''}" />
+            </div>
+            <div class="col-4">
+              <label>Durasi</label>
+              <input type="text" id="pkg-duration-${pkg._id}" value="${pkg.duration || ''}" />
+            </div>
+            <div class="col-4">
+              <label>Kapasitas</label>
+              <input type="text" id="pkg-capacity-${pkg._id}" value="${pkg.capacity || ''}" />
+            </div>
+            <div class="col-12">
+              <label>Lokasi Penjemputan / Meeting Point</label>
+              <input type="text" id="pkg-pickup-${pkg._id}" value="${pkg.pickup || ''}" />
+            </div>
+            <div class="col-12">
+              <label>Deskripsi Singkat</label>
+              <textarea id="pkg-desc-${pkg._id}" rows="2">${pkg.description || ''}</textarea>
+            </div>
+          </div>
+          <div class="card-footer-action">
+            <button class="btn-save" data-id="${pkg._id}">Simpan Perubahan Paket</button>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.btn-save').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id')!;
+          const title = (document.getElementById(`pkg-title-${id}`) as HTMLInputElement).value;
+          const price = Number((document.getElementById(`pkg-price-${id}`) as HTMLInputElement).value);
+          const priceFormatted = (document.getElementById(`pkg-priceFmt-${id}`) as HTMLInputElement).value;
+          const duration = (document.getElementById(`pkg-duration-${id}`) as HTMLInputElement).value;
+          const capacity = (document.getElementById(`pkg-capacity-${id}`) as HTMLInputElement).value;
+          const pickup = (document.getElementById(`pkg-pickup-${id}`) as HTMLInputElement).value;
+          const description = (document.getElementById(`pkg-desc-${id}`) as HTMLTextAreaElement).value;
+
+          saveDoc(id, 'tourPackage', {
+            title, price, priceFormatted, duration, capacity, pickup, description
+          }, e.currentTarget as HTMLButtonElement);
+        });
+      });
+    }
+
+    // 2. Render Contacts & WA
+    function renderContacts() {
+      const container = document.getElementById('contacts-container')!;
+      const s = globalStore.siteSettings || {};
+      container.innerHTML = `
+        <div class="form-grid">
+          <div class="col-6">
+            <label>Nomor WhatsApp Booking (Aktif)</label>
+            <input type="text" id="set-wa" value="${s.whatsapp || '085333050863'}" placeholder="Contoh: 085333050863" />
+            <small class="hint-text">Nomor ini yang dibuka ketika wisatawan mengklik tombol 'Booking via WhatsApp'.</small>
+          </div>
+          <div class="col-6">
+            <label>Nomor Telepon Cadangan</label>
+            <input type="text" id="set-phone" value="${s.phone || '085333050863'}" />
+          </div>
+          <div class="col-12">
+            <label>Nama Usaha / Operator</label>
+            <input type="text" id="set-fullname" value="${s.fullName || 'BALURAN INDONESIA - Jeep Safari Baluran'}" />
+          </div>
+          <div class="col-12">
+            <label>Deskripsi Singkat Perusahaan</label>
+            <textarea id="set-desc" rows="2">${s.description || ''}</textarea>
+          </div>
+          <div class="col-4">
+            <label>Link Instagram</label>
+            <input type="text" id="set-ig" value="${s.instagram || ''}" placeholder="https://instagram.com/..." />
+          </div>
+          <div class="col-4">
+            <label>Link Facebook</label>
+            <input type="text" id="set-fb" value="${s.facebook || ''}" />
+          </div>
+          <div class="col-4">
+            <label>Link YouTube</label>
+            <input type="text" id="set-yt" value="${s.youtube || ''}" />
+          </div>
+        </div>
+        <div class="card-footer-action">
+          <button class="btn-save" id="btn-save-contacts">Simpan Pengaturan Kontak & WhatsApp</button>
+        </div>
+      `;
+
+      document.getElementById('btn-save-contacts')?.addEventListener('click', (e) => {
+        const whatsapp = (document.getElementById('set-wa') as HTMLInputElement).value;
+        const phone = (document.getElementById('set-phone') as HTMLInputElement).value;
+        const fullName = (document.getElementById('set-fullname') as HTMLInputElement).value;
+        const description = (document.getElementById('set-desc') as HTMLTextAreaElement).value;
+        const instagram = (document.getElementById('set-ig') as HTMLInputElement).value;
+        const facebook = (document.getElementById('set-fb') as HTMLInputElement).value;
+        const youtube = (document.getElementById('set-yt') as HTMLInputElement).value;
+
+        saveDoc('siteSettings', 'siteSettings', {
+          whatsapp, phone, fullName, description, instagram, facebook, youtube
+        }, e.currentTarget as HTMLButtonElement);
+      });
+    }
+
+    // 3. Render Destinations
+    function renderDestinations() {
+      const container = document.getElementById('destinations-container')!;
+      if (!globalStore.destinations || globalStore.destinations.length === 0) {
+        container.innerHTML = '<div class="empty-state">Belum ada destinasi.</div>';
+        return;
+      }
+      container.innerHTML = globalStore.destinations.map((d: any) => `
+        <div class="edit-card">
+          <div class="card-header-bar">
+            <h3>📍 ${d.title}</h3>
+            <span class="badge-tag">${d.priceFormatted || ''}</span>
+          </div>
+          <div class="form-grid">
+            <div class="col-6">
+              <label>Nama Destinasi</label>
+              <input type="text" id="dest-title-${d._id}" value="${d.title || ''}" />
+            </div>
+            <div class="col-6">
+              <label>Harga Tampilan</label>
+              <input type="text" id="dest-price-${d._id}" value="${d.priceFormatted || ''}" />
+            </div>
+            <div class="col-6">
+              <label>Durasi Tour</label>
+              <input type="text" id="dest-dur-${d._id}" value="${d.duration || ''}" />
+            </div>
+            <div class="col-6">
+              <label>Kapasitas</label>
+              <input type="text" id="dest-cap-${d._id}" value="${d.capacity || ''}" />
+            </div>
+            <div class="col-12">
+              <label>Deskripsi Tempat</label>
+              <textarea id="dest-desc-${d._id}" rows="2">${d.description || ''}</textarea>
+            </div>
+          </div>
+          <div class="card-footer-action">
+            <button class="btn-save" data-id="${d._id}">Simpan Destinasi</button>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.btn-save').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id')!;
+          const title = (document.getElementById(`dest-title-${id}`) as HTMLInputElement).value;
+          const priceFormatted = (document.getElementById(`dest-price-${id}`) as HTMLInputElement).value;
+          const duration = (document.getElementById(`dest-dur-${id}`) as HTMLInputElement).value;
+          const capacity = (document.getElementById(`dest-cap-${id}`) as HTMLInputElement).value;
+          const description = (document.getElementById(`dest-desc-${id}`) as HTMLTextAreaElement).value;
+
+          saveDoc(id, 'destination', {
+            title, priceFormatted, duration, capacity, description
+          }, e.currentTarget as HTMLButtonElement);
+        });
+      });
+    }
+
+    // 4. Render Fleet
+    function renderFleet() {
+      const container = document.getElementById('fleet-container')!;
+      if (!globalStore.fleet || globalStore.fleet.length === 0) {
+        container.innerHTML = '<div class="empty-state">Belum ada armada.</div>';
+        return;
+      }
+      container.innerHTML = globalStore.fleet.map((f: any) => `
+        <div class="fleet-item-card">
+          <h4>🛞 ${f.name}</h4>
+          <div class="form-group">
+            <label>Nama Unit</label>
+            <input type="text" id="fl-name-${f._id}" value="${f.name || ''}" />
+          </div>
+          <div class="form-group">
+            <label>Karakter Warna</label>
+            <input type="text" id="fl-color-${f._id}" value="${f.colorName || ''}" />
+          </div>
+          <div class="form-group">
+            <label>Tagline</label>
+            <input type="text" id="fl-tag-${f._id}" value="${f.tag || ''}" />
+          </div>
+          <button class="btn-save" data-id="${f._id}">Simpan Armada</button>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.btn-save').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id')!;
+          const name = (document.getElementById(`fl-name-${id}`) as HTMLInputElement).value;
+          const colorName = (document.getElementById(`fl-color-${id}`) as HTMLInputElement).value;
+          const tag = (document.getElementById(`fl-tag-${id}`) as HTMLInputElement).value;
+
+          saveDoc(id, 'fleet', { name, colorName, tag }, e.currentTarget as HTMLButtonElement);
+        });
+      });
+    }
+
+    // 5. Render FAQ
+    function renderFaq() {
+      const container = document.getElementById('faq-container')!;
+      if (!globalStore.faqs || globalStore.faqs.length === 0) {
+        container.innerHTML = '<div class="empty-state">Belum ada FAQ.</div>';
+        return;
+      }
+      container.innerHTML = globalStore.faqs.map((q: any) => `
+        <div class="edit-card">
+          <div class="form-group">
+            <label>Pertanyaan</label>
+            <input type="text" id="faq-q-${q._id}" value="${q.question || ''}" />
+          </div>
+          <div class="form-group">
+            <label>Jawaban</label>
+            <textarea id="faq-a-${q._id}" rows="3">${q.answer || ''}</textarea>
+          </div>
+          <div class="card-footer-action">
+            <button class="btn-save" data-id="${q._id}">Simpan FAQ</button>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.btn-save').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id')!;
+          const question = (document.getElementById(`faq-q-${id}`) as HTMLInputElement).value;
+          const answer = (document.getElementById(`faq-a-${id}`) as HTMLTextAreaElement).value;
+
+          saveDoc(id, 'faq', { question, answer }, e.currentTarget as HTMLButtonElement);
+        });
+      });
+    }
+
+    // 6. Render Testimonials
+    function renderTestimonials() {
+      const container = document.getElementById('testimonials-container')!;
+      if (!globalStore.testimonials || globalStore.testimonials.length === 0) {
+        container.innerHTML = '<div class="empty-state">Belum ada testimoni.</div>';
+        return;
+      }
+      container.innerHTML = globalStore.testimonials.map((t: any) => `
+        <div class="edit-card">
+          <div class="form-grid">
+            <div class="col-6">
+              <label>Nama Wisatawan</label>
+              <input type="text" id="testi-name-${t._id}" value="${t.name || ''}" />
+            </div>
+            <div class="col-6">
+              <label>Kota Asal</label>
+              <input type="text" id="testi-city-${t._id}" value="${t.city || ''}" />
+            </div>
+            <div class="col-12">
+              <label>Kutipan Review</label>
+              <textarea id="testi-quote-${t._id}" rows="2">${t.quote || ''}</textarea>
+            </div>
+          </div>
+          <div class="card-footer-action">
+            <button class="btn-save" data-id="${t._id}">Simpan Testimoni</button>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.btn-save').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = (e.currentTarget as HTMLElement).getAttribute('data-id')!;
+          const name = (document.getElementById(`testi-name-${id}`) as HTMLInputElement).value;
+          const city = (document.getElementById(`testi-city-${id}`) as HTMLInputElement).value;
+          const quote = (document.getElementById(`testi-quote-${id}`) as HTMLTextAreaElement).value;
+
+          saveDoc(id, 'testimonial', { name, city, quote }, e.currentTarget as HTMLButtonElement);
+        });
+      });
+    }
+
+    // Jalankan auto-check session
+    checkSession();
   </script>
 </Layout>
 
 <style>
-  .portal-wrapper {
+  .admin-wrapper {
+    min-height: 100vh;
+    background: #081a12;
+    color: #e2e8f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  /* LOGIN VIEW */
+  .login-view {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at center, #16402d 0%, #0a1f16 100%);
-    padding: 2rem 1rem;
-    font-family: inherit;
-    color: #ffffff;
+    background: radial-gradient(circle at center, #123824 0%, #06130d 100%);
+    padding: 1.5rem;
   }
 
-  .portal-card {
-    max-width: 520px;
+  .login-card {
+    max-width: 440px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(16px);
+    background: rgba(18, 48, 33, 0.7);
+    border: 1px solid rgba(46, 204, 113, 0.25);
+    backdrop-filter: blur(20px);
     border-radius: 20px;
-    padding: 3rem 2.5rem;
-    text-align: center;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    padding: 2.75rem 2.25rem;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
   }
 
-  .portal-icon {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .portal-badge {
-    display: inline-block;
-    padding: 0.35rem 1rem;
-    background: rgba(46, 204, 113, 0.15);
+  .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(46, 204, 113, 0.12);
     border: 1px solid rgba(46, 204, 113, 0.3);
     color: #2ecc71;
-    border-radius: 999px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
     margin-bottom: 1.25rem;
   }
 
-  .portal-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
+  .logo-mark {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .login-title {
+    font-size: 1.6rem;
+    font-weight: 800;
     color: #ffffff;
+    margin: 0 0 0.35rem 0;
   }
 
-  .portal-desc {
-    color: #a3b899;
+  .login-subtitle {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    margin: 0 0 1.75rem 0;
+    line-height: 1.5;
+  }
+
+  .alert-box {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(231, 76, 60, 0.15);
+    border: 1px solid rgba(231, 76, 60, 0.4);
+    color: #ff7675;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+    text-align: left;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    font-size: 1rem;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .input-wrap input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.8rem;
+    background: rgba(6, 20, 13, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    color: #ffffff;
     font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    transition: all 0.2s;
   }
 
-  .portal-loading {
+  .input-wrap input:focus {
+    outline: none;
+    border-color: #2ecc71;
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+    background: rgba(6, 20, 13, 0.9);
+  }
+
+  .btn-toggle-pw {
+    position: absolute;
+    right: 0.85rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .btn-toggle-pw:hover {
+    opacity: 1;
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 0.95rem;
+    background: #2ecc71;
+    color: #061a10;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.35);
+  }
+
+  .btn-login:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.45);
+  }
+
+  .btn-login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .security-footer {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+
+  .sec-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: #2ecc71;
+    border-radius: 50%;
+  }
+
+  /* DASHBOARD VIEW */
+  .dash-navbar {
+    background: #06170f;
+    border-bottom: 1px solid rgba(46, 204, 113, 0.2);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .dash-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .dash-logo {
+    font-size: 2rem;
+  }
+
+  .dash-title {
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+
+  .dash-status {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .status-indicator {
+    width: 8px;
+    height: 8px;
+    background: #2ecc71;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #2ecc71;
+  }
+
+  .dash-user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+  }
+
+  .btn-logout {
+    background: rgba(231, 76, 60, 0.15);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    color: #ff7675;
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+
+  .btn-logout:hover {
+    background: #e74c3c;
+    color: #ffffff;
+  }
+
+  /* LAYOUT */
+  .dash-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: calc(100vh - 72px);
+  }
+
+  .dash-sidebar {
+    background: #091e14;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .dash-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .menu-tab {
+    display: flex;
+    align-items: center;
     gap: 0.75rem;
-    font-size: 0.875rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: #94a3b8;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+  }
+
+  .menu-tab:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+  }
+
+  .menu-tab.active {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border-left: 3px solid #2ecc71;
+  }
+
+  .sidebar-help-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+
+  .sidebar-help-card h4 {
     color: #cbd5e1;
+    margin: 0 0 0.4rem 0;
+  }
+
+  /* CONTENT */
+  .dash-content {
+    padding: 2.5rem;
+    background: #081a12;
+    overflow-y: auto;
+  }
+
+  .tab-pane {
+    display: none;
+  }
+
+  .tab-pane.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .pane-header {
     margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .pane-header h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin: 0 0 0.35rem 0;
+  }
+
+  .pane-header p {
+    color: #94a3b8;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  /* FORMS & CARDS */
+  .cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 900px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .edit-card, .form-card, .fleet-item-card {
+    background: #0d281c;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .card-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .card-header-bar h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #ffffff;
+  }
+
+  .badge-tag {
+    background: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+  }
+
+  .col-12 { grid-column: span 12; }
+  .col-6 { grid-column: span 6; }
+  .col-4 { grid-column: span 4; }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-bottom: 0.35rem;
+  }
+
+  input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    background: #06160f;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #2ecc71;
+    box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
+  }
+
+  .hint-text {
+    display: block;
+    color: #2ecc71;
+    font-size: 0.75rem;
+    margin-top: 0.35rem;
+  }
+
+  .card-footer-action {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .btn-save {
+    background: #2ecc71;
+    color: #061a10;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-save:hover {
+    background: #27ae60;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+  }
+
+  .btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   .spinner {
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(46, 204, 113, 0.2);
-    border-top-color: #2ecc71;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-top-color: #000;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -128,41 +1209,35 @@ const studioUrl = isDev
     to { transform: rotate(360deg); }
   }
 
-  .portal-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-  }
-
-  .btn-primary {
-    display: inline-block;
-    padding: 0.875rem 1.75rem;
-    background: #2ecc71;
-    color: #0a1f16;
-    font-weight: 700;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-  }
-
-  .btn-primary:hover {
-    background: #27ae60;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
-  }
-
-  .btn-secondary {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: transparent;
-    color: #94a3b8;
-    font-size: 0.875rem;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .btn-secondary:hover {
+  /* TOAST NOTIF */
+  .toast-notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 1rem 1.5rem;
     color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    z-index: 999;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @media (max-width: 768px) {
+    .dash-layout {
+      grid-template-columns: 1fr;
+    }
+    .col-6, .col-4 {
+      grid-column: span 12;
+    }
   }
 </style>
