@@ -50,16 +50,16 @@ import Layout from '../../layouts/Layout.astro';
         />
 
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">Email Operator</label>
           <div class="input-wrap">
             <span class="input-icon">👤</span>
             <input 
-              type="text" 
+              type="email" 
               id="username" 
               name="username" 
-              placeholder="Masukkan username operator" 
+              placeholder="Masukkan email operator" 
               required 
-              autocomplete="username"
+              autocomplete="email"
             />
           </div>
         </div>
@@ -87,9 +87,9 @@ import Layout from '../../layouts/Layout.astro';
       </form>
 
       <div class="security-footer">
-        <div class="sec-item"><span class="dot"></span> Otentikasi Web Crypto SHA-256</div>
+        <div class="sec-item"><span class="dot"></span> Otentikasi Supabase Cloud & JWT</div>
         <div class="sec-item"><span class="dot"></span> Perlindungan Anti-Brute Force</div>
-        <div class="sec-item"><span class="dot"></span> Kode Dashboard Terpisah dari Login</div>
+        <div class="sec-item"><span class="dot"></span> Sesi Terisolasi & Aman</div>
       </div>
     </div>
   </main>
@@ -303,16 +303,25 @@ import Layout from '../../layouts/Layout.astro';
 </style>
 
 <script>
-  const VALID_USER = 'admin';
-  // SHA-256 for BaluranSuperAdmin#2026!
-  const PASSWORD_HASH = 'bac25350da094c9afabcd36d72ea7a85f87c0f82de039603950db27ce2c4c42e';
+  import { supabase } from '../../lib/supabase';
 
-  async function sha256(str: string): Promise<string> {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-    return Array.from(new Uint8Array(buf))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
+  // Check active Supabase session on load
+  async function checkSession() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        sessionStorage.setItem('baluran_admin_auth', JSON.stringify({
+          user: session.user.email,
+          token: session.access_token,
+          expiresAt: Date.now() + 8 * 60 * 60 * 1000
+        }));
+        window.location.replace('/admin/dashboard');
+      }
+    } catch (e) {
+      console.warn('Gagal memverifikasi sesi Supabase:', e);
+    }
   }
+  checkSession();
 
   const loginForm = document.getElementById('login-form') as HTMLFormElement;
   const loginAlert = document.getElementById('login-alert')!;
@@ -321,13 +330,12 @@ import Layout from '../../layouts/Layout.astro';
   const spinner = document.getElementById('login-spinner')!;
   const togglePwBtn = document.getElementById('toggle-pw')!;
   const pwInput = document.getElementById('password') as HTMLInputElement;
+  const userInput = document.getElementById('username') as HTMLInputElement;
 
-  // Toggle Password Visibility
   togglePwBtn?.addEventListener('click', () => {
     pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
   });
 
-  // Login Submission
   loginForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     loginAlert.style.display = 'none';
@@ -340,53 +348,52 @@ import Layout from '../../layouts/Layout.astro';
       return;
     }
 
-    const username = (document.getElementById('username') as HTMLInputElement).value.trim().toLowerCase();
-    const password = pwInput.value;
-    const cleanPw = password.trim();
+    const emailVal = userInput.value.trim();
+    if (!emailVal || !emailVal.includes('@')) {
+      loginAlertMsg.textContent = 'Mohon masukkan format email yang valid.';
+      loginAlert.style.display = 'flex';
+      return;
+    }
+
+    const passwordVal = pwInput.value;
 
     btnSubmit.setAttribute('disabled', 'true');
     spinner.style.display = 'block';
 
-    let hash = '';
     try {
-      hash = await sha256(cleanPw);
-    } catch (e) {
-      hash = '';
-    }
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: emailVal,
+        password: passwordVal,
+      });
 
-    // Artificial timing delay to deter timing-attacks and brute-force bots
-    setTimeout(async () => {
+      if (error) {
+        let msg = 'Email atau password salah.';
+        if (error.message.includes('Invalid login credentials')) {
+          msg = 'Email atau password salah. Pastikan akun sudah didaftarkan di Supabase.';
+        } else if (error.message.includes('Email not confirmed')) {
+          msg = 'Email belum dikonfirmasi di Supabase.';
+        } else if (error.message) {
+          msg = error.message;
+        }
+        loginAlertMsg.textContent = msg;
+        loginAlert.style.display = 'flex';
+        return;
+      }
+
+      if (data?.session) {
+        sessionStorage.setItem('baluran_admin_auth', JSON.stringify({
+          user: data.user.email,
+          token: data.session.access_token,
+          expiresAt: Date.now() + 8 * 60 * 60 * 1000
+        }));
+        window.location.replace('/admin/dashboard');
+      }
+    } catch (err: any) {
+      loginAlertMsg.textContent = err?.message || 'Terjadi gangguan koneksi ke server auth.';
+      loginAlert.style.display = 'flex';
+    } finally {
       btnSubmit.removeAttribute('disabled');
       spinner.style.display = 'none';
-
-      const isValidUser = username === 'admin' || username === VALID_USER.toLowerCase();
-      const isValidPassword = 
-        cleanPw === 'BaluranSuperAdmin#2026!' || 
-        password === 'BaluranSuperAdmin#2026!' || 
-        hash === PASSWORD_HASH;
-
-      if (isValidUser && isValidPassword) {
-        // Create secure session token
-        let token = '';
-        try {
-          token = await sha256('admin:' + Date.now() + ':baluran_secret_gate_2026');
-        } catch (e) {
-          token = 'baluran_authenticated_token_' + Date.now();
-        }
-
-        const sessionPayload = {
-          user: 'admin',
-          token: token,
-          expiresAt: Date.now() + 8 * 60 * 60 * 1000 // 8 hours
-        };
-
-        sessionStorage.setItem('baluran_admin_auth', JSON.stringify(sessionPayload));
-        // Redirect to isolated dashboard route
-        window.location.replace('/admin/dashboard');
-      } else {
-        loginAlertMsg.textContent = 'Username atau password salah.';
-        loginAlert.style.display = 'flex';
-      }
-    }, 300);
+    }
   });
 </script>

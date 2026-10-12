@@ -241,10 +241,10 @@ import Layout from '../../../layouts/Layout.astro';
             <div class="sec-card">
               <div class="sec-card-header">
                 <span class="sec-card-icon">🛡️</span>
-                <h4>Arsitektur Terpisah & Zero-Leak</h4>
+                <h4>Supabase Auth & Sesi JWT</h4>
               </div>
-              <p>Routing <code>/admin</code> (login) dan <code>/admin/dashboard</code> (builder) sepenuhnya dipisahkan. Kode antarmuka editor tidak bocor di halaman login publik.</p>
-              <div class="sec-tag">● Terproteksi dari Inspeksi Frontend Publik</div>
+              <p>Autentikasi operator terhubung langsung dengan Supabase Cloud (Project: <code>zubncszvyvffjyvekajf</code>). Kredensial tidak pernah tersimpan di frontend.</p>
+              <div class="sec-tag">● Terproteksi JWT & Sesi Aman</div>
             </div>
 
             <div class="sec-card">
@@ -1127,6 +1127,16 @@ import Layout from '../../../layouts/Layout.astro';
 </style>
 
 <script>
+  import { supabase } from '../../../lib/supabase';
+
+  // Validasi sesi aktif secara real-time dengan Supabase
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (!session) {
+      sessionStorage.removeItem('baluran_admin_auth');
+      window.location.replace('/admin');
+    }
+  });
+
   const SANITY_PROJECT_ID = '7ox4kuc2';
   const SANITY_DATASET = 'production';
 
@@ -1181,8 +1191,12 @@ import Layout from '../../../layouts/Layout.astro';
   const borderButtons = document.querySelectorAll('.btn-border-style');
 
   // --- LOGOUT ---
-  btnLogout?.addEventListener('click', () => {
+  btnLogout?.addEventListener('click', async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {}
     sessionStorage.removeItem('baluran_admin_auth');
+    localStorage.removeItem('baluran_supabase_auth');
     window.location.replace('/admin');
   });
 
